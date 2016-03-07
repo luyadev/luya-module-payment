@@ -14,6 +14,8 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     
     public $clientSecret = null;
     
+    public $sandboxMode = false;
+    
     public function init()
     {
         parent::init();
@@ -25,7 +27,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     
     public function getProvider()
     {
-        return new PayPalProvider();
+        return new PayPalProvider(['mode' => $this->sandboxMode ? 'sandbox' : 'live']);
     }
     
     /**

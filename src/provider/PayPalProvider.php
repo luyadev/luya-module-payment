@@ -22,6 +22,11 @@ use PayPal\Api\Item;
  */
 class PayPalProvider extends Provider implements ProviderInterface
 {
+    /**
+     * @var string string The mode of the api context `live` or `sandbox`.
+     */
+    public $mode = 'live';
+    
     public function getId()
     {
         return 'paypal';
@@ -30,8 +35,7 @@ class PayPalProvider extends Provider implements ProviderInterface
     public function callCreate($clientId, $clientSecret, $orderId, $amount, $currency, $description, $returnUrl, $cancelUrl)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
-        $oauthCredential->getAccessToken(['mode' => 'sandbox']);
-        
+        $oauthCredential->getAccessToken(['mode' => $this->mode]);
         $apiContext = new ApiContext($oauthCredential);
         
         $payer = new Payer();
@@ -79,7 +83,7 @@ class PayPalProvider extends Provider implements ProviderInterface
     public function callExecute($clientId, $clientSecret, $paymentId, $payerId, $amount, $currency)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
-        $oauthCredential->getAccessToken(['mode' => 'sandbox']);
+        $oauthCredential->getAccessToken(['mode' => $this->mode]);
         
         $apiContext = new ApiContext($oauthCredential);
         

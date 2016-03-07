@@ -5,21 +5,26 @@ LUYA PAYMENT IMPLEMENTATION
 
 require the payment module
 
-```
+```sh
 composer require luyadev/luya-module-payment
 ```
 
 configure the payment module in your config
 
-```
+```php
 'modules' => [
-    // ...
     'payment' => [
         'class' => 'payment\Module',
-    ]
-    // ...
-],
+    ],
+]
 ```
+
+execute database command
+
+```sh
+./vendor/bin/luya migrate
+```
+
 
 add your transaction where ever you are:
 
@@ -102,6 +107,12 @@ The [PayPal](https://paypal.com) integration:
 'class' => PayPalTransaction::className(),
 'clientId' => '<CLIENT_ID>',
 'clientSecret' => '<CLIENT_SECRET>',
+```
+
+additionaly you can enable `sandboxMode` for paypal transaction
+
+```php
+'sandboxMode' => true
 ```
 
 ### SaferPay
