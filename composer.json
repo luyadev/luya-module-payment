@@ -12,7 +12,7 @@
             "homepage" : "https://github.com/nadar"
         }
     ],
-    "requires" : {
+    "require" : {
         "paypal/rest-api-sdk-php" : "~1.6.0"
     },
     "support" : {
