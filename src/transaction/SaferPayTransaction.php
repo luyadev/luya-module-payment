@@ -83,7 +83,7 @@ class SaferPayTransaction extends Transaction implements TransactionInterface
     
     public function notify()
     {
-        throw new PaymentException('SaferPay notify action is not implemented.');
+        return $this->context->redirect($this->process->getApplicationSuccessLink());
     }
     
     public function fail()
