@@ -7,8 +7,8 @@ This module allows you to integrate payments in a safe and common way. The payme
 
 Currently supported payment providers:
 
-+ [paypal.com](paypal.com)
-+ [saferpay.com](saferpay.com)
++ [paypal.com](http://paypal.com)
++ [saferpay.com](http://saferpay.com)
 
 Create an issue if your payment provider is missing!
 
