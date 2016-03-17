@@ -54,19 +54,26 @@ class StoreCheckoutController extends \luya\web\Controller
            'orderId' => $orderId,
            'amount' => 123123, // in cents
            'currency' => 'USD',
-           'successLink' => Url::toRoute(['/mystore/store-checkout/success'], true), // user has paid successfull
-           'errorLink' => Url::toRoute(['/mystore/store-checkout/error'], true), // user got a payment error
-           'abortLink' => Url::toRoute(['/mystore/store-checkout/abort'], true), // user has pushed the back button
+           'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
+           'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
+           'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
        ]);
-        
-       Yii::$app->session->set('storeTransactionId', $process->getId()); // you can store this information in your shop logic to know the transaction id later on!
+       
+       // store the id in your estore logic model
+       // $order = new EstoreOrder();
+       // $order->process_id = $process->getId();
+       // $order->order_id = $orderId;
+       // $order->update();
         
        return $process->dispatch($this); // where $this is the current controller environment
     }
     
-    public function actionSuccess()
+    public function actionSuccess($orderId)
     {
-        $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+        // find the order in your estore logic model
+        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success = 0)
+        
+        $process = PaymentProcess::findById($order->process_id);
         
         // create order for customer ...
         // ...
@@ -74,18 +81,24 @@ class StoreCheckoutController extends \luya\web\Controller
         $process->close(PaymentProcess::STATE_SUCCESS);
     }
     
-    public function actionError()
+    public function actionError($orderId)
     {
-        $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+        // find the order in your estore logic model
+        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
+        
+        $process = PaymentProcess::findById($order->process_id);
         
         // display error for payment
         
         $process->close(PaymentProcess::STATE_ERROR);
     }
     
-    public function actionAbort()
+    public function actionAbort($orderId)
     {
-        $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+        // find the order in your estore logic model
+        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
+        
+        $process = PaymentProcess::findById($order->process_id);
         
         // redirect the user back to where he can choose another payment.
         
@@ -93,6 +106,8 @@ class StoreCheckoutController extends \luya\web\Controller
     }
 }
 ```
+
+> You should **not use session** variabels to make the urls for the success, error and abort links as they can be called be notify urls. Lets assume an user has payed with saferpay but saferpay allows to close the window after the payment succeeded (without going back to the store) the success url with be called by the notify process instead of the users browser. In this case the session environment would have been lost.
 
 Transaction Configs
 ===================
