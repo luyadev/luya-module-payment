@@ -86,9 +86,11 @@ class PayPalProvider extends Provider implements ProviderInterface
     public function callExecute($clientId, $clientSecret, $paymentId, $payerId, $amount, $currency)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
-        $oauthCredential->getAccessToken(['mode' => $this->mode]);
         
         $apiContext = new ApiContext($oauthCredential);
+        $apiContext->setConfig([
+            'mode' => $this->mode,
+        ]);
         
         $payment = Payment::get($paymentId, $apiContext);
         
