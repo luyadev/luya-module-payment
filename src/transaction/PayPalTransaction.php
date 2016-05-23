@@ -14,7 +14,10 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     
     public $clientSecret = null;
     
-    public $sandboxMode = 'live';
+    /**
+     * @var string The mode in which the api should be called `live` or `sandbox`. Default is live. Previous knonw as `sandboxMode`.
+     */
+    public $mode = 'live';
     
     public function init()
     {
@@ -27,7 +30,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     
     public function getProvider()
     {
-        return new PayPalProvider(['mode' => $this->sandboxMode]);
+        return new PayPalProvider(['mode' => $this->mode]);
     }
     
     /**

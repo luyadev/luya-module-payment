@@ -62,6 +62,7 @@ class StoreCheckoutController extends \luya\web\Controller
                // 'class' => payment\transaction\PayPalTransaction::className(),
                // 'clientId' => 'ClientIdFromPayPalApplication',
                // 'clientSecret' => 'ClientSecretFromPayPalApplication',
+               // 'mode' => YII_ENV_PROD ? 'live' : 'sanbox',
            ],
            'orderId' => $orderId,
            'amount' => 123123, // in cents
@@ -136,11 +137,14 @@ The [PayPal](https://paypal.com) integration:
 'clientSecret' => '<CLIENT_SECRET>',
 ```
 
-additionaly you can enable `sandboxMode` for paypal transaction
+additionaly you can enable `sanbox` for paypal transactions:
 
 ```php
-'sandboxMode' => true
+'mode' => 'sandbox'
 ```
+
+otherwise `$mode` will have the value `live`.
+
 
 ### SaferPay
 
