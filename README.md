@@ -63,6 +63,7 @@ class StoreCheckoutController extends \luya\web\Controller
                // 'clientId' => 'ClientIdFromPayPalApplication',
                // 'clientSecret' => 'ClientSecretFromPayPalApplication',
                // 'mode' => YII_ENV_PROD ? 'live' : 'sanbox',
+               // 'productDescription' => 'MyOnlineStore Order',
            ],
            'orderId' => $orderId,
            'amount' => 123123, // in cents
@@ -144,6 +145,11 @@ additionaly you can enable `sanbox` for paypal transactions:
 ```
 
 otherwise `$mode` will have the value `live`.
+
+|property   |description
+|---        |---
+|`mode`    |defines whether the paypal transaction should be in `live` or `sandbox` mode. Default value is `live`.
+|`productDescription`|The production description name in the paypal process. This is displayed by PayPal in the *shopping cart* list.
 
 
 ### SaferPay

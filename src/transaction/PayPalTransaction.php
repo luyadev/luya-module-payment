@@ -19,6 +19,11 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public $mode = 'live';
     
+    /**
+     * @var string The PayPal interface displays a name for the Amount of the ordering, this is the product text.
+     */
+    public $productDescription = null;
+    
     public function init()
     {
         parent::init();
@@ -31,6 +36,15 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     public function getProvider()
     {
         return new PayPalProvider(['mode' => $this->mode]);
+    }
+    
+    private function getOrderDescription()
+    {
+        if (empty($this->productDescription)) {
+            return $this->process->getOrderId();
+        }
+        
+        return $this->productDescription;
     }
     
     /**
@@ -51,7 +65,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
             'orderId' => $this->process->getOrderId(),
             'amount' => $this->getFloatAmount(),
             'currency' => $this->process->getCurrency(),
-            'description' => $this->process->getOrderId(),
+            'description' => $this->getOrderDescription(),
             'returnUrl' => $this->process->getTransactionGatewayBackLink(),
             'cancelUrl' => $this->process->getTransactionGatewayAbortLink(),
         ]);
