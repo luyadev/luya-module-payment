@@ -2,7 +2,7 @@
     "name" : "luyadev/luya-module-payment",
     "description" : "LUYA Payment abstraction layouer to implement paypal, saferpay and others.",
     "type" : "luya-module",
-    "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal"],
+    "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal", "luya-module"],
     "license": "MIT",
     "homepage" : "http://luya.io",
     "authors" : [

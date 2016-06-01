@@ -128,7 +128,7 @@ Transaction Configs
 
 Current available transaction/provider configs
 
-### PayPal
+### PayPal Transaction
 
 The [PayPal](https://paypal.com) integration:
 
@@ -138,13 +138,6 @@ The [PayPal](https://paypal.com) integration:
 'clientSecret' => '<CLIENT_SECRET>',
 ```
 
-additionaly you can enable `sanbox` for paypal transactions:
-
-```php
-'mode' => 'sandbox'
-```
-
-otherwise `$mode` will have the value `live`.
 
 |property   |description
 |---        |---
@@ -152,7 +145,7 @@ otherwise `$mode` will have the value `live`.
 |`productDescription`|The production description name in the paypal process. This is displayed by PayPal in the *shopping cart* list.
 
 
-### SaferPay
+### SaferPay Transaction
 
 The [SaferPay](https://saferpay.com) integration:
 
