@@ -1,6 +1,6 @@
 {
     "name" : "luyadev/luya-module-payment",
-    "description" : "LUYA Payment abstraction layouer to implement paypal, saferpay and others.",
+    "description" : "This module allows you to integrate payments in a safe and common way. The payment module take care of all the provider required steps (call, create, success, abort, etc.) and provides all the informations for your store.",
     "type" : "luya-module",
     "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal", "luya-module"],
     "license": "MIT",
