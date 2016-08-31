@@ -1,8 +1,8 @@
 <?php
 
-namespace payment\controllers;
+namespace luya\payment\controllers;
 
-use payment\PaymentProcess;
+use luya\payment\PaymentProcess;
 
 class DefaultController extends \luya\web\Controller
 {

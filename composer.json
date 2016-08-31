@@ -20,7 +20,7 @@
     },
     "autoload" : {
         "psr-4" : {
-            "payment\\" : "src/"
+            "luya\\payment\\" : "src/"
         }
     },
     "extra": {

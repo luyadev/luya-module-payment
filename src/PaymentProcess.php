@@ -1,18 +1,18 @@
 <?php
 
-namespace payment;
+namespace luya\payment;
 
 use Yii;
 use yii\base\Object;
 use luya\helpers\Url;
 use luya\Exception;
-use payment\base\TransactionInterface;
-use payment\PaymentException;
-use payment\models\PaymentProcess as PaymentProcessModel;
-use payment\base\PaymentProcessInterface;
+use luya\payment\base\TransactionInterface;
+use luya\payment\PaymentException;
+use luya\payment\models\PaymentProcess as PaymentProcessModel;
+use luya\payment\base\PaymentProcessInterface;
 
 /**
- * @property luya\payment\base\TransactionInterface $transaction Contains the transaction interface
+ * @property luya\luya\payment\base\TransactionInterface $transaction Contains the transaction interface
  * @property float $amount The amount to pay
  * @author nadar
  *

@@ -1,12 +1,12 @@
 <?php
 
-namespace payment\transaction;
+namespace luya\payment\transaction;
 
 use Yii;
-use payment\base\Transaction;
-use payment\base\TransactionInterface;
-use payment\provider\SaferPayProvider;
-use payment\PaymentException;
+use luya\payment\base\Transaction;
+use luya\payment\base\TransactionInterface;
+use luya\payment\provider\SaferPayProvider;
+use luya\payment\PaymentException;
 
 class SaferPayTransaction extends Transaction implements TransactionInterface
 {

@@ -1,28 +1,28 @@
 <?php
 
-namespace payment\base;
+namespace luya\payment\base;
 
 /**
  * Transaction interface cycle description
- * 
+ *
  * ** if the the method success is called it does not mean the transaction was successfull **
- * 
+ *
  * successfull:
- * 
+ *
  * + create
  * + return (multiple actions inside return)
- * 
+ *
  * validation error:
- * 
+ *
  * + create
  * + return
  * + fail
- * 
+ *
  * use pushes stop on provider
- * 
+ *
  * + create
  * + abort
- * 
+ *
  * @author nadar
  */
 interface TransactionInterface

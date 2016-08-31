@@ -1,10 +1,10 @@
 <?php
 
-namespace payment\provider;
+namespace luya\payment\provider;
 
-use payment\base\Provider;
-use payment\base\ProviderInterface;
-use payment\PaymentException;
+use luya\payment\base\Provider;
+use luya\payment\base\ProviderInterface;
+use luya\payment\PaymentException;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 use PayPal\Api\Payer;

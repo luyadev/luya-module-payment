@@ -1,6 +1,6 @@
 <?php
 
-namespace payment\base;
+namespace luya\payment\base;
 
 interface PaymentProcessInterface
 {

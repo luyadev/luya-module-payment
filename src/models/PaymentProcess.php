@@ -1,6 +1,6 @@
 <?php
 
-namespace payment\models;
+namespace luya\payment\models;
 
 use Yii;
 use luya\Exception;

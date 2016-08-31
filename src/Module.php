@@ -1,6 +1,6 @@
 <?php
 
-namespace payment;
+namespace luya\payment;
 
 class Module extends \luya\base\Module
 {

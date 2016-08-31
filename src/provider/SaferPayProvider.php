@@ -1,11 +1,11 @@
 <?php
 
-namespace payment\provider;
+namespace luya\payment\provider;
 
 use Curl\Curl;
-use payment\base\Provider;
-use payment\PaymentException;
-use payment\base\ProviderInterface;
+use luya\payment\base\Provider;
+use luya\payment\PaymentException;
+use luya\payment\base\ProviderInterface;
 
 class SaferPayProvider extends Provider implements ProviderInterface
 {

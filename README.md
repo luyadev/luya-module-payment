@@ -18,7 +18,7 @@ Installation
 require the payment module
 
 ```sh
-composer require luyadev/luya-module-payment
+composer require luyadev/luya-module-payment:^1.0@dev
 ```
 
 configure the payment module in your config
@@ -26,7 +26,7 @@ configure the payment module in your config
 ```php
 'modules' => [
     'payment' => [
-        'class' => 'payment\Module',
+        'class' => 'luya\payment\Module',
     ],
 ]
 ```
@@ -37,12 +37,10 @@ execute database command
 ./vendor/bin/luya migrate
 ```
 
-
 add your transaction where ever you are:
 
 
 ```php
-
 class StoreCheckoutController extends \luya\web\Controller
 {
     public function actionIndex()

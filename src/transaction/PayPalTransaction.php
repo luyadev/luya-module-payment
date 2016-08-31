@@ -1,12 +1,12 @@
 <?php
 
-namespace payment\transaction;
+namespace luya\payment\transaction;
 
 use Yii;
-use payment\base\Transaction;
-use payment\base\TransactionInterface;
-use payment\PaymentException;
-use payment\provider\PayPalProvider;
+use luya\payment\base\Transaction;
+use luya\payment\base\TransactionInterface;
+use luya\payment\PaymentException;
+use luya\payment\provider\PayPalProvider;
 
 class PayPalTransaction extends Transaction implements TransactionInterface
 {

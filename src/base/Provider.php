@@ -1,6 +1,6 @@
 <?php
 
-namespace payment\base;
+namespace luya\payment\base;
 
 use luya\helpers\ObjectHelper;
 use yii\base\Object;
@@ -10,7 +10,7 @@ class Provider extends Object
 {
     /**
      * Call a method of a the current object which is prefix with call and sanitize its variables to match action variables.
-     * 
+     *
      * @param string $method
      * @param array $vars
      */

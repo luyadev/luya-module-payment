@@ -1,6 +1,6 @@
 <?php
 
-namespace payment\base;
+namespace luya\payment\base;
 
 use yii\base\Object;
 
@@ -8,7 +8,7 @@ class Transaction extends Object
 {
     private $_process = null;
     
-    public function setProcess(\payment\base\PaymentProcessInterface $process)
+    public function setProcess(\luya\payment\base\PaymentProcessInterface $process)
     {
         $this->_process = $process;
     }
