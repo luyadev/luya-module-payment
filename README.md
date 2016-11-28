@@ -60,7 +60,7 @@ class StoreCheckoutController extends \luya\web\Controller
                // 'class' => payment\transaction\PayPalTransaction::className(),
                // 'clientId' => 'ClientIdFromPayPalApplication',
                // 'clientSecret' => 'ClientSecretFromPayPalApplication',
-               // 'mode' => YII_ENV_PROD ? 'live' : 'sanbox',
+               // 'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
                // 'productDescription' => 'MyOnlineStore Order',
            ],
            'orderId' => $orderId,
