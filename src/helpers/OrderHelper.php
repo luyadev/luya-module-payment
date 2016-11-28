@@ -6,22 +6,22 @@ use Yii;
 
 /**
  * Helper class for Orders.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  */
 class OrderHelper
 {
     /**
      * Generate a unique order id based on the next order Id.
-     * 
+     *
      * Example response
-     * 
+     *
      * ```
      * xjf300005
      * ```
-     * 
+     *
      * Assuming the id key is "5"
-     * 
+     *
      * @param nummeric $id The nummeric id to generate.
      * @return string The generated order id e.g. `xjf300005`.
      */

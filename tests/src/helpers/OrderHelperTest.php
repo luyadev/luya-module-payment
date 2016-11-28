@@ -8,7 +8,7 @@ use luya\payment\helpers\OrderHelper;
 class OrderHelperTest extends BasePaymentTestCase
 {
     public function testGenerateOrderId()
-    {   
+    {
         $this->assertContains('00004', OrderHelper::generateOrderId(4));
         $this->assertContains('00010', OrderHelper::generateOrderId(10));
     }

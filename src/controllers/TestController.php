@@ -30,9 +30,11 @@ class TestController extends \luya\web\Controller
                      'clientSecret' => '<CLIENTSECRET>',
                      */
                     
+                    /*
                      'class' => SaferPayTransaction::className(),
-                     'accountId' => '17795278',
-                     'spPassword' => 'XAjc3Kna',
+                     'accountId' => '123',
+                     'spPassword' => 'foobar',
+                     */
                 ],
             ]);
     

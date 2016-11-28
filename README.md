@@ -37,45 +37,48 @@ execute database command
 ./vendor/bin/luya migrate
 ```
 
-add your transaction where ever you are:
+Add a transaction to your estore logic, **save the processId** and dispatch() the payment, which will redirect to the payment gatway.
 
+> Make sure to store the `$process->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
 
 ```php
 class StoreCheckoutController extends \luya\web\Controller
 {
     public function actionIndex()
     {
-         // The orderId/basketId should be an unique key for each transaction. based on this key the transacton
-         // hash and auth token will be created.
+        // The orderId/basketId should be an unique key for each transaction. based on this key the transacton
+        // hash and auth token will be created.
         $orderId = 'Order-' . uniqid();
         
-       $process = new payment\PaymentProcess([
-           'transactionConfig' => [
-           
-               // SaferPay Example
-               'class' => payment\transaction\SaferPayTransaction::className(),
-               'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
-               
-               // Or PayPal
-               // 'class' => payment\transaction\PayPalTransaction::className(),
-               // 'clientId' => 'ClientIdFromPayPalApplication',
-               // 'clientSecret' => 'ClientSecretFromPayPalApplication',
-               // 'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
-               // 'productDescription' => 'MyOnlineStore Order',
-           ],
-           'orderId' => $orderId,
-           'amount' => 123123, // in cents
-           'currency' => 'USD',
-           'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
-           'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
-           'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
-       ]);
+        $process = new payment\PaymentProcess([
+            'transactionConfig' => [
+            
+                // Paypal Example
+                'class' => payment\transaction\PayPalTransaction::className(),
+                'clientId' => 'ClientIdFromPayPalApplication',
+                'clientSecret' => 'ClientSecretFromPayPalApplication',
+                'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
+                'productDescription' => 'MyOnlineStore Order',
+            
+                // SaferPay Example
+                //'class' => payment\transaction\SaferPayTransaction::className(),
+                //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
+                
+                
+            ],
+            'orderId' => $orderId,
+            'amount' => 123123, // in cents
+            'currency' => 'USD',
+            'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
+            'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
+            'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
+        ]);
        
-       // store the id in your estore logic model
-       // $order = new EstoreOrder();
-       // $order->process_id = $process->getId();
-       // $order->order_id = $orderId;
-       // $order->update();
+        // store the id in your estore logic model
+        // $order = new EstoreOrder();
+        // $order->process_id = $process->getId(); // VERY IMPORTANT TO RESTORE THE PROCESS.
+        // $order->order_id = $orderId;
+        // $order->update();
         
        return $process->dispatch($this); // where $this is the current controller environment
     }

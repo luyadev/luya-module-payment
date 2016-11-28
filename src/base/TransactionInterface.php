@@ -3,25 +3,15 @@
 namespace luya\payment\base;
 
 /**
- * Transaction interface cycle description
+ * Transaction Interface.
  *
- * ** if the the method success is called it does not mean the transaction was successfull **
+ * Each transaction must implement the transaction interface.
  *
- * successfull:
- *
- * + create
- * + return (multiple actions inside return)
- *
- * validation error:
- *
- * + create
- * + return
- * + fail
- *
- * use pushes stop on provider
- *
- * + create
- * + abort
+ * 1. create()
+ * 2a. back()
+ *    3a.notify()
+ * 2b. fail()
+ * 2c. abort()
  *
  * @author Basil Suter <basil@nadar.io>
  */
@@ -54,13 +44,13 @@ interface TransactionInterface
     
     /**
      * Return the payment provider object.
-     * 
+     *
      * Configuration Example:
-     * 
+     *
      * ```php
      * return new PayPalProvider(['mode' => $this->mode]);
      * ```
-     * 
+     *
      * @return \luya\payment\base\ProviderInterface The provider implementation
      */
     public function getProvider();

@@ -91,6 +91,9 @@ class DataPaymentProcessModel extends \yii\db\ActiveRecord
         
         // generate a hash to compare the auth token from the salt and auth token
         $this->hash = $security->generatePasswordHash($this->salt . $this->auth_token);
+
+        // encode the token with base 64 in order to remove conflicting http url signs
+        $this->auth_token = base64_encode($this->auth_token);
         
         // generate a random key to add for for the transaction itself.
         $this->random_key = md5($security->generaterandomKey());
@@ -98,7 +101,8 @@ class DataPaymentProcessModel extends \yii\db\ActiveRecord
     
     public function validateAuthToken()
     {
-        return Yii::$app->security->validatePassword($this->salt.$this->auth_token, $this->hash);
+        $token = base64_decode($this->auth_token);
+        return Yii::$app->security->validatePassword($this->salt.$token, $this->hash);
     }
     
     /**

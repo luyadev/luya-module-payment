@@ -10,14 +10,48 @@ use luya\Exception;
 use luya\payment\base\TransactionInterface;
 use luya\payment\PaymentException;
 use luya\payment\models\DataPaymentProcessModel;
+
 /**
- * PaymentProcess.
- * 
+ * Main PaymentProcess class.
+ *
+ * This method is used to make the calls, redirects and configuration of your Payment Interface.
+ *
+ * Example configuration for the initializing:
+ *
+ * ```php
+ * $process = new payment\PaymentProcess([
+ *     'transactionConfig' => [
+ *        // SaferPay Example
+ *        'class' => payment\transaction\SaferPayTransaction::className(),
+ *        'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
+ *
+ *         // Or PayPal
+ *         // 'class' => payment\transaction\PayPalTransaction::className(),
+ *         // 'clientId' => 'ClientIdFromPayPalApplication',
+ *         // 'clientSecret' => 'ClientSecretFromPayPalApplication',
+ *         // 'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
+ *         // 'productDescription' => 'MyOnlineStore Order',
+ *     ],
+ *     'orderId' => $orderId,
+ *     'amount' => 123123, // in cents
+ *     'currency' => 'USD',
+ *     'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
+ *     'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
+ *     'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
+ * ]);
+ *
+ * $processId = $process->getId();
+ * ```
+ *
+ * The above example will generate a new payment process you can dispatch ($process->dispatch($this)).
+ *
+ * The processId is very important in order to retrieve your process model in later point of your application `PaymentProcess::findByProcessId($processId)`.
+ *
  * @property \luya\payment\base\TransactionInterface $transaction Contains the transaction interface
  * @property \luya\payment\models\DataPaymentProcessModel $model The DataPaymentProcessModel
  * @property float $amount The amount to pay
  * @property integer $id Returns the Process ID to store in your E-Store logic.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  */
 final class PaymentProcess extends Object
@@ -114,7 +148,7 @@ final class PaymentProcess extends Object
     
     /**
      * Setter method for the Model Object.
-     * 
+     *
      * @param \luya\payment\models\DataPaymentProcessModel $model The Data Payment ActiveRecord Model.
      */
     public function setModel(DataPaymentProcessModel $model)
@@ -124,9 +158,9 @@ final class PaymentProcess extends Object
     
     /**
      * Getter method for the Model Object.
-     * 
+     *
      * When the model is not set via the setter method first, a new Model will be created.
-     * 
+     *
      * @return \luya\payment\models\DataPaymentProcessModel
      */
     public function getModel()
@@ -157,9 +191,9 @@ final class PaymentProcess extends Object
 
     /**
      * Returns the PaymentProcess ID.
-     * 
+     *
      * This value must be stored in your E-Store logic in order to find the PaymentProcess by the findByProcessId method.
-     * 
+     *
      * @return integer The process id value.
      */
     public function getId()
@@ -167,37 +201,93 @@ final class PaymentProcess extends Object
         return $this->model->id;
     }
     
+    /**
+     * Dispatch the current controller to the getTransactionGatewayCreat link.
+     *
+     * @param \yii\web\Controller $controller The Yii controller object.
+     * @throws Exception
+     */
     public function dispatch(Controller $controller)
     {
-        $model = $this->model;
-        
-        if (!$model) {
-            throw new Exception('Payment model initializing error!');
+        if (!$this->model) {
+            throw new PaymentException("Could not dispatch the controller to the requested url as the model object is empty or contains an error.");
         }
         
-        $controller->redirect(Url::toInternal(['/payment/default/create', 'lpToken' => $model->auth_token, 'lpKey' => $model->random_key], true));
+        $controller->redirect($this->getTransactionGatewayCreateLink());
     }
     
+    /**
+     * Get the Payment Gateway Create link.
+     *
+     * This method is used to retrieve the link for dispatching to the requested url.
+     *
+     * @return string
+     */
+    public function getTransactionGatewayCreateLink()
+    {
+        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
+    }
+    
+    /**
+     * Get the Payment Gateway Back link.
+     *
+     * This method is used to retrieve the link for dispatching to the requested url.
+     *
+     * @return string
+     */
     public function getTransactionGatewayBackLink()
     {
         return Url::toInternal(['/payment/default/back', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
+    /**
+     * Get the Payment Gateway Fail link.
+     *
+     * This method is used to retrieve the link for dispatching to the requested url.
+     *
+     * @return string
+     */
     public function getTransactionGatewayFailLink()
     {
         return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
+    /**
+     * Get the Payment Gateway Abort link.
+     *
+     * This method is used to retrieve the link for dispatching to the requested url.
+     *
+     * @return string
+     */
     public function getTransactionGatewayAbortLink()
     {
         return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
+    /**
+     * Get the Payment Gateway Notify link.
+     *
+     * This method is used to retrieve the link for dispatching to the requested url.
+     *
+     * @return string
+     */
     public function getTransactionGatewayNotifyLink()
     {
         return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
+    /**
+     * Close the Model with a State.
+     *
+     * Available States:
+     *
+     * + PaymentProcess::STATE_SUCCESS
+     * + PaymentProcess::STATE_ABORT
+     * + PaymentProcess::STATE_ERROR
+     *
+     * @param integer $state The state to close the Model.
+     * @return boolean Whether the close was sucessfull or not.
+     */
     public function close($state)
     {
         $this->model->is_closed = 1;
@@ -206,12 +296,12 @@ final class PaymentProcess extends Object
     }
     
     // static methods
-    
+
     /**
      * Find the process by the process Id.
-     * 
+     *
      * **Deprecated use findByProcessId() instead**.
-     * 
+     *
      * @deprecated Will be removed in version 1.0.0 use findByProcessId() instead.
      * @param integer $id The process ID from $this->getId() stored in your order model when dispatch the process.
      */
@@ -222,7 +312,7 @@ final class PaymentProcess extends Object
     
     /**
      * Find the payment process from the ProcessId.
-     * 
+     *
      * @param integer $id The process ID from $this->getId() stored in your order model when dispatch the process.
      * @throws \luya\payment\PaymentException
      * @return \luya\payment\PaymentProcess Returns the PaymentProcess Object itself.
@@ -251,9 +341,9 @@ final class PaymentProcess extends Object
     
     /**
      * Find a payment process based on the Token and Random Key.
-     * 
+     *
      * This method is used inside the payment controllers and should not be used in your application logic.
-     * 
+     *
      * @param string $authToken The auth token which is generated while creating the DataPaymentProcessModel.
      * @param string $randomKey The random key from the database table.
      * @throws \luya\payment\PaymentException

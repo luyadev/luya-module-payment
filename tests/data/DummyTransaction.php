@@ -10,31 +10,26 @@ class DummyTransaction extends Transaction implements TransactionInterface
 {
     public function create()
     {
-        
     }
     
     public function back()
     {
-        
     }
     
     public function notify()
     {
-        
     }
     
     public function fail()
     {
-        
     }
     
     public function abort()
     {
-        
     }
     
     public function getProvider()
     {
-        return new DummyProvider();   
+        return new DummyProvider();
     }
 }
