@@ -119,7 +119,7 @@ class StoreCheckoutController extends \luya\web\Controller
 }
 ```
 
-> You should **not use session** variabels to make the urls for the success, error and abort links as they can be called be notify urls. Lets assume an user has payed with saferpay but saferpay allows to close the window after the payment succeeded (without going back to the store) the success url with be called by the notify process instead of the users browser. In this case the session environment would have been lost.
+> You should **not use session** variabels to make the urls for the success, error and abort links as they can be called by notify urls. Lets assume an user has payed with saferpay but saferpay allows to close the window after the payment succeeded (without going back to the store) the success url with be called by the notify process instead of the users browser. In this case the session environment would have been lost.
 
 Transaction Configs
 ---
