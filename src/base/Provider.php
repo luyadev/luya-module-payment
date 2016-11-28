@@ -6,7 +6,7 @@ use luya\helpers\ObjectHelper;
 use yii\base\Object;
 use yii\helpers\Inflector;
 
-class Provider extends Object
+abstract class Provider extends Object implements ProviderInterface
 {
     /**
      * Call a method of a the current object which is prefix with call and sanitize its variables to match action variables.

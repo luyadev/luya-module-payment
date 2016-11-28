@@ -16,7 +16,7 @@
         "paypal/rest-api-sdk-php" : "~1.7.0"
     },
     "require-dev" : {
-        "luyadev/luya" : "^1.0@dev",
+        "luyadev/luya-core" : "^1.0@dev",
         "phpunit/phpunit" : "~5.0"
     },
     "support" : {

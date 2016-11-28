@@ -16,8 +16,11 @@ use yii\helpers\Json;
  * @property string $post
  * @property string $server
  */
-class PaymentProcessTrace extends \yii\db\ActiveRecord
+class DataPaymentProcessTraceModel extends \yii\db\ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -63,6 +66,9 @@ class PaymentProcessTrace extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+     * Before a payment process trace model is saved, fill the environment data.
+     */
     public function eventBeforeInsert()
     {
         $this->get = (isset($_GET)) ? Json::encode($_GET) : '';

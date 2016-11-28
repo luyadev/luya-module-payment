@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "500c40ccffc82c8a862e008d8c978576",
-    "content-hash": "5244abd03c53c5b36bd25ea35e9f4ac4",
+    "hash": "6079460fc5b704a2f899bb71be08af79",
+    "content-hash": "103acad6b714ad470b9746a38baca212",
     "packages": [
         {
             "name": "paypal/rest-api-sdk-php",
@@ -449,17 +449,17 @@
             "time": "2016-07-16 12:58:58"
         },
         {
-            "name": "luyadev/luya",
+            "name": "luyadev/luya-core",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/luyadev/luya.git",
-                "reference": "8302c301f050e817ee536482d0fca0458c4849a1"
+                "url": "https://github.com/luyadev/luya-core.git",
+                "reference": "bad00fed2e9133d2274f708317e9711aaa8ea982"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya/zipball/8302c301f050e817ee536482d0fca0458c4849a1",
-                "reference": "8302c301f050e817ee536482d0fca0458c4849a1",
+                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/bad00fed2e9133d2274f708317e9711aaa8ea982",
+                "reference": "bad00fed2e9133d2274f708317e9711aaa8ea982",
                 "shasum": ""
             },
             "require": {
@@ -469,26 +469,18 @@
                 "twig/twig": "^1.24",
                 "yiisoft/yii2": "2.0.10"
             },
-            "require-dev": {
-                "phpunit/phpunit": "~5.0",
-                "satooshi/php-coveralls": "~1.0"
-            },
             "bin": [
-                "core/bin/luya"
+                "bin/luya"
             ],
-            "type": "project",
+            "type": "luya-core",
             "extra": {
-                "asset-installer-paths": {
-                    "bower-asset-library": "vendor/bower"
-                },
                 "branch-alias": {
                     "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "luya\\": "core/",
-                    "luyatests\\": "tests/"
+                    "luya\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -502,20 +494,16 @@
                     "homepage": "https://github.com/nadar"
                 }
             ],
-            "description": "The Yii2 PHP Framework wrapper which provides out of the box functions like an administration interface, a beautiful looking content management system, payment modules, agency workflows and other tools to develop your website pretty fast!",
+            "description": "The LUYA core classes in addition to the Yii2 Framework",
             "homepage": "http://luya.io",
             "keywords": [
-                "angular",
-                "cms",
-                "content",
                 "luya",
-                "modular",
                 "php",
-                "programmatic",
-                "yii2",
-                "yii2-wrapper"
+                "wrapper",
+                "yii",
+                "yii2"
             ],
-            "time": "2016-11-28 09:16:19"
+            "time": "2016-11-25 09:20:26"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2031,7 +2019,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "luyadev/luya": 20
+        "luyadev/luya-core": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

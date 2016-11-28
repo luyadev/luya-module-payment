@@ -23,7 +23,7 @@ namespace luya\payment\base;
  * + create
  * + abort
  *
- * @author nadar
+ * @author Basil Suter <basil@nadar.io>
  */
 interface TransactionInterface
 {
@@ -54,6 +54,14 @@ interface TransactionInterface
     
     /**
      * Return the payment provider object.
+     * 
+     * Configuration Example:
+     * 
+     * ```php
+     * return new PayPalProvider(['mode' => $this->mode]);
+     * ```
+     * 
+     * @return \luya\payment\base\ProviderInterface The provider implementation
      */
     public function getProvider();
 }

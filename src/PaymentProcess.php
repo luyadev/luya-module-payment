@@ -4,21 +4,23 @@ namespace luya\payment;
 
 use Yii;
 use yii\base\Object;
+use yii\web\Controller;
 use luya\helpers\Url;
 use luya\Exception;
 use luya\payment\base\TransactionInterface;
 use luya\payment\PaymentException;
-use luya\payment\models\PaymentProcess as PaymentProcessModel;
-use luya\payment\base\PaymentProcessInterface;
-
+use luya\payment\models\DataPaymentProcessModel;
 /**
  * PaymentProcess.
  * 
- * @property luya\luya\payment\base\TransactionInterface $transaction Contains the transaction interface
+ * @property \luya\payment\base\TransactionInterface $transaction Contains the transaction interface
+ * @property \luya\payment\models\DataPaymentProcessModel $model The DataPaymentProcessModel
  * @property float $amount The amount to pay
+ * @property integer $id Returns the Process ID to store in your E-Store logic.
+ * 
  * @author Basil Suter <basil@nadar.io>
  */
-class PaymentProcess extends Object implements PaymentProcessInterface
+final class PaymentProcess extends Object
 {
     const STATE_SUCCESS = 1;
     
@@ -42,8 +44,8 @@ class PaymentProcess extends Object implements PaymentProcessInterface
     {
         parent::init();
     
-        if (!is_array($this->transactionConfig)) {
-            throw new PaymentException("transaction must be an array configuring your transaction class see Yii::createObject()");
+        if ($this->transactionConfig === null) {
+            throw new PaymentException("The transactionConfig property can not be empty, you have to provide a transaction class to configure.");
         }
     
         if (empty($this->amount) || empty($this->orderId) || empty($this->currency) || empty($this->successLink) || empty($this->errorLink) || empty($this->abortLink)) {
@@ -69,12 +71,17 @@ class PaymentProcess extends Object implements PaymentProcessInterface
     {
         if ($this->_amount === null) {
             if (!is_numeric($value)) {
-                throw new PaymentException('amount is not valid');
+                throw new PaymentException('The amount property must be an numeric value.');
             }
             
             $this->_amount = $value;
         }
         
+        return $this->_amount;
+    }
+    
+    public function getAmount()
+    {
         return $this->_amount;
     }
     
@@ -93,11 +100,6 @@ class PaymentProcess extends Object implements PaymentProcessInterface
         return $this->abortLink;
     }
     
-    public function getAmount()
-    {
-        return $this->_amount;
-    }
-    
     public function getCurrency()
     {
         return $this->currency;
@@ -110,12 +112,28 @@ class PaymentProcess extends Object implements PaymentProcessInterface
    
     private $_model = null;
     
-    public function model($key)
+    /**
+     * Setter method for the Model Object.
+     * 
+     * @param \luya\payment\models\DataPaymentProcessModel $model The Data Payment ActiveRecord Model.
+     */
+    public function setModel(DataPaymentProcessModel $model)
+    {
+        $this->_model = $model;
+    }
+    
+    /**
+     * Getter method for the Model Object.
+     * 
+     * When the model is not set via the setter method first, a new Model will be created.
+     * 
+     * @return \luya\payment\models\DataPaymentProcessModel
+     */
+    public function getModel()
     {
         if ($this->_model === null) {
-            Yii::trace('create new model?', __METHOD__);
-            $model = new PaymentProcessModel();
-            $model->createTokens($key);
+            $model = new DataPaymentProcessModel();
+            $model->createTokens($this->orderId);
             $model->attributes = [
                 'amount' => $this->amount,
                 'currency' => $this->currency,
@@ -129,32 +147,29 @@ class PaymentProcess extends Object implements PaymentProcessInterface
             if ($model->save()) {
                 $this->_model = $model;
             } else {
-                throw new PaymentException("unable to create payment process model!");
+                throw new PaymentException("Unable to save the DataPaymentProcessModel, validation failed during save process.");
             }
         }
         
-        return $this->_model;
-    }
-    
-    public function setModel(PaymentProcessModel $model)
-    {
-        $this->_model = $model;
-    }
-    
-    public function getModel()
-    {
         // throw exception
         return $this->_model;
     }
-    
+
+    /**
+     * Returns the PaymentProcess ID.
+     * 
+     * This value must be stored in your E-Store logic in order to find the PaymentProcess by the findByProcessId method.
+     * 
+     * @return integer The process id value.
+     */
     public function getId()
     {
-        return $this->model($this->orderId)->id;
+        return $this->model->id;
     }
     
-    public function dispatch(\yii\web\Controller $controller)
+    public function dispatch(Controller $controller)
     {
-        $model = $this->model($this->orderId);
+        $model = $this->model;
         
         if (!$model) {
             throw new Exception('Payment model initializing error!');
@@ -190,9 +205,31 @@ class PaymentProcess extends Object implements PaymentProcessInterface
         return $this->model->update(false);
     }
     
+    // static methods
+    
+    /**
+     * Find the process by the process Id.
+     * 
+     * **Deprecated use findByProcessId() instead**.
+     * 
+     * @deprecated Will be removed in version 1.0.0 use findByProcessId() instead.
+     * @param integer $id The process ID from $this->getId() stored in your order model when dispatch the process.
+     */
     public static function findById($id)
     {
-        $model = PaymentProcessModel::findOne(['id' => $id, 'is_closed' => 0]);
+        return static::findByProcessId($id);
+    }
+    
+    /**
+     * Find the payment process from the ProcessId.
+     * 
+     * @param integer $id The process ID from $this->getId() stored in your order model when dispatch the process.
+     * @throws \luya\payment\PaymentException
+     * @return \luya\payment\PaymentProcess Returns the PaymentProcess Object itself.
+     */
+    public static function findByProcessId($id)
+    {
+        $model = DataPaymentProcessModel::findOne(['id' => $id, 'is_closed' => 0]);
         
         if ($model) {
             $object = Yii::createObject([
@@ -212,19 +249,16 @@ class PaymentProcess extends Object implements PaymentProcessInterface
         throw new PaymentException("Could not find you transaction!");
     }
     
-    private static function findModel($authToken, $randomKey)
-    {
-        $model = PaymentProcessModel::findOne(['random_key' => $randomKey, 'is_closed' => 0]);
-        if ($model) {
-            $model->auth_token = $authToken;
-            if ($model->validateAuthToken()) {
-                return $model;
-            }
-        }
-    
-        return false;
-    }
-    
+    /**
+     * Find a payment process based on the Token and Random Key.
+     * 
+     * This method is used inside the payment controllers and should not be used in your application logic.
+     * 
+     * @param string $authToken The auth token which is generated while creating the DataPaymentProcessModel.
+     * @param string $randomKey The random key from the database table.
+     * @throws \luya\payment\PaymentException
+     * @return \luya\payment\PaymentProcess Returns the PaymentProcess Object itself.
+     */
     public static function findByToken($authToken, $randomKey)
     {
         $model = static::findModel($authToken, $randomKey);
@@ -240,11 +274,23 @@ class PaymentProcess extends Object implements PaymentProcessInterface
                 'abortLink' => $model->abort_link,
                 'transactionConfig' => $model->transaction_config,
             ]);
-            $model->auth_token = $authToken;
             $object->setModel($model);
             return $object;
         }
     
         throw new PaymentException("Could not find you transaction!");
+    }
+    
+    private static function findModel($authToken, $randomKey)
+    {
+        $model = DataPaymentProcessModel::findOne(['random_key' => $randomKey, 'is_closed' => 0]);
+        if ($model) {
+            $model->auth_token = $authToken;
+            if ($model->validateAuthToken()) {
+                return $model;
+            }
+        }
+    
+        return false;
     }
 }

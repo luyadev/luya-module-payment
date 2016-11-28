@@ -3,12 +3,13 @@
 namespace luya\payment\base;
 
 use yii\base\Object;
+use luya\payment\PaymentProcess;
 
-class Transaction extends Object
+abstract class Transaction extends Object implements TransactionInterface
 {
     private $_process = null;
     
-    public function setProcess(\luya\payment\base\PaymentProcessInterface $process)
+    public function setProcess(PaymentProcess $process)
     {
         $this->_process = $process;
     }

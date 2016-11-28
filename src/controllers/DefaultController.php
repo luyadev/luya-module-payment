@@ -10,7 +10,7 @@ class DefaultController extends \luya\web\Controller
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
         $process->transaction->setContext($this);
-        $process->model->addEvent(__METHOD__);
+        $process->model->addPaymentTraceEvent(__METHOD__);
         return $process->transaction->create();
     }
     
@@ -18,7 +18,7 @@ class DefaultController extends \luya\web\Controller
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
         $process->transaction->setContext($this);
-        $process->model->addEvent(__METHOD__);
+        $process->model->addPaymentTraceEvent(__METHOD__);
         return $process->transaction->back();
     }
     
@@ -26,7 +26,7 @@ class DefaultController extends \luya\web\Controller
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
         $process->transaction->setContext($this);
-        $process->model->addEvent(__METHOD__);
+        $process->model->addPaymentTraceEvent(__METHOD__);
         return $process->transaction->fail();
     }
     
@@ -34,7 +34,7 @@ class DefaultController extends \luya\web\Controller
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
         $process->transaction->setContext($this);
-        $process->model->addEvent(__METHOD__);
+        $process->model->addPaymentTraceEvent(__METHOD__);
         return $process->transaction->abort();
     }
     
@@ -42,7 +42,7 @@ class DefaultController extends \luya\web\Controller
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
         $process->transaction->setContext($this);
-        $process->model->addEvent(__METHOD__);
+        $process->model->addPaymentTraceEvent(__METHOD__);
         return $process->transaction->notify();
     }
 }

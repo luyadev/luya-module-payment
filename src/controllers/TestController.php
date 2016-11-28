@@ -12,6 +12,8 @@ class TestController extends \luya\web\Controller
 {
     public function actionIndex()
     {
+        Yii::$app->session->removeAll();
+        
         if (YII_ENV_DEV && YII_DEBUG) {
             $process = new PaymentProcess([
                 'amount' => 200, // in cent
@@ -28,11 +30,9 @@ class TestController extends \luya\web\Controller
                      'clientSecret' => '<CLIENTSECRET>',
                      */
                     
-                    /*
                      'class' => SaferPayTransaction::className(),
-                     'accountId' => '<ACCOUNTID>',
-                     'spPassword' => '<SPPASSWORD>',
-                     */
+                     'accountId' => '17795278',
+                     'spPassword' => 'XAjc3Kna',
                 ],
             ]);
     
