@@ -12,11 +12,13 @@ use luya\payment\models\PaymentProcess as PaymentProcessModel;
 use luya\payment\base\PaymentProcessInterface;
 
 /**
+ * PaymentProcess.
+ * 
  * @property luya\luya\payment\base\TransactionInterface $transaction Contains the transaction interface
  * @property float $amount The amount to pay
- * @author nadar
+ * @author Basil Suter <basil@nadar.io>
  */
-class PaymentProcess extends \yii\base\Object implements PaymentProcessInterface
+class PaymentProcess extends Object implements PaymentProcessInterface
 {
     const STATE_SUCCESS = 1;
     
@@ -158,27 +160,27 @@ class PaymentProcess extends \yii\base\Object implements PaymentProcessInterface
             throw new Exception('Payment model initializing error!');
         }
         
-        $controller->redirect(Url::toRoute(['/payment/default/create', 'lpToken' => $model->auth_token, 'lpKey' => $model->random_key], true));
+        $controller->redirect(Url::toInternal(['/payment/default/create', 'lpToken' => $model->auth_token, 'lpKey' => $model->random_key], true));
     }
     
     public function getTransactionGatewayBackLink()
     {
-        return Url::toRoute(['/payment/default/back', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
+        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
     public function getTransactionGatewayFailLink()
     {
-        return Url::toRoute(['/payment/default/fail', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
+        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
     public function getTransactionGatewayAbortLink()
     {
-        return Url::toRoute(['/payment/default/abort', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
+        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
     public function getTransactionGatewayNotifyLink()
     {
-        return Url::toRoute(['/payment/default/notify', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
+        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
     public function close($state)
