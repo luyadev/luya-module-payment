@@ -15,12 +15,17 @@
     "require" : {
         "paypal/rest-api-sdk-php" : "~1.7.0"
     },
+    "require-dev" : {
+        "luyadev/luya" : "^1.0@dev",
+        "phpunit/phpunit" : "~5.0"
+    },
     "support" : {
         "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "autoload" : {
         "psr-4" : {
-            "luya\\payment\\" : "src/"
+            "luya\\payment\\" : "src/",
+            "luya\\payment\\tests\\" : "tests/"
         }
     },
     "extra": {

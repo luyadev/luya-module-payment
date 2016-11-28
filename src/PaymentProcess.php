@@ -15,7 +15,6 @@ use luya\payment\base\PaymentProcessInterface;
  * @property luya\luya\payment\base\TransactionInterface $transaction Contains the transaction interface
  * @property float $amount The amount to pay
  * @author nadar
- *
  */
 class PaymentProcess extends \yii\base\Object implements PaymentProcessInterface
 {

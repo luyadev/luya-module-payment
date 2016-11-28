@@ -2,6 +2,8 @@
 
 namespace luya\payment\helpers;
 
+use Yii;
+
 /**
  * Helper class for Orders.
  * 
@@ -25,6 +27,6 @@ class OrderHelper
      */
     public static function generateOrderId($id, $zeroAmount = 5)
     {
-        return Yii::$app->security->generateRandomString(4) . str_pad(id, $zeroAmount, '0', STR_PAD_LEFT);
+        return Yii::$app->security->generateRandomString(4) . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
     }
 }
