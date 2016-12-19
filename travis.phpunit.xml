@@ -19,6 +19,9 @@
 			<directory>./vendor</directory>
 			<directory>./tests</directory>
 		</blacklist>
+		<whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">./core</directory>
+        </whitelist>
 	</filter>
     <php>
         <const name="DB_DSN" value="mysql:host=localhost;dbname=myapp_test" />
