@@ -20,7 +20,7 @@ class m160303_090454_paymentprocess extends Migration
             'abort_link' => $this->string(255)->notNull(),
             'transaction_config' => $this->text()->notNull(),
             'close_state' => $this->integer(11)->defaultValue(0),
-            'is_closed' => $this->boolean()->defaultValue(0),
+            'is_closed' => $this->boolean()->defaultValue(false),
         ]);
         
         $this->createTable('payment_process_trace', [
