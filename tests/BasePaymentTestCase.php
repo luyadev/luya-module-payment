@@ -28,7 +28,7 @@ class BasePaymentTestCase extends TestCase
                 ]
             ]
         ]);
-        $boot->setYiiPath(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+        $boot->setBaseYiiFile(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
         $boot->mockOnly = true;
         $boot->applicationWeb();
     }

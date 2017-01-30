@@ -8,6 +8,22 @@ use luya\payment\tests\data\DummyTransaction;
 
 class PaymentProcessTest extends BasePaymentTestCase
 {
+    public function testInitException()
+    { 
+        $this->expectException('luya\payment\PaymentException');
+        $process = new PaymentProcess();
+    }
+    
+    public function testInitConfigException()
+    {
+        $this->expectException('luya\payment\PaymentException');
+        $process = new PaymentProcess([
+            'transactionConfig' => [
+                'class' => DummyTransaction::class,
+            ],
+        ]);
+    }
+    
     public function testPaymentProcessObject()
     {
         $object = new PaymentProcess([

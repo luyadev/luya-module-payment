@@ -4,7 +4,7 @@
     "type" : "luya-module",
     "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal", "luya-module"],
     "license": "MIT",
-    "homepage" : "http://luya.io",
+    "homepage" : "https://luya.io",
     "authors" : [
         {
             "name" : "Basil",
@@ -12,6 +12,9 @@
             "homepage" : "https://github.com/nadar"
         }
     ],
+    "support" : {
+        "issues" : "https://github.com/luyadev/luya-module-payment/issues"
+    },
     "require" : {
         "paypal/rest-api-sdk-php" : "~1.7.0"
     },
@@ -19,9 +22,6 @@
         "luyadev/luya-core" : "^1.0@dev",
         "phpunit/phpunit" : "~5.0",
         "satooshi/php-coveralls": "~1.0"
-    },
-    "support" : {
-        "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "autoload" : {
         "psr-4" : {

@@ -47,8 +47,8 @@ use luya\payment\models\DataPaymentProcessModel;
  *
  * The processId is very important in order to retrieve your process model in later point of your application `PaymentProcess::findByProcessId($processId)`.
  *
- * @property \luya\payment\base\TransactionInterface $transaction Contains the transaction interface
- * @property \luya\payment\models\DataPaymentProcessModel $model The DataPaymentProcessModel
+ * @property \luya\payment\base\TransactionInterface $transaction Get the transaction object.
+ * @property \luya\payment\models\DataPaymentProcessModel $model Get the payment process data model.
  * @property float $amount The amount to pay
  * @property integer $id Returns the Process ID to store in your E-Store logic.
  *
@@ -74,6 +74,9 @@ final class PaymentProcess extends Object
     
     public $transactionConfig = null;
     
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -89,6 +92,11 @@ final class PaymentProcess extends Object
     
     private $_transaction = null;
     
+    /**
+     * Get the transaction object.
+     * 
+     * @return \luya\payment\base\TransactionInterface 
+     */
     public function getTransaction()
     {
         if ($this->_transaction === null) {
@@ -101,6 +109,13 @@ final class PaymentProcess extends Object
     
     private $_amount = null; // setter and getter
 
+    /**
+     * Payment amount setter method.
+     * 
+     * @param integer|string $value
+     * @throws \luya\payment\PaymentException
+     * @return integer|string The validatet amount.
+     */
     public function setAmount($value)
     {
         if ($this->_amount === null) {
@@ -114,31 +129,66 @@ final class PaymentProcess extends Object
         return $this->_amount;
     }
     
+    /**
+     * Getter method for the amount
+     * @return integer|numeric
+     */
     public function getAmount()
     {
         return $this->_amount;
     }
     
+    /**
+     * Get the application success link.
+     * 
+     * This link will redirect back into your application from the payment process module.
+     * 
+     * @return string
+     */
     public function getApplicationSuccessLink()
     {
         return $this->successLink;
     }
     
+    /**
+     * Get the application error link.
+     *
+     * This link will redirect back into your application from the payment process module.
+     *
+     * @return string
+     */
     public function getApplicationErrorLink()
     {
         return $this->errorLink;
     }
     
+    /**
+     * Get the application abort link.
+     *
+     * This link will redirect back into your application from the payment process module.
+     * 
+     * @return string
+     */
     public function getApplicationAbortLink()
     {
         return $this->abortLink;
     }
     
+    /**
+     * Get the transaction currency
+     *
+     * @return string
+     */
     public function getCurrency()
     {
         return $this->currency;
     }
     
+    /**
+     * Get the transaction order id
+     *
+     * @return string
+     */
     public function getOrderId()
     {
         return $this->orderId;
@@ -296,19 +346,6 @@ final class PaymentProcess extends Object
     }
     
     // static methods
-
-    /**
-     * Find the process by the process Id.
-     *
-     * **Deprecated use findByProcessId() instead**.
-     *
-     * @deprecated Will be removed in version 1.0.0 use findByProcessId() instead.
-     * @param integer $id The process ID from $this->getId() stored in your order model when dispatch the process.
-     */
-    public static function findById($id)
-    {
-        return static::findByProcessId($id);
-    }
     
     /**
      * Find the payment process from the ProcessId.
@@ -336,7 +373,7 @@ final class PaymentProcess extends Object
             return $object;
         }
         
-        throw new PaymentException("Could not find you transaction!");
+        throw new PaymentException("Unable to find the process by ID {$id}");
     }
     
     /**
@@ -368,7 +405,7 @@ final class PaymentProcess extends Object
             return $object;
         }
     
-        throw new PaymentException("Could not find you transaction!");
+        throw new PaymentException("Unable to find the process by token {{$authToken}}");
     }
     
     private static function findModel($authToken, $randomKey)
