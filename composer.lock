@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f48dafb6553dec95fdd5011fef58b76b",
+    "content-hash": "6b758564e76991965cb55095b88f1f10",
     "packages": [
         {
             "name": "bower-asset/jquery",
@@ -355,16 +355,16 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.11.2",
+            "version": "2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "ee996adec1dfd7babb67bd0c604f5bd6425fe5ab"
+                "reference": "4144506d84b5c895e026be4d79ebbef7067ebcd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ee996adec1dfd7babb67bd0c604f5bd6425fe5ab",
-                "reference": "ee996adec1dfd7babb67bd0c604f5bd6425fe5ab",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4144506d84b5c895e026be4d79ebbef7067ebcd3",
+                "reference": "4144506d84b5c895e026be4d79ebbef7067ebcd3",
                 "shasum": ""
             },
             "require": {
@@ -451,7 +451,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-02-08T09:04:32+00:00"
+            "time": "2017-02-01T16:46:29+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -712,34 +712,33 @@
         },
         {
             "name": "luyadev/luya",
-            "version": "1.0.0-beta7",
+            "version": "1.0.0-RC3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya.git",
-                "reference": "b342d2d4d39e6ff0f88f2c05aea7aec507886326"
+                "reference": "07e1ec92bedd4c1103fb6082ffaf3465dba879ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya/zipball/b342d2d4d39e6ff0f88f2c05aea7aec507886326",
-                "reference": "b342d2d4d39e6ff0f88f2c05aea7aec507886326",
+                "url": "https://api.github.com/repos/luyadev/luya/zipball/07e1ec92bedd4c1103fb6082ffaf3465dba879ee",
+                "reference": "07e1ec92bedd4c1103fb6082ffaf3465dba879ee",
                 "shasum": ""
             },
             "require": {
-                "curl/curl": "^1.3",
+                "curl/curl": "~1.0",
                 "php": ">=5.5.0",
-                "phpmailer/phpmailer": "^5.2",
-                "twig/twig": "^1.24",
-                "yiisoft/yii2": "^2.0"
+                "phpmailer/phpmailer": "~5.0",
+                "twig/twig": "~1.0",
+                "yiisoft/yii2": "2.0.11"
             },
             "require-dev": {
-                "phpunit/php-code-coverage": "~3.0",
                 "phpunit/phpunit": "~5.0",
                 "satooshi/php-coveralls": "~1.0"
             },
             "bin": [
                 "core/bin/luya"
             ],
-            "type": "project",
+            "type": "luya-core",
             "extra": {
                 "asset-installer-paths": {
                     "bower-asset-library": "vendor/bower"
@@ -760,13 +759,13 @@
             ],
             "authors": [
                 {
-                    "name": "Basil",
+                    "name": "Basil Suter",
                     "email": "git@nadar.io",
                     "homepage": "https://github.com/nadar"
                 }
             ],
-            "description": "The programmatic CMS based on the Yii2 Framework. http://luya.io",
-            "homepage": "http://luya.io",
+            "description": "LUYA is a fast and flexible PHP framework and content management system built with the goal to please developers, clients and users alike. Built upon Yii 2.",
+            "homepage": "https://luya.io",
             "keywords": [
                 "angular",
                 "cms",
@@ -778,7 +777,7 @@
                 "yii2",
                 "yii2-wrapper"
             ],
-            "time": "2016-06-20T07:47:29+00:00"
+            "time": "2017-04-11T15:00:14+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2632,7 +2631,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "luyadev/luya": 20
+        "luyadev/luya": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
