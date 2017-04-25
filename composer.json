@@ -19,7 +19,6 @@
         "paypal/rest-api-sdk-php" : "~1.7.0"
     },
     "require-dev" : {
-        "luyadev/luya-core" : "^1.0@dev",
         "phpunit/phpunit" : "~5.0",
         "satooshi/php-coveralls": "~1.0"
     },
@@ -36,8 +35,10 @@
     },
     "config": {
         "fxp-asset" : {
-            "enabled" : false,
-            "pattern-skip-version": "(-build|-patch)"
+            "pattern-skip-version": "(-build|-patch)",
+            "installer-paths": {
+                "bower-asset-library": "vendor/bower"
+            }
         }   
     }
 }
