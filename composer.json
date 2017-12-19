@@ -20,8 +20,7 @@
         "yiisoft/yii2" : "~2.0.0"
     },
     "require-dev" : {
-        "luyadev/luya" : "1.0.0-RC3",
-        "phpunit/phpunit" : "~5.0",
+        "luyadev/luya-testsuite" : "~1.0.0",
         "satooshi/php-coveralls": "~1.0"
     },
     "autoload" : {
@@ -34,13 +33,5 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
-    },
-    "config": {
-        "fxp-asset" : {
-            "pattern-skip-version": "(-build|-patch)",
-            "installer-paths": {
-                "bower-asset-library": "vendor/bower"
-            }
-        }   
     }
 }
