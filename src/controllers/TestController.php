@@ -22,20 +22,6 @@ class TestController extends \luya\web\Controller
                 'successLink' => Url::toRoute(['/payment/test/test-success'], true), // user has paid successfull
                 'errorLink' => Url::toRoute(['/payment/test/test-error'], true), // user got a payment error
                 'abortLink' => Url::toRoute(['/payment/test/test-abort'], true), // user has pushed the back button
-                'transactionConfig' => [
-                    
-                    /*
-                     'class' => PayPalTransaction::className(),
-                     'clientId' => '<CLIENTID>',
-                     'clientSecret' => '<CLIENTSECRET>',
-                     */
-                    
-                    /*
-                     'class' => SaferPayTransaction::className(),
-                     'accountId' => '123',
-                     'spPassword' => 'foobar',
-                     */
-                ],
             ]);
     
             Yii::$app->session->set('storeTransactionId', $process->getId());
@@ -47,7 +33,7 @@ class TestController extends \luya\web\Controller
     public function actionTestSuccess()
     {
         if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
     
             // create order for customer ...
             // ...
@@ -61,7 +47,7 @@ class TestController extends \luya\web\Controller
     public function actionTestError()
     {
         if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
     
             // display error for payment
 
@@ -74,7 +60,7 @@ class TestController extends \luya\web\Controller
     public function actionTestAbort()
     {
         if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findById(Yii::$app->session->get('storeTransactionId', 0));
+            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
     
             // redirect the user back to where he can choose another payment.
 

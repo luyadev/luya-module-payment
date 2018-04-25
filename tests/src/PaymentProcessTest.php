@@ -14,22 +14,9 @@ class PaymentProcessTest extends BasePaymentTestCase
         $process = new PaymentProcess();
     }
     
-    public function testInitConfigException()
-    {
-        $this->expectException('luya\payment\PaymentException');
-        $process = new PaymentProcess([
-            'transactionConfig' => [
-                'class' => DummyTransaction::class,
-            ],
-        ]);
-    }
-    
     public function testPaymentProcessObject()
     {
         $object = new PaymentProcess([
-            'transactionConfig' => [
-                'class' => DummyTransaction::class,
-            ],
             'amount' => 100,
             'orderId' => 123,
             'currency' => 'EUR',
@@ -38,9 +25,11 @@ class PaymentProcessTest extends BasePaymentTestCase
             'abortLink' => '/abort'
         ]);
         
+        /*
         $transaction = $object->getTransaction();
         
         $this->assertInstanceOf('\luya\payment\base\TransactionInterface', $transaction);
+        */
         
         $processId = $object->getId();
         
@@ -81,9 +70,6 @@ class PaymentProcessTest extends BasePaymentTestCase
     {
         $this->expectException('luya\payment\PaymentException');
         $object = new PaymentProcess([
-            'transactionConfig' => [
-                'class' => DummyTransaction::class,
-            ],
             'amount' => 'a123123',
             'currency' => 'EUR',
             'successLink' => '/success',
@@ -103,9 +89,6 @@ class PaymentProcessTest extends BasePaymentTestCase
         $_SERVER['SCRIPT_FILENAME'] = '/var/www/luya/envs/dev/public_html/index.php';
 
         $object = new PaymentProcess([
-            'transactionConfig' => [
-                'class' => DummyTransaction::class,
-            ],
             'amount' => 100,
             'orderId' => 123,
             'currency' => 'EUR',

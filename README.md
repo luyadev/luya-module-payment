@@ -27,6 +27,18 @@ configure the payment module in your config
 'modules' => [
     'payment' => [
         'class' => 'luya\payment\Module',
+        'transaction' => 
+            // Paypal Example
+            'class' => payment\transaction\PayPalTransaction::className(),
+            'clientId' => 'ClientIdFromPayPalApplication',
+            'clientSecret' => 'ClientSecretFromPayPalApplication',
+            'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
+            'productDescription' => 'MyOnlineStore Order',
+        
+            // SaferPay Example
+            //'class' => payment\transaction\SaferPayTransaction::className(),
+            //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
+        ],
     ],
 ]
 ```
@@ -51,21 +63,6 @@ class StoreCheckoutController extends \luya\web\Controller
         $orderId = 'Order-' . uniqid();
         
         $process = new payment\PaymentProcess([
-            'transactionConfig' => [
-            
-                // Paypal Example
-                'class' => payment\transaction\PayPalTransaction::className(),
-                'clientId' => 'ClientIdFromPayPalApplication',
-                'clientSecret' => 'ClientSecretFromPayPalApplication',
-                'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
-                'productDescription' => 'MyOnlineStore Order',
-            
-                // SaferPay Example
-                //'class' => payment\transaction\SaferPayTransaction::className(),
-                //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
-                
-                
-            ],
             'orderId' => $orderId,
             'amount' => 123123, // in cents
             'currency' => 'USD',

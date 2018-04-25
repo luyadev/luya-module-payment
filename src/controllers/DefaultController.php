@@ -4,45 +4,69 @@ namespace luya\payment\controllers;
 
 use luya\payment\PaymentProcess;
 
+/**
+ * Default Payment Controller.
+ * 
+ * This controller handles the internal payment process and transactions.
+ * 
+ * @property \luya\payment\Module $module
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class DefaultController extends \luya\web\Controller
-{
+{   
     public function actionCreate($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->transaction->setContext($this);
         $process->model->addPaymentTraceEvent(__METHOD__);
-        return $process->transaction->create();
+        
+        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setContext($this);
+        
+        return $this->module->transaction->create();
     }
     
     public function actionBack($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->transaction->setContext($this);
         $process->model->addPaymentTraceEvent(__METHOD__);
-        return $process->transaction->back();
+        
+        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setContext($this);
+        
+        return $this->module->transaction->back();
     }
     
     public function actionFail($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->transaction->setContext($this);
         $process->model->addPaymentTraceEvent(__METHOD__);
-        return $process->transaction->fail();
+        
+        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setContext($this);
+        
+        return $this->module->transaction->fail();
     }
     
     public function actionAbort($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->transaction->setContext($this);
         $process->model->addPaymentTraceEvent(__METHOD__);
-        return $process->transaction->abort();
+        
+        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setContext($this);
+        
+        return $this->module->transaction->abort();
     }
     
     public function actionNotify($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->transaction->setContext($this);
         $process->model->addPaymentTraceEvent(__METHOD__);
-        return $process->transaction->notify();
+        
+        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setContext($this);
+        
+        return $this->module->transaction->notify();
     }
 }

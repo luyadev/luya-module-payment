@@ -3,8 +3,8 @@
 namespace luya\payment\base;
 
 use luya\helpers\ObjectHelper;
-use yii\base\Object;
 use yii\helpers\Inflector;
+use yii\base\BaseObject;
 
 /**
  * Payment Provider Abstraction.
@@ -13,7 +13,7 @@ use yii\helpers\Inflector;
  *
  * @author Basil Suter <basil@nadar.io>
  */
-abstract class Provider extends Object implements ProviderInterface
+abstract class Provider extends BaseObject implements ProviderInterface
 {
     /**
      * Helper method to call callable methods.

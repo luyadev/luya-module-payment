@@ -4,32 +4,30 @@ namespace luya\payment\tests;
 
 use PHPUnit\Framework\TestCase;
 use luya\Boot;
+use luya\testsuite\cases\WebApplicationTestCase;
 
-class BasePaymentTestCase extends TestCase
+class BasePaymentTestCase extends WebApplicationTestCase
 {
-    protected function setUp()
+    public function getConfigArray()
     {
-        $boot = new Boot();
-        $boot->setConfigArray([
-            'id' => 'paymenttest',
-            'basePath' => dirname(__DIR__),
-            'modules' => [
-                'payment' => [
-                    'class' => 'luya\payment\Module',
+            return [
+                'id' => 'paymenttest',
+                'basePath' => dirname(__DIR__),
+                'modules' => [
+                    'payment' => [
+                        'class' => 'luya\payment\Module',
+                        'transaction' => ['class' => 'luya\payment\tests\data\DummyTransaction']
+                    ]
+                ],
+                'components' => [
+                    'db' => [
+                        'class' => 'yii\db\Connection',
+                        'dsn' => DB_DSN,
+                        'username' => DB_USER,
+                        'password' => DB_PASS,
+                        'charset' => 'utf8',
+                    ]
                 ]
-            ],
-            'components' => [
-                'db' => [
-                    'class' => 'yii\db\Connection',
-                    'dsn' => DB_DSN,
-                    'username' => DB_USER,
-                    'password' => DB_PASS,
-                    'charset' => 'utf8',
-                ]
-            ]
-        ]);
-        $boot->setBaseYiiFile(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
-        $boot->mockOnly = true;
-        $boot->applicationWeb();
+        ];
     }
 }

@@ -3,13 +3,13 @@
 namespace luya\payment;
 
 use Yii;
-use yii\base\Object;
 use yii\web\Controller;
 use luya\helpers\Url;
 use luya\Exception;
 use luya\payment\base\TransactionInterface;
 use luya\payment\PaymentException;
 use luya\payment\models\DataPaymentProcessModel;
+use yii\base\BaseObject;
 
 /**
  * Main PaymentProcess class.
@@ -47,14 +47,15 @@ use luya\payment\models\DataPaymentProcessModel;
  *
  * The processId is very important in order to retrieve your process model in later point of your application `PaymentProcess::findByProcessId($processId)`.
  *
- * @property \luya\payment\base\TransactionInterface $transaction Get the transaction object.
+ * 
+ * 
  * @property \luya\payment\models\DataPaymentProcessModel $model Get the payment process data model.
  * @property float $amount The amount to pay
  * @property integer $id Returns the Process ID to store in your E-Store logic.
  *
  * @author Basil Suter <basil@nadar.io>
  */
-final class PaymentProcess extends Object
+final class PaymentProcess extends BaseObject
 {
     const STATE_SUCCESS = 1;
     
@@ -81,31 +82,30 @@ final class PaymentProcess extends Object
     {
         parent::init();
     
+        /*
         if ($this->transactionConfig === null) {
             throw new PaymentException("The transactionConfig property can not be empty, you have to provide a transaction class to configure.");
         }
+        */
     
         if (empty($this->amount) || empty($this->orderId) || empty($this->currency) || empty($this->successLink) || empty($this->errorLink) || empty($this->abortLink)) {
             throw new PaymentException("amount, orderId, currency, successLink, errorLink and abortLink properties can not be null!");
         }
     }
     
+    /*
     private $_transaction = null;
     
-    /**
-     * Get the transaction object.
-     * 
-     * @return \luya\payment\base\TransactionInterface 
-     */
+    public function setTransaction(TransactionInterface $transaction)
+    {
+        $this->_transaction = $transaction;   
+    }
+    
     public function getTransaction()
     {
-        if ($this->_transaction === null) {
-            $this->_transaction = Yii::createObject($this->transactionConfig);
-            $this->_transaction->setProcess($this);
-        }
-        
         return $this->_transaction;
     }
+    */
     
     private $_amount = null; // setter and getter
 
@@ -222,11 +222,9 @@ final class PaymentProcess extends Object
                 'amount' => $this->amount,
                 'currency' => $this->currency,
                 'order_id' => $this->orderId,
-                'provider_name' => $this->transaction->provider->id,
                 'success_link' => $this->successLink,
                 'error_link' => $this->errorLink,
                 'abort_link' => $this->abortLink,
-                'transaction_config' => $this->transactionConfig,
             ];
             if ($model->save()) {
                 $this->_model = $model;
@@ -360,14 +358,13 @@ final class PaymentProcess extends Object
         
         if ($model) {
             $object = Yii::createObject([
-                'class' => self::className(),
+                'class' => self::class,
                 'amount' => $model->amount,
                 'orderId' => $model->order_id,
                 'currency' => $model->currency,
                 'successLink' => $model->success_link,
                 'errorLink' => $model->error_link,
                 'abortLink' => $model->abort_link,
-                'transactionConfig' => $model->transaction_config,
             ]);
             $object->setModel($model);
             return $object;
@@ -392,14 +389,13 @@ final class PaymentProcess extends Object
     
         if ($model) {
             $object = Yii::createObject([
-                'class' => self::className(),
+                'class' => self::class,
                 'amount' => $model->amount,
                 'orderId' => $model->order_id,
                 'currency' => $model->currency,
                 'successLink' => $model->success_link,
                 'errorLink' => $model->error_link,
                 'abortLink' => $model->abort_link,
-                'transactionConfig' => $model->transaction_config,
             ]);
             $object->setModel($model);
             return $object;

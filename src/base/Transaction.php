@@ -2,9 +2,9 @@
 
 namespace luya\payment\base;
 
-use yii\base\Object;
 use luya\payment\PaymentProcess;
 use yii\web\Controller;
+use yii\base\BaseObject;
 
 /**
  * Transaction Abstraction.
@@ -13,7 +13,7 @@ use yii\web\Controller;
  *
  * @author Basil Suter <basil@nadar.io>
  */
-abstract class Transaction extends Object implements TransactionInterface
+abstract class Transaction extends BaseObject implements TransactionInterface
 {
     private $_process = null;
     

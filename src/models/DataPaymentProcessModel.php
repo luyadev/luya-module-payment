@@ -15,11 +15,9 @@ use yii\helpers\Json;
  * @property integer $amount
  * @property string $currency
  * @property string $order_id
- * @property string $provider_name
  * @property string $success_link
  * @property string $error_link
  * @property string $abort_link
- * @property string $transaction_config
  * @property integer $close_state
  * @property integer $is_closed
  * @property string $auth_token The generated token for the encoded and decoed transaction config.
@@ -27,15 +25,6 @@ use yii\helpers\Json;
 class DataPaymentProcessModel extends \yii\db\ActiveRecord
 {
     public $auth_token = null;
-    
-    public function init()
-    {
-        parent::init();
-        
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'decodeTransactionConfig']);
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'encodeTransactionConfig']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'encodeTransactionConfig']);
-    }
     
     /**
      * @inheritdoc
@@ -51,29 +40,16 @@ class DataPaymentProcessModel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['salt', 'hash', 'random_key', 'amount', 'currency', 'order_id', 'provider_name', 'success_link', 'error_link', 'abort_link', 'transaction_config'], 'required'],
+            [['salt', 'hash', 'random_key', 'amount', 'currency', 'order_id', 'success_link', 'error_link', 'abort_link'], 'required'],
             [['amount', 'close_state', 'is_closed'], 'integer'],
             [['salt', 'hash'], 'string', 'max' => 120],
             [['random_key'], 'string', 'max' => 32],
             [['currency'], 'string', 'max' => 10],
             [['order_id'], 'safe'],
-            [['provider_name'], 'string', 'max' => 50],
             [['success_link', 'error_link', 'abort_link'], 'string', 'max' => 255],
             [['hash'], 'unique'],
             [['random_key'], 'unique'],
         ];
-    }
-    
-    public function decodeTransactionConfig()
-    {
-        $this->transaction_config = Json::decode($this->transaction_config);
-    }
-    
-    public function encodeTransactionConfig()
-    {
-        if (is_array($this->transaction_config)) {
-            $this->transaction_config = Json::encode($this->transaction_config);
-        }
     }
 
     public function createTokens($inputKey)
@@ -118,11 +94,9 @@ class DataPaymentProcessModel extends \yii\db\ActiveRecord
             'amount' => 'Amount',
             'currency' => 'Currency',
             'order_id' => 'Order ID',
-            'provider_name' => 'Provider Name',
             'success_link' => 'Success Link',
             'error_link' => 'Error Link',
             'abort_link' => 'Abort Link',
-            'transaction_config' => 'Transaction Config',
             'close_state' => 'Close State',
             'is_closed' => 'Is Closed',
         ];
