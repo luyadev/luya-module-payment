@@ -51,6 +51,8 @@ class StripeTransaction extends Transaction
           data-name="LUYA PAYMENT"
           data-description="Payment description"
           data-image="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png"
+          data-panel-label="Panel Label"
+          data-label="Jetzt bezahlen"
           data-zip-code="true">
         </script>
       </form>
