@@ -36,14 +36,14 @@ configure the payment module in your config
         'class' => 'luya\payment\frontend\Module',
         'transaction' => 
             // Paypal Example
-            'class' => payment\transaction\PayPalTransaction::className(),
+            'class' => \luya\payment\transaction\PayPalTransaction::class,
             'clientId' => 'ClientIdFromPayPalApplication',
             'clientSecret' => 'ClientSecretFromPayPalApplication',
             'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
             'productDescription' => 'MyOnlineStore Order',
         
             // SaferPay Example
-            //'class' => payment\transaction\SaferPayTransaction::className(),
+            //'class' => \luya\payment\transaction\SaferPayTransaction::class,
             //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
         ],
     ],

@@ -54,4 +54,18 @@ interface TransactionInterface
      * @return \luya\payment\base\ProviderInterface The provider implementation
      */
     public function getProvider();
+
+    /**
+     * Getter method for context.
+     *
+     * @return \yii\web\Controller
+     */
+    public function getContext();
+
+    /**
+     * Get the current payment process
+     *
+     * @return \luya\payment\PaymentProcess
+     */
+    public function getProcess();
 }

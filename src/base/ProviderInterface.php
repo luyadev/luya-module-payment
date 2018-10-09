@@ -11,7 +11,16 @@ namespace luya\payment\base;
  */
 interface ProviderInterface
 {
+    /**
+     * Return the name of the Provider.
+     * 
+     * An unique identifier for this provider, examples:
+     * 
+     * + strip
+     * + paypal
+     * + saferpay
+     *
+     * @return void
+     */
     public function getId();
-    
-    public function call($method, array $vars = []);
 }

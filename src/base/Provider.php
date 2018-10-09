@@ -19,6 +19,8 @@ abstract class Provider extends BaseObject implements ProviderInterface
      * Helper method to call callable methods.
      *
      * Call a method of a the current object which is prefix with call and sanitize its variables to match action variables.
+     * 
+     * Is currently used as its more readable for integrations as most methos have a lot of parameters.
      *
      * @param string $method The method to call without the `call` prefix.
      * @param array $vars Options to pass to the method.

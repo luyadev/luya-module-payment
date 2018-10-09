@@ -22,6 +22,11 @@ class SaferPayTransaction extends Transaction
         }
     }
     
+    /**
+     * Get the safer pay provider object.
+     *
+     * @return SaferPayProvider
+     */
     public function getProvider()
     {
         return new SaferPayProvider();
