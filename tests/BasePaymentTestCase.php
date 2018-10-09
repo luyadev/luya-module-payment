@@ -18,7 +18,7 @@ class BasePaymentTestCase extends WebApplicationTestCase
                 'basePath' => dirname(__DIR__),
                 'modules' => [
                     'payment' => [
-                        'class' => 'luya\payment\Module',
+                        'class' => 'luya\payment\frontend\Module',
                         'transaction' => ['class' => 'luya\payment\tests\data\DummyTransaction']
                     ]
                 ],

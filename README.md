@@ -33,7 +33,7 @@ configure the payment module in your config
 ```php
 'modules' => [
     'payment' => [
-        'class' => 'luya\payment\Module',
+        'class' => 'luya\payment\frontend\Module',
         'transaction' => 
             // Paypal Example
             'class' => payment\transaction\PayPalTransaction::className(),
@@ -61,6 +61,10 @@ Add a transaction to your estore logic, **save the processId** and dispatch() th
 > Make sure to store the `$process->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
 
 ```php
+<?php
+
+use luya\payment\PaymentProcess;
+
 class StoreCheckoutController extends \luya\web\Controller
 {
     public function actionIndex()
@@ -69,7 +73,7 @@ class StoreCheckoutController extends \luya\web\Controller
         // hash and auth token will be created.
         $orderId = 'Order-' . uniqid();
         
-        $process = new payment\PaymentProcess([
+        $process = new PaymentProcess([
             'orderId' => $orderId,
             'amount' => 123123, // in cents
             'currency' => 'USD',

@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment\controllers;
+namespace luya\payment\frontend\controllers;
 
 use luya\payment\PaymentProcess;
 
@@ -9,12 +9,19 @@ use luya\payment\PaymentProcess;
  *
  * This controller handles the internal payment process and transactions.
  *
- * @property \luya\payment\Module $module
+ * @property \luya\payment\frontend\Module $module
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class DefaultController extends \luya\web\Controller
 {
+    /**
+     * Create new payment
+     *
+     * @param string $lpToken The LUYA payment token.
+     * @param string $lpKey the LUYA payment key.
+     * @return mixed In general the internal methods redirect to urls.
+     */
     public function actionCreate($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
@@ -26,6 +33,13 @@ class DefaultController extends \luya\web\Controller
         return $this->module->transaction->create();
     }
     
+    /**
+     * Back Button in payment action.
+     *
+     * @param string $lpToken The LUYA payment token.
+     * @param string $lpKey the LUYA payment key.
+     * @return mixed In general the internal methods redirect to urls.
+     */
     public function actionBack($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
@@ -37,6 +51,15 @@ class DefaultController extends \luya\web\Controller
         return $this->module->transaction->back();
     }
     
+    /**
+     * Failed payment response.
+     * 
+     * This can be called by an internal call from the provider after the user (unsuccessfull) finished the payment.
+     *
+     * @param string $lpToken The LUYA payment token.
+     * @param string $lpKey the LUYA payment key.
+     * @return mixed In general the internal methods redirect to urls.
+     */
     public function actionFail($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
@@ -48,6 +71,13 @@ class DefaultController extends \luya\web\Controller
         return $this->module->transaction->fail();
     }
     
+    /**
+     * Abort button pressed by the user.
+     *
+     * @param string $lpToken The LUYA payment token.
+     * @param string $lpKey the LUYA payment key.
+     * @return mixed In general the internal methods redirect to urls.
+     */
     public function actionAbort($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);
@@ -59,6 +89,15 @@ class DefaultController extends \luya\web\Controller
         return $this->module->transaction->abort();
     }
     
+    /**
+     * Notification from the Payment Provider.
+     * 
+     * This is commonly a background process.
+     *
+     * @param string $lpToken The LUYA payment token.
+     * @param string $lpKey the LUYA payment key.
+     * @return mixed In general the internal methods redirect to urls.
+     */
     public function actionNotify($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);

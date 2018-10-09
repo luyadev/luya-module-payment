@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment;
+namespace luya\payment\frontend;
 
 use Yii;
 use yii\base\InvalidConfigException;

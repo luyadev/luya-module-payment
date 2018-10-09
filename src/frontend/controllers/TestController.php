@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment\controllers;
+namespace luya\payment\frontend\controllers;
 
 use Yii;
 use luya\helpers\Url;
