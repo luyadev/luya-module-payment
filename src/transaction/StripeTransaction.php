@@ -6,6 +6,7 @@ use Yii;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
+use Stripe\ThreeDSecure;
 use luya\payment\PaymentException;
 use luya\payment\base\Transaction;
 use luya\payment\provider\StripeProvider;
@@ -16,12 +17,8 @@ use luya\helpers\Html;
  * 
  * Props:
  * 
- * 
-          data-name="Stripe.com"
-          data-description="Example charge"
-          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-
  * Test visa card: 4242424242424242
+ * 3D secure card: 4000000000003063	
  */
 class StripeTransaction extends Transaction
 {
@@ -51,9 +48,8 @@ class StripeTransaction extends Transaction
           data-name="LUYA PAYMENT"
           data-description="Payment description"
           data-image="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png"
-          data-panel-label="Panel Label"
           data-label="Jetzt bezahlen"
-          data-zip-code="true">
+          data-zip-code="false">
         </script>
       </form>
 EOT;
@@ -77,11 +73,34 @@ EOT;
             'source' => $token,
         ]);
 
-        $charge = Charge::create([
-            'customer' => $customer->id,
-            'amount' => $this->getProcess()->getAmount(),
-            'currency' => $this->getProcess()->getCurrency(),
-        ]);
+        try {
+            $three_d_secure = ThreeDSecure::create([
+                'customer' => $customer->id,
+                'amount' => $this->getProcess()->getAmount(),
+                'currency' => $this->getProcess()->getCurrency(),
+                'return_url' => $this->getProcess()->getTransactionGatewayAbortLink(),
+            ]);
+
+            var_dump($three_d_secure);
+            exit;
+        } catch (\Exception $e) {
+            var_dump($three_d_secure, $e->getMessage());
+            exit;
+        }
+
+        try {
+            $charge = Charge::create([
+                /*
+                'receipt_email' => '',
+                */
+                'customer' => $customer->id,
+                'amount' => $this->getProcess()->getAmount(),
+                'currency' => $this->getProcess()->getCurrency(),
+            ]);
+        } catch (\Exception $e) {
+            var_dump($charge, $e->getMessage());
+            exit;
+        }
 
         if ($charge) {
             return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
