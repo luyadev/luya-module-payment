@@ -18,13 +18,16 @@ use yii\base\InvalidConfigException;
  * ]
  * ```
  *
- * @property \luya\base\TransactionInterface $transaction
- * 
+ * @property \luya\payment\base\TransactionInterface $transaction
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class Module extends \luya\base\Module
 {
+    /**
+     * @inheritDoc
+     */
     public $urlRules = [
         ['pattern' => 'payment-create/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/create'],
         ['pattern' => 'payment-back/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/back'],
@@ -32,9 +35,26 @@ class Module extends \luya\base\Module
         ['pattern' => 'payment-abort/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/abort'],
         ['pattern' => 'payment-notify/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/notify'],
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+        
+        if ($this->transaction === null) {
+            throw new InvalidConfigException("The transaction property can not be null.");
+        }
+    }
     
     private $_transaction;
     
+    /**
+     * Get the transaction object
+     *
+     * @return \luya\payment\base\TransactionInterface
+     */
     public function getTransaction()
     {
         return $this->_transaction;

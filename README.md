@@ -73,9 +73,9 @@ class StoreCheckoutController extends \luya\web\Controller
             'orderId' => $orderId,
             'amount' => 123123, // in cents
             'currency' => 'USD',
-            'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
-            'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
-            'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
+            'successLink' => ['/mystore/store-checkout/success', 'orderId' => $orderId], // user has paid successfull
+            'errorLink' => ['/mystore/store-checkout/error', 'orderId' => $orderId], // user got a payment error
+            'abortLink' => ['/mystore/store-checkout/abort', 'orderId' => $orderId], // user has pushed the back button
         ]);
        
         // store the id in your estore logic model

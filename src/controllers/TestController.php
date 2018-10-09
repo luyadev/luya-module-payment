@@ -19,9 +19,9 @@ class TestController extends \luya\web\Controller
                 'amount' => 200, // in cent
                 'orderId' => 'Order-'.uniqid(),
                 'currency' => 'CHF',
-                'successLink' => Url::toRoute(['/payment/test/test-success'], true), // user has paid successfull
-                'errorLink' => Url::toRoute(['/payment/test/test-error'], true), // user got a payment error
-                'abortLink' => Url::toRoute(['/payment/test/test-abort'], true), // user has pushed the back button
+                'successLink' => ['/payment/test/test-success'], // user has paid successfull
+                'errorLink' => ['/payment/test/test-error'], // user got a payment error
+                'abortLink' => ['/payment/test/test-abort'], // user has pushed the back button
             ]);
     
             Yii::$app->session->set('storeTransactionId', $process->getId());

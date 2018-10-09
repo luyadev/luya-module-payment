@@ -4,15 +4,14 @@ namespace luya\payment\transaction;
 
 use Yii;
 use luya\payment\base\Transaction;
-use luya\payment\base\TransactionInterface;
 use luya\payment\provider\SaferPayProvider;
 use luya\payment\PaymentException;
 
-class SaferPayTransaction extends Transaction implements TransactionInterface
+class SaferPayTransaction extends Transaction
 {
-    public $accountId = null;
+    public $accountId;
    
-    public $spPassword = null;
+    public $spPassword;
     
     public function init()
     {

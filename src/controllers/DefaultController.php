@@ -6,15 +6,15 @@ use luya\payment\PaymentProcess;
 
 /**
  * Default Payment Controller.
- * 
+ *
  * This controller handles the internal payment process and transactions.
- * 
+ *
  * @property \luya\payment\Module $module
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class DefaultController extends \luya\web\Controller
-{   
+{
     public function actionCreate($lpToken, $lpKey)
     {
         $process = PaymentProcess::findByToken($lpToken, $lpKey);

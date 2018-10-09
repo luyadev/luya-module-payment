@@ -4,6 +4,7 @@ namespace luya\payment\models;
 
 use Yii;
 use yii\helpers\Json;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "payment_process_trace".
@@ -16,7 +17,7 @@ use yii\helpers\Json;
  * @property string $post
  * @property string $server
  */
-class DataPaymentProcessTraceModel extends \yii\db\ActiveRecord
+class DataPaymentProcessTraceModel extends ActiveRecord
 {
     /**
      * @inheritdoc

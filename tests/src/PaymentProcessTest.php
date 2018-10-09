@@ -5,11 +5,12 @@ namespace luya\payment\tests;
 use Yii;
 use luya\payment\PaymentProcess;
 use luya\payment\tests\data\DummyTransaction;
+use luya\payment\models\DataPaymentProcessModel;
 
 class PaymentProcessTest extends BasePaymentTestCase
 {
     public function testInitException()
-    { 
+    {
         $this->expectException('luya\payment\PaymentException');
         $process = new PaymentProcess();
     }
@@ -27,9 +28,11 @@ class PaymentProcessTest extends BasePaymentTestCase
         
         /*
         $transaction = $object->getTransaction();
-        
+
         $this->assertInstanceOf('\luya\payment\base\TransactionInterface', $transaction);
         */
+
+        
         
         $processId = $object->getId();
         

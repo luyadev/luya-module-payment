@@ -16,10 +16,11 @@
         "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "require" : {
-        "paypal/rest-api-sdk-php" : "~1.7.0"
+        "paypal/rest-api-sdk-php" : "~1.7.0",
+        "luyadev/luya-core" : "~1.0.0"
     },
     "require-dev" : {
-        "luyadev/luya-testsuite" : "~1.0.0",
+        "luyadev/luya-testsuite" : "dev-master",
         "php-coveralls/php-coveralls": "^1.0"
     },
     "autoload" : {

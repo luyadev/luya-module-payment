@@ -10,19 +10,22 @@ use luya\payment\provider\PayPalProvider;
 
 class PayPalTransaction extends Transaction implements TransactionInterface
 {
-    public $clientId = null;
+    const MODE_LIVE = 'live';
+    const MODE_SANDBOX = 'sandbox';
+
+    public $clientId;
     
-    public $clientSecret = null;
+    public $clientSecret;
     
     /**
      * @var string The mode in which the api should be called `live` or `sandbox`. Default is live. Previous knonw as `sandboxMode`.
      */
-    public $mode = 'live';
+    public $mode = self::MODE_LIVE;
     
     /**
      * @var string The PayPal interface displays a name for the Amount of the ordering, this is the product text.
      */
-    public $productDescription = null;
+    public $productDescription;
     
     public function init()
     {

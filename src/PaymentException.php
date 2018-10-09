@@ -14,6 +14,6 @@ class PaymentException extends \luya\Exception
      */
     public function getName()
     {
-        return 'LUYA Payment Provider Exception';
+        return 'LUYA Payment Exception';
     }
 }

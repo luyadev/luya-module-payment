@@ -4,6 +4,7 @@ namespace luya\payment\models;
 
 use Yii;
 use yii\helpers\Json;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "payment_process".
@@ -22,7 +23,7 @@ use yii\helpers\Json;
  * @property integer $is_closed
  * @property string $auth_token The generated token for the encoded and decoed transaction config.
  */
-class DataPaymentProcessModel extends \yii\db\ActiveRecord
+class DataPaymentProcessModel extends ActiveRecord
 {
     public $auth_token = null;
     
@@ -52,6 +53,19 @@ class DataPaymentProcessModel extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Create variables based on the input key.
+     *
+     * Creates and assignes values to:
+     *
+     * + auth_token
+     * + salt
+     * + hash
+     * + random_key
+     *
+     * @param [type] $inputKey
+     * @return void
+     */
     public function createTokens($inputKey)
     {
         $security = Yii::$app->security;

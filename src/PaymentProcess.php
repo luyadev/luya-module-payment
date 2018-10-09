@@ -20,24 +20,12 @@ use yii\base\BaseObject;
  *
  * ```php
  * $process = new payment\PaymentProcess([
- *     'transactionConfig' => [
- *        // SaferPay Example
- *        'class' => payment\transaction\SaferPayTransaction::className(),
- *        'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
- *
- *         // Or PayPal
- *         // 'class' => payment\transaction\PayPalTransaction::className(),
- *         // 'clientId' => 'ClientIdFromPayPalApplication',
- *         // 'clientSecret' => 'ClientSecretFromPayPalApplication',
- *         // 'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
- *         // 'productDescription' => 'MyOnlineStore Order',
- *     ],
  *     'orderId' => $orderId,
  *     'amount' => 123123, // in cents
  *     'currency' => 'USD',
- *     'successLink' => Url::toRoute(['/mystore/store-checkout/success', 'orderId' => $orderId], true), // user has paid successfull
- *     'errorLink' => Url::toRoute(['/mystore/store-checkout/error', 'orderId' => $orderId], true), // user got a payment error
- *     'abortLink' => Url::toRoute(['/mystore/store-checkout/abort', 'orderId' => $orderId], true), // user has pushed the back button
+ *     'successLink' => ['/mystore/store-checkout/success', 'orderId' => $orderId], // user has paid successfull
+ *     'errorLink' => ['/mystore/store-checkout/error', 'orderId' => $orderId], // user got a payment error
+ *     'abortLink' => ['/mystore/store-checkout/abort', 'orderId' => $orderId], // user has pushed the back button
  * ]);
  *
  * $processId = $process->getId();
@@ -47,8 +35,8 @@ use yii\base\BaseObject;
  *
  * The processId is very important in order to retrieve your process model in later point of your application `PaymentProcess::findByProcessId($processId)`.
  *
- * 
- * 
+ *
+ *
  * @property \luya\payment\models\DataPaymentProcessModel $model Get the payment process data model.
  * @property float $amount The amount to pay
  * @property integer $id Returns the Process ID to store in your E-Store logic.
@@ -63,17 +51,9 @@ final class PaymentProcess extends BaseObject
     
     const STATE_ABORT = 3;
     
-    public $orderId = null;
+    public $orderId;
     
-    public $currency = null;
-    
-    public $successLink = null;
-    
-    public $errorLink = null;
-    
-    public $abortLink = null;
-    
-    public $transactionConfig = null;
+    public $currency;
     
     /**
      * @inheritdoc
@@ -82,36 +62,37 @@ final class PaymentProcess extends BaseObject
     {
         parent::init();
     
-        /*
-        if ($this->transactionConfig === null) {
-            throw new PaymentException("The transactionConfig property can not be empty, you have to provide a transaction class to configure.");
-        }
-        */
-    
-        if (empty($this->amount) || empty($this->orderId) || empty($this->currency) || empty($this->successLink) || empty($this->errorLink) || empty($this->abortLink)) {
+        if (empty($this->amount) || empty($this->orderId) || empty($this->currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
             throw new PaymentException("amount, orderId, currency, successLink, errorLink and abortLink properties can not be null!");
         }
     }
     
-    /*
-    private $_transaction = null;
-    
-    public function setTransaction(TransactionInterface $transaction)
+    private $_successLink;
+
+    public function setSuccessLink($link)
     {
-        $this->_transaction = $transaction;   
+        $this->_successLink = is_array($link) ? Url::toRoute($link, true) : $link;
     }
-    
-    public function getTransaction()
+
+    private $_errorLink;
+
+    public function setErrorLink($link)
     {
-        return $this->_transaction;
+        $this->_errorLink = is_array($link) ? Url::toRoute($link, true) : $link;
     }
-    */
-    
-    private $_amount = null; // setter and getter
+
+    private $_abortLink;
+
+    public function setAbortLink($link)
+    {
+        $this->_abortLink = is_array($link) ? Url::toRoute($link, true) : $link;
+    }
+
+    private $_amount; // setter and getter
 
     /**
      * Payment amount setter method.
-     * 
+     *
      * @param integer|string $value
      * @throws \luya\payment\PaymentException
      * @return integer|string The validatet amount.
@@ -120,7 +101,7 @@ final class PaymentProcess extends BaseObject
     {
         if ($this->_amount === null) {
             if (!is_numeric($value)) {
-                throw new PaymentException('The amount property must be an numeric value.');
+                throw new PaymentException('The amount must be an numeric value stored without floating point.');
             }
             
             $this->_amount = $value;
@@ -140,14 +121,14 @@ final class PaymentProcess extends BaseObject
     
     /**
      * Get the application success link.
-     * 
+     *
      * This link will redirect back into your application from the payment process module.
-     * 
+     *
      * @return string
      */
     public function getApplicationSuccessLink()
     {
-        return $this->successLink;
+        return $this->_successLink;
     }
     
     /**
@@ -159,19 +140,19 @@ final class PaymentProcess extends BaseObject
      */
     public function getApplicationErrorLink()
     {
-        return $this->errorLink;
+        return $this->_errorLink;
     }
     
     /**
      * Get the application abort link.
      *
      * This link will redirect back into your application from the payment process module.
-     * 
+     *
      * @return string
      */
     public function getApplicationAbortLink()
     {
-        return $this->abortLink;
+        return $this->_abortLink;
     }
     
     /**
@@ -194,7 +175,7 @@ final class PaymentProcess extends BaseObject
         return $this->orderId;
     }
    
-    private $_model = null;
+    private $_model;
     
     /**
      * Setter method for the Model Object.
@@ -218,14 +199,13 @@ final class PaymentProcess extends BaseObject
         if ($this->_model === null) {
             $model = new DataPaymentProcessModel();
             $model->createTokens($this->orderId);
-            $model->attributes = [
-                'amount' => $this->amount,
-                'currency' => $this->currency,
-                'order_id' => $this->orderId,
-                'success_link' => $this->successLink,
-                'error_link' => $this->errorLink,
-                'abort_link' => $this->abortLink,
-            ];
+            $model->amount = $this->amount;
+            $model->currency = $this->currency;
+            $model->order_id = $this->orderId;
+            $model->success_link = $this->getApplicationSuccessLink();
+            $model->error_link = $this->getApplicationErrorLink();
+            $model->abort_link = $this->getApplicationAbortLink();
+            $model->is_closed = 0;
             if ($model->save()) {
                 $this->_model = $model;
             } else {
@@ -354,7 +334,7 @@ final class PaymentProcess extends BaseObject
      */
     public static function findByProcessId($id)
     {
-        $model = DataPaymentProcessModel::findOne(['id' => $id, 'is_closed' => 0]);
+        $model = DataPaymentProcessModel::find()->where(['id' => $id, 'is_closed' => 0])->one();
         
         if ($model) {
             $object = Yii::createObject([
@@ -406,7 +386,7 @@ final class PaymentProcess extends BaseObject
     
     private static function findModel($authToken, $randomKey)
     {
-        $model = DataPaymentProcessModel::findOne(['random_key' => $randomKey, 'is_closed' => 0]);
+        $model = DataPaymentProcessModel::find()->where(['random_key' => $randomKey, 'is_closed' => 0])->one();
         if ($model) {
             $model->auth_token = $authToken;
             if ($model->validateAuthToken()) {
