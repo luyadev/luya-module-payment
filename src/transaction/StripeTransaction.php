@@ -7,6 +7,7 @@ use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
 use Stripe\ThreeDSecure;
+use Stripe\Source;
 use luya\payment\PaymentException;
 use luya\payment\base\Transaction;
 use luya\payment\provider\StripeProvider;
@@ -24,6 +25,8 @@ use yii\base\InvalidConfigException;
  * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
+ * @see 3d secure guide: https://stripe.com/docs/sources/three-d-secure
+ * @see stripe elements: https://stripe.com/docs/stripe-js
  */
 class StripeTransaction extends Transaction
 {
@@ -63,27 +66,60 @@ class StripeTransaction extends Transaction
      */
     public function create()
     {
-        $url = $this->getProcess()->getTransactionGatewayBackLink();
-        $csrf = Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken);
-        $html = <<<EOT
-        <form action="$url" method="post">
-        $csrf
-        <script
-          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="{$this->publishableKey}"
-          data-amount="{$this->getProcess()->getTotalAmount()}"
-          data-locale="auto"
-          data-name="LUYA PAYMENT"
-          data-description="Payment description"
-          data-image="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png"
-          data-label="{$this->buttonLabel}"
-          data-zip-code="false">
-        </script>
-      </form>
-EOT;
+        if (Yii::$app->request->isPost) {
+            // stripeCard
+            $token = Yii::$app->request->post('sourceToken');
+            $is3d = Yii::$app->request->post('threeDSecure');
 
-        $html .= Html::a('Abbrechen und Zurück', $this->getProcess()->getTransactionGatewayAbortLink());
-        return $this->getContext()->renderContent($html);
+            Stripe::setApiKey($this->secretKey);
+
+            if ($is3d) {
+                // SOurce\Create:
+                $source = Source::create([
+                    'amount' => $this->getProcess()->getTotalAmount(),
+                    'currency' => $this->getProcess()->getCurrency(),
+                    'type' => "three_d_secure",
+                    "three_d_secure" => array(
+                        "card" => $token,
+                    ),
+                    "redirect" => array(
+                        "return_url" => $this->getProcess()->getTransactionGatewayBackLink()
+                    ),
+                ]);
+
+                if ($source->pending != 'chargeable') {
+                    return $this->getContext()->redirect($source->redirect->url);
+                }
+                
+            }
+
+            try {
+                $charge = Charge::create([
+                    'amount' => $this->getProcess()->getTotalAmount(),
+                    'currency' => $this->getProcess()->getCurrency(),
+                    'source' => $token,
+                ]);
+            } catch (\Exception $e) {
+                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+            }
+
+            if ($charge) {
+                return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
+            }
+            
+            return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+        }
+
+        $html = Yii::$app->view->render('@payment/stripe/transaction', [
+            'csrf' => Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken),
+            'url' => $this->getProcess()->getTransactionGatewayCreateLink(),
+            'publishableKey' => $this->publishableKey,
+            'abortLink' => $this->getProcess()->getTransactionGatewayAbortLink()
+        ]);
+
+        return $html;
+
+        //return $this->getContext()->renderContent($html);
     }
     
     /**
@@ -91,50 +127,30 @@ EOT;
      */
     public function back()
     {
-        $token = Yii::$app->request->post('stripeToken');
-        $email = Yii::$app->request->post('stripeEmail');
+        // 3d secure get params
+        // @see https://stripe.com/docs/sources/three-d-secure#customer-action
+        $sourceTokenId = Yii::$app->request->get('source');
+        $livemode = Yii::$app->request->get('livemode');
+        $clientSecret = Yii::$app->request->get('client_secret');
 
-        Stripe::setApiKey($this->secretKey);
+        if ($sourceTokenId) {
+            Stripe::setApiKey($this->secretKey);
+            try {
+                $charge = Charge::create([
+                    'amount' => $this->getProcess()->getTotalAmount(),
+                    'currency' => $this->getProcess()->getCurrency(),
+                    'source' => $sourceTokenId,
+                ]);
+            } catch (\Exception $e) {
+                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+            }
 
-        $customer = Customer::create([
-            'email' => $email,
-            'source' => $token,
-        ]);
-
-        try {
-            $three_d_secure = ThreeDSecure::create([
-                'customer' => $customer->id,
-                'amount' => $this->getProcess()->getTotalAmount(),
-                'currency' => $this->getProcess()->getCurrency(),
-                'return_url' => $this->getProcess()->getTransactionGatewayAbortLink(),
-            ]);
-
-            var_dump($three_d_secure);
-            exit;
-        } catch (\Exception $e) {
-            var_dump($three_d_secure, $e->getMessage());
-            exit;
+            if (!$charge) {
+                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+            }
         }
 
-        try {
-            $charge = Charge::create([
-                /*
-                'receipt_email' => '',
-                */
-                'customer' => $customer->id,
-                'amount' => $this->getProcess()->getTotalAmount(),
-                'currency' => $this->getProcess()->getCurrency(),
-            ]);
-        } catch (\Exception $e) {
-            var_dump($charge, $e->getMessage());
-            exit;
-        }
-
-        if ($charge) {
-            return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
-        }
-
-        return $this->getContext()->redirect($this->getProcess()->getApplicationErrorLink());
+        return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
     }
     
     /**

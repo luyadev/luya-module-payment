@@ -91,7 +91,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
             'cancelUrl' => $this->process->getTransactionGatewayAbortLink(),
         ]);
         
-        return $this->context->redirect($url);
+        return $this->getContext()->redirect($url);
     }
     
     /**
@@ -109,10 +109,10 @@ class PayPalTransaction extends Transaction implements TransactionInterface
         ]);
         
         if ($response) {
-            return $this->context->redirect($this->process->getApplicationSuccessLink());
+            return $this->getContext()->redirect($this->process->getApplicationSuccessLink());
         }
         
-        return $this->context->redirect($this->process->getTransactionGatewayFailLink());
+        return $this->getContext()->redirect($this->process->getTransactionGatewayFailLink());
     }
     
     /**
@@ -128,7 +128,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function fail()
     {
-        return $this->context->redirect($this->process->getApplicationErrorLink());
+        return $this->getContext()->redirect($this->process->getApplicationErrorLink());
     }
     
     /**
@@ -136,6 +136,6 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function abort()
     {
-        return $this->context->redirect($this->process->getApplicationAbortLink());
+        return $this->getContext()->redirect($this->process->getApplicationAbortLink());
     }
 }

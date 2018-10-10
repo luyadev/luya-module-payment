@@ -403,7 +403,7 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
             return $object;
         }
     
-        throw new PaymentException("Unable to find the process by token {{$authToken}}");
+        throw new PaymentException("Unable to find the process by token {$authToken}");
     }
     
     private static function findModel($authToken, $randomKey)
