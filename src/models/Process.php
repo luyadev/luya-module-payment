@@ -186,6 +186,20 @@ class Process extends NgRestModel
 
     /**
      * Create variables based on the input key.
+     * 
+     * 1. Generate a random string
+     * 2. generate a password hash based on random string and input key stored in $auth_token
+     * 3. Generate a salt random string
+     * 4. generate a password hash from salt and auth token
+     * 5. Base 64 encode the auth token
+     * 6. Generate randon key and md5 
+     * 
+     * Restore and ensure in application:
+     * 
+     * 1. Get the model from with the random key
+     * 2. Validate the auth token against this model
+     *  a. decode the auth token
+     *  b. validate the auth token against the hash from the model.
      *
      * Creates and assignes values to:
      *
@@ -220,12 +234,24 @@ class Process extends NgRestModel
         $this->random_key = md5($security->generaterandomKey());
     }
     
+    /**
+     * Validate the auth token against model hash
+     *
+     * @return void
+     */
     public function validateAuthToken()
     {
         $token = base64_decode($this->auth_token);
         return Yii::$app->security->validatePassword($this->salt.$token, $this->hash);
     }
 
+    /**
+     * Payment trace short hand.
+     *
+     * @param string $eventType
+     * @param string $message
+     * @return boolean Whether saving was successfull or not.
+     */
     public function addPaymentTraceEvent($eventType, $message = null)
     {
         $model = new ProcessTrace();
