@@ -75,13 +75,14 @@ class StoreCheckoutController extends \luya\web\Controller
         
         $process = new PaymentProcess([
             'orderId' => $orderId,
-            'amount' => 123123, // in cents
             'currency' => 'USD',
             'successLink' => ['/mystore/store-checkout/success', 'orderId' => $orderId], // user has paid successfull
             'errorLink' => ['/mystore/store-checkout/error', 'orderId' => $orderId], // user got a payment error
             'abortLink' => ['/mystore/store-checkout/abort', 'orderId' => $orderId], // user has pushed the back button
         ]);
        
+        $process->addItem('Product 1', 1, 100); // amount in cents. 100 Cent = 1 Euro
+
         // store the id in your estore logic model
         // $order = new EstoreOrder();
         // $order->process_id = $process->getId(); // VERY IMPORTANT TO RESTORE THE PROCESS.

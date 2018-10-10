@@ -6,19 +6,32 @@ use Yii;
 use luya\payment\base\Transaction;
 use luya\payment\provider\SaferPayProvider;
 use luya\payment\PaymentException;
+use yii\base\InvalidConfigException;
 
+/**
+ * Safer Pay Transaction.
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class SaferPayTransaction extends Transaction
 {
+    /**
+     * @var string The accountId value from the safer pay backend.
+     */
     public $accountId;
    
     public $spPassword;
     
+    /**
+     * {@inheritDoc}
+     */
     public function init()
     {
         parent::init();
         
         if (empty($this->accountId)) {
-            throw new PaymentException("accountId must be set in your saferpay transaction");
+            throw new InvalidConfigException("accountId must be set in your saferpay transaction");
         }
     }
     
@@ -32,11 +45,14 @@ class SaferPayTransaction extends Transaction
         return new SaferPayProvider();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function create()
     {
         $url = $this->provider->call('create', [
             'accountId' => $this->accountId,
-            'amount' => $this->process->getAmount(),
+            'amount' => $this->process->getTotalAmount(),
             'currency' => $this->process->getCurrency(),
             'orderId' => $this->process->getOrderId(),
             'description' => $this->process->getOrderId(),
@@ -49,6 +65,9 @@ class SaferPayTransaction extends Transaction
         return $this->context->redirect($url);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function back()
     {
         $signature = Yii::$app->request->get('SIGNATURE', false);
@@ -69,7 +88,7 @@ class SaferPayTransaction extends Transaction
             $completeResponse = $this->provider->call('complete', [
                 'id' => $ID,
                 'token' => $TOKEN,
-                'amount' => $this->process->getAmount(),
+                'amount' => $this->process->getTotalAmount(),
                 'action' => 'Settlement',
                 'accountId' => $this->accountId,
                 'spPassword' => $this->spPassword,
@@ -85,16 +104,25 @@ class SaferPayTransaction extends Transaction
         return $this->context->redirect($this->process->getTransactionGatewayFailLink());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function notify()
     {
         return $this->context->redirect($this->process->getApplicationSuccessLink());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function fail()
     {
         return $this->context->redirect($this->process->getApplicationErrorLink());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function abort()
     {
         return $this->context->redirect($this->process->getApplicationAbortLink());

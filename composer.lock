@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f37040c910e14a0a8c9cd2ec4f38fac9",
+    "content-hash": "e60aa214f6e4dc73a1ba0e79ebb1b1ea",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -542,16 +542,16 @@
         },
         {
             "name": "luyadev/luya-module-admin",
-            "version": "1.2.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "4889d1a0c81a2ddbe50508ce5a4e8b5251381028"
+                "reference": "272e36d99c52d4a6908259e928efeddb42396379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/4889d1a0c81a2ddbe50508ce5a4e8b5251381028",
-                "reference": "4889d1a0c81a2ddbe50508ce5a4e8b5251381028",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/272e36d99c52d4a6908259e928efeddb42396379",
+                "reference": "272e36d99c52d4a6908259e928efeddb42396379",
                 "shasum": ""
             },
             "require": {
@@ -612,7 +612,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-08T14:52:50+00:00"
+            "time": "2018-10-10T11:27:45+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -3236,6 +3236,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "luyadev/luya-module-admin": 20,
         "luyadev/luya-testsuite": 20
     },
     "prefer-stable": false,

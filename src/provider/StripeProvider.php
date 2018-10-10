@@ -11,9 +11,4 @@ class StripeProvider extends Provider
     {
         return 'stripe';
     }
-
-    public function callCreate($apiKey, $amount, $currency, $source)
-    {
-        
-    }
 }

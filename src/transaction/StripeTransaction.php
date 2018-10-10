@@ -11,14 +11,19 @@ use luya\payment\PaymentException;
 use luya\payment\base\Transaction;
 use luya\payment\provider\StripeProvider;
 use luya\helpers\Html;
+use yii\base\InvalidConfigException;
 
 
 /**
+ * Stripe Transaction.
  * 
- * Props:
+ * Testing Cards:
  * 
- * Test visa card: 4242424242424242
+ * Visa card: 4242424242424242
  * 3D secure card: 4000000000003063	
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class StripeTransaction extends Transaction
 {
@@ -26,10 +31,33 @@ class StripeTransaction extends Transaction
 
     public $secretKey;
 
+    /**
+     * @var string The string for the label on the "first blue" button which opens the credit card enter dialog.
+     */
+    public $buttonLabel;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->publishableKey === null || $this->secretKey === null) {
+            throw new InvalidConfigException("The publishableKey and secretKey property from Stripe transaction can not be empty.");
+        }
+    }
+
+    /**
+     * Return the Strip Provider object.
+     *
+     * @return StripeProvider
+     */
     public function getProvider()
     {
         return new StripeProvider();
     }
+
     /**
      * Creates the transaction and mostly redirects to the provider afterwards
      */
@@ -43,19 +71,19 @@ class StripeTransaction extends Transaction
         <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="{$this->publishableKey}"
-          data-amount="{$this->getProcess()->getAmount()}"
+          data-amount="{$this->getProcess()->getTotalAmount()}"
           data-locale="auto"
           data-name="LUYA PAYMENT"
           data-description="Payment description"
           data-image="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png"
-          data-label="Jetzt bezahlen"
+          data-label="{$this->buttonLabel}"
           data-zip-code="false">
         </script>
       </form>
 EOT;
 
         $html .= Html::a('Abbrechen und Zurück', $this->getProcess()->getTransactionGatewayAbortLink());
-        return $html;
+        return $this->getContext()->renderContent($html);
     }
     
     /**
@@ -76,7 +104,7 @@ EOT;
         try {
             $three_d_secure = ThreeDSecure::create([
                 'customer' => $customer->id,
-                'amount' => $this->getProcess()->getAmount(),
+                'amount' => $this->getProcess()->getTotalAmount(),
                 'currency' => $this->getProcess()->getCurrency(),
                 'return_url' => $this->getProcess()->getTransactionGatewayAbortLink(),
             ]);
@@ -94,7 +122,7 @@ EOT;
                 'receipt_email' => '',
                 */
                 'customer' => $customer->id,
-                'amount' => $this->getProcess()->getAmount(),
+                'amount' => $this->getProcess()->getTotalAmount(),
                 'currency' => $this->getProcess()->getCurrency(),
             ]);
         } catch (\Exception $e) {

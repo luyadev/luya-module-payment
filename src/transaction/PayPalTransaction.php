@@ -7,7 +7,14 @@ use luya\payment\base\Transaction;
 use luya\payment\base\TransactionInterface;
 use luya\payment\PaymentException;
 use luya\payment\provider\PayPalProvider;
+use yii\base\InvalidConfigException;
 
+/**
+ * PayPal Transaction.
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class PayPalTransaction extends Transaction implements TransactionInterface
 {
     const MODE_LIVE = 'live';
@@ -27,15 +34,23 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public $productDescription;
     
+    /**
+     * {@inheritDoc}
+     */
     public function init()
     {
         parent::init();
         
         if ($this->clientId === null || $this->clientSecret === null) {
-            throw new PaymentException("the paypal clientId and clientSecret properite can not be null!");
+            throw new InvalidConfigException("the paypal clientId and clientSecret properite can not be null!");
         }
     }
     
+    /**
+     * Get the PayPal Provider
+     *
+     * @return PayPalProvider
+     */
     public function getProvider()
     {
         return new PayPalProvider(['mode' => $this->mode]);
@@ -57,9 +72,12 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     private function getFloatAmount()
     {
-        return number_format($this->process->getAmount() / 100, 2);
+        return number_format($this->process->getTotalAmount() / 100, 2);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function create()
     {
         $url = $this->provider->call('create', [
@@ -76,6 +94,9 @@ class PayPalTransaction extends Transaction implements TransactionInterface
         return $this->context->redirect($url);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function back()
     {
         $response = $this->provider->call('execute', [
@@ -94,16 +115,25 @@ class PayPalTransaction extends Transaction implements TransactionInterface
         return $this->context->redirect($this->process->getTransactionGatewayFailLink());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function notify()
     {
         throw new PaymentException('PayPal notify action is not implemented.');
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function fail()
     {
         return $this->context->redirect($this->process->getApplicationErrorLink());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function abort()
     {
         return $this->context->redirect($this->process->getApplicationAbortLink());

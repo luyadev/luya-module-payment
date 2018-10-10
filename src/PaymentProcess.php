@@ -7,9 +7,11 @@ use yii\web\Controller;
 use luya\helpers\Url;
 use luya\Exception;
 use luya\payment\base\TransactionInterface;
+use luya\payment\base\PaymentProcessInterface;
 use luya\payment\PaymentException;
-use luya\payment\models\DataPaymentProcessModel;
+use luya\payment\models\Process;
 use yii\base\BaseObject;
+use luya\payment\models\ProcessItem;
 
 /**
  * Main PaymentProcess class.
@@ -21,12 +23,13 @@ use yii\base\BaseObject;
  * ```php
  * $process = new payment\PaymentProcess([
  *     'orderId' => $orderId,
- *     'amount' => 123123, // in cents
  *     'currency' => 'USD',
  *     'successLink' => ['/mystore/store-checkout/success', 'orderId' => $orderId], // user has paid successfull
  *     'errorLink' => ['/mystore/store-checkout/error', 'orderId' => $orderId], // user got a payment error
  *     'abortLink' => ['/mystore/store-checkout/abort', 'orderId' => $orderId], // user has pushed the back button
  * ]);
+ * 
+ * $process->addItem('My Product', 1', 10000); // which is 100 euros. Amount in cents (smallest currency value), 100 cents = 1 eur
  *
  * $processId = $process->getId();
  * ```
@@ -37,14 +40,15 @@ use yii\base\BaseObject;
  *
  *
  *
- * @property \luya\payment\models\DataPaymentProcessModel $model Get the payment process data model.
- * @property float $amount The amount to pay
+ * @property \luya\payment\models\Process $model Get the payment process data model.
  * @property integer $id Returns the Process ID to store in your E-Store logic.
  *
  * @author Basil Suter <basil@nadar.io>
  */
-final class PaymentProcess extends BaseObject
+final class PaymentProcess extends BaseObject implements PaymentProcessInterface
 {
+    const STATE_PENDING = 0;
+
     const STATE_SUCCESS = 1;
     
     const STATE_ERROR = 2;
@@ -62,8 +66,8 @@ final class PaymentProcess extends BaseObject
     {
         parent::init();
     
-        if (empty($this->amount) || empty($this->orderId) || empty($this->currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
-            throw new PaymentException("amount, orderId, currency, successLink, errorLink and abortLink properties can not be null!");
+        if (empty($this->orderId) || empty($this->currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
+            throw new PaymentException("orderId, currency, successLink, errorLink and abortLink properties can not be null!");
         }
     }
     
@@ -88,35 +92,13 @@ final class PaymentProcess extends BaseObject
         $this->_abortLink = is_array($link) ? Url::toRoute($link, true) : $link;
     }
 
-    private $_amount; // setter and getter
-
-    /**
-     * Payment amount setter method.
-     *
-     * @param integer|string $value
-     * @throws \luya\payment\PaymentException
-     * @return integer|string The validatet amount.
-     */
-    public function setAmount($value)
+    public function getTotalAmount()
     {
-        if ($this->_amount === null) {
-            if (!is_numeric($value)) {
-                throw new PaymentException('The amount must be an numeric value stored without floating point.');
-            }
-            
-            $this->_amount = $value;
+        $amount = 0;
+        foreach ($this->items as $item) {
+            $amount += $item->amount;
         }
-        
-        return $this->_amount;
-    }
-    
-    /**
-     * Getter method for the amount
-     * @return integer|numeric
-     */
-    public function getAmount()
-    {
-        return $this->_amount;
+        return $amount;
     }
     
     /**
@@ -180,9 +162,9 @@ final class PaymentProcess extends BaseObject
     /**
      * Setter method for the Model Object.
      *
-     * @param \luya\payment\models\DataPaymentProcessModel $model The Data Payment ActiveRecord Model.
+     * @param \luya\payment\models\Process $model The Data Payment ActiveRecord Model.
      */
-    public function setModel(DataPaymentProcessModel $model)
+    public function setModel(Process $model)
     {
         $this->_model = $model;
     }
@@ -192,29 +174,67 @@ final class PaymentProcess extends BaseObject
      *
      * When the model is not set via the setter method first, a new Model will be created.
      *
-     * @return \luya\payment\models\DataPaymentProcessModel
+     * @return \luya\payment\models\Process
      */
     public function getModel()
     {
         if ($this->_model === null) {
-            $model = new DataPaymentProcessModel();
+
+            $items = $this->_items;
+
+            if ($items === null) {
+                throw new PaymentException("You have to add at least one process item with addItem().");
+            }
+
+            $model = new Process();
             $model->createTokens($this->orderId);
-            $model->amount = $this->amount;
+            $model->amount = $this->getTotalAmount();
             $model->currency = $this->currency;
             $model->order_id = $this->orderId;
             $model->success_link = $this->getApplicationSuccessLink();
             $model->error_link = $this->getApplicationErrorLink();
             $model->abort_link = $this->getApplicationAbortLink();
+            $model->close_state = self::STATE_PENDING;
             $model->is_closed = 0;
             if ($model->save()) {
+                foreach ($items as $item) {
+                    $item->process_id = $model->id;
+                    $item->save();
+                }
                 $this->_model = $model;
             } else {
-                throw new PaymentException("Unable to save the DataPaymentProcessModel, validation failed during save process.");
+                throw new PaymentException("Unable to save the process model. Validation failed: " . var_export($model->getErrors(), true));
             }
         }
         
         // throw exception
         return $this->_model;
+    }
+
+    private $_items;
+    
+    public function addItem($name, $qty, $amount)
+    {
+        $item = new ProcessItem();
+        $item->name = $name;
+        $item->qty = $qty;
+        $item->amount = $amount;
+
+        if (!$item->validate(['name', 'qty', 'amount'])) {
+            throw new PaymentException("Unable to validate the item model. Validation failed: " . var_export($item->getErrors(), true));
+        }
+
+        $this->_items[] = $item;
+    }
+
+    public function setItems(array $items)
+    {
+        $this->_items = $items;
+    }
+
+    public function getItems()
+    {
+        return $this->_items;
     }
 
     /**
@@ -320,7 +340,9 @@ final class PaymentProcess extends BaseObject
     {
         $this->model->is_closed = 1;
         $this->model->close_state = $state;
-        return $this->model->update(false);
+        $this->model->close_timestamp = time();
+        
+        return $this->model->update(true, ['is_closed', 'close_state', 'close_timestamp']);
     }
     
     // static methods
@@ -334,17 +356,17 @@ final class PaymentProcess extends BaseObject
      */
     public static function findByProcessId($id)
     {
-        $model = DataPaymentProcessModel::find()->where(['id' => $id, 'is_closed' => 0])->one();
+        $model = Process::find()->where(['id' => $id, 'is_closed' => 0])->with(['items'])->one();
         
         if ($model) {
             $object = Yii::createObject([
                 'class' => self::class,
-                'amount' => $model->amount,
                 'orderId' => $model->order_id,
                 'currency' => $model->currency,
                 'successLink' => $model->success_link,
                 'errorLink' => $model->error_link,
                 'abortLink' => $model->abort_link,
+                'items' => $model->items,
             ]);
             $object->setModel($model);
             return $object;
@@ -358,7 +380,7 @@ final class PaymentProcess extends BaseObject
      *
      * This method is used inside the payment controllers and should not be used in your application logic.
      *
-     * @param string $authToken The auth token which is generated while creating the DataPaymentProcessModel.
+     * @param string $authToken The auth token which is generated while creating the Process.
      * @param string $randomKey The random key from the database table.
      * @throws \luya\payment\PaymentException
      * @return \luya\payment\PaymentProcess Returns the PaymentProcess Object itself.
@@ -370,12 +392,12 @@ final class PaymentProcess extends BaseObject
         if ($model) {
             $object = Yii::createObject([
                 'class' => self::class,
-                'amount' => $model->amount,
                 'orderId' => $model->order_id,
                 'currency' => $model->currency,
                 'successLink' => $model->success_link,
                 'errorLink' => $model->error_link,
                 'abortLink' => $model->abort_link,
+                'items' => $model->items,
             ]);
             $object->setModel($model);
             return $object;
@@ -386,7 +408,7 @@ final class PaymentProcess extends BaseObject
     
     private static function findModel($authToken, $randomKey)
     {
-        $model = DataPaymentProcessModel::find()->where(['random_key' => $randomKey, 'is_closed' => 0])->one();
+        $model = Process::find()->where(['random_key' => $randomKey, 'is_closed' => 0])->with(['items'])->one();
         if ($model) {
             $model->auth_token = $authToken;
             if ($model->validateAuthToken()) {

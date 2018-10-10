@@ -5,7 +5,7 @@ namespace luya\payment\tests;
 use Yii;
 use luya\payment\PaymentProcess;
 use luya\payment\tests\data\DummyTransaction;
-use luya\payment\models\DataPaymentProcessModel;
+use luya\payment\models\Process;
 
 class PaymentProcessTest extends BasePaymentTestCase
 {
@@ -18,7 +18,6 @@ class PaymentProcessTest extends BasePaymentTestCase
     public function testPaymentProcessObject()
     {
         $object = new PaymentProcess([
-            'amount' => 100,
             'orderId' => 123,
             'currency' => 'EUR',
             'successLink' => '/success',
@@ -26,6 +25,8 @@ class PaymentProcessTest extends BasePaymentTestCase
             'abortLink' => '/abort'
         ]);
         
+            $object->addItem('Product 1', 1, 100);
+
         /*
         $transaction = $object->getTransaction();
 
@@ -38,7 +39,7 @@ class PaymentProcessTest extends BasePaymentTestCase
         
         $this->assertNotFalse($processId);
         
-        $this->assertInstanceOf('\luya\payment\models\DataPaymentProcessModel', $object->model);
+        $this->assertInstanceOf('\luya\payment\models\Process', $object->model);
         
         $token = $object->model->auth_token;
         
@@ -73,7 +74,6 @@ class PaymentProcessTest extends BasePaymentTestCase
     {
         $this->expectException('luya\payment\PaymentException');
         $object = new PaymentProcess([
-            'amount' => 'a123123',
             'currency' => 'EUR',
             'successLink' => '/success',
             'errorLink' => '/error',
@@ -92,13 +92,13 @@ class PaymentProcessTest extends BasePaymentTestCase
         $_SERVER['SCRIPT_FILENAME'] = '/var/www/luya/envs/dev/public_html/index.php';
 
         $object = new PaymentProcess([
-            'amount' => 100,
             'orderId' => 123,
             'currency' => 'EUR',
             'successLink' => '/success',
             'errorLink' => '/error',
             'abortLink' => '/abort'
         ]);
+        $object->addItem('Product 1', 1, 100);
         
         $this->assertContains('payment-create', $object->getTransactionGatewayCreateLink());
         $this->assertContains('payment-abort', $object->getTransactionGatewayAbortLink());

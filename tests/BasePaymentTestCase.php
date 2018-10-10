@@ -6,8 +6,9 @@ use PHPUnit\Framework\TestCase;
 use luya\Boot;
 use luya\testsuite\cases\WebApplicationTestCase;
 use luya\testsuite\fixtures\ActiveRecordFixture;
-use luya\payment\models\DataPaymentProcessModel;
-use luya\payment\models\DataPaymentProcessTraceModel;
+use luya\payment\models\Process;
+use luya\payment\models\ProcessTrace;
+use luya\payment\models\ProcessItem;
 
 class BasePaymentTestCase extends WebApplicationTestCase
 {
@@ -32,6 +33,8 @@ class BasePaymentTestCase extends WebApplicationTestCase
     }
 
     public $fixtureProcessModel;
+
+    public $fixtureProcessItemModel;
     
     public $fixtureProcessTraceModel;
 
@@ -40,13 +43,17 @@ class BasePaymentTestCase extends WebApplicationTestCase
         parent::afterSetup();
 
         $this->fixtureProcessModel = new ActiveRecordFixture([
-            'modelClass' => DataPaymentProcessModel::class,
+            'modelClass' => Process::class,
             'fixtureData' => [
             ]
         ]);
 
         $this->fixtureProcessTraceModel = new ActiveRecordFixture([
-            'modelClass' => DataPaymentProcessTraceModel::class,
+            'modelClass' => ProcessTrace::class,
+        ]);
+
+        $this->fixtureProcessItemModel = new ActiveRecordFixture([
+            'modelClass' => ProcessItem::class,
         ]);
     }
 

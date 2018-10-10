@@ -16,7 +16,6 @@ class TestController extends \luya\web\Controller
         
         if (YII_ENV_DEV && YII_DEBUG) {
             $process = new PaymentProcess([
-                'amount' => 200, // in cent
                 'orderId' => 'Order-'.uniqid(),
                 'currency' => 'CHF',
                 'successLink' => ['/payment/test/test-success'], // user has paid successfull
@@ -24,6 +23,9 @@ class TestController extends \luya\web\Controller
                 'abortLink' => ['/payment/test/test-abort'], // user has pushed the back button
             ]);
     
+            $process->addItem('Product 1', 1, 200);
+            $process->addItem('Product 2', 2, 400);
+
             Yii::$app->session->set('storeTransactionId', $process->getId());
     
             return $process->dispatch($this);
