@@ -59,7 +59,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
     private function getOrderDescription()
     {
         if (empty($this->productDescription)) {
-            return $this->process->getOrderId();
+            return $this->getModel()->getOrderId();
         }
         
         return $this->productDescription;
@@ -72,7 +72,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     private function getFloatAmount()
     {
-        return number_format($this->process->getTotalAmount() / 100, 2);
+        return number_format($this->getModel()->getTotalAmount() / 100, 2);
     }
     
     /**
@@ -80,15 +80,15 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function create()
     {
-        $url = $this->provider->call('create', [
+        $url = $this->getProvider()->call('create', [
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
-            'orderId' => $this->process->getOrderId(),
+            'orderId' => $this->getModel()->getOrderId(),
             'amount' => $this->getFloatAmount(),
-            'currency' => $this->process->getCurrency(),
+            'currency' => $this->getModel()->getCurrency(),
             'description' => $this->getOrderDescription(),
-            'returnUrl' => $this->process->getTransactionGatewayBackLink(),
-            'cancelUrl' => $this->process->getTransactionGatewayAbortLink(),
+            'returnUrl' => $this->getModel()->getTransactionGatewayBackLink(),
+            'cancelUrl' => $this->getModel()->getTransactionGatewayAbortLink(),
         ]);
         
         return $this->getContext()->redirect($url);
@@ -99,20 +99,20 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function back()
     {
-        $response = $this->provider->call('execute', [
+        $response = $this->getProvider()->call('execute', [
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
             'paymentId' => Yii::$app->request->get('paymentId', false),
             'payerId' => Yii::$app->request->get('PayerID', false),
             'amount' => $this->getFloatAmount(),
-            'currency' => $this->process->getCurrency(),
+            'currency' => $this->getModel()->getCurrency(),
         ]);
         
         if ($response) {
-            return $this->getContext()->redirect($this->process->getApplicationSuccessLink());
+            return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
         }
         
-        return $this->getContext()->redirect($this->process->getTransactionGatewayFailLink());
+        return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
     }
     
     /**
@@ -128,7 +128,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function fail()
     {
-        return $this->getContext()->redirect($this->process->getApplicationErrorLink());
+        return $this->getContext()->redirect($this->getModel()->getApplicationErrorLink());
     }
     
     /**
@@ -136,6 +136,6 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function abort()
     {
-        return $this->getContext()->redirect($this->process->getApplicationAbortLink());
+        return $this->getContext()->redirect($this->getModel()->getApplicationAbortLink());
     }
 }

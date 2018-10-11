@@ -3,7 +3,7 @@
 namespace luya\payment;
 
 use Yii;
-use yii\web\Controller;
+use luya\web\Controller;
 use luya\helpers\Url;
 use luya\Exception;
 use luya\payment\base\TransactionInterface;
@@ -45,7 +45,7 @@ use luya\payment\models\ProcessItem;
  *
  * @author Basil Suter <basil@nadar.io>
  */
-final class PaymentProcess extends BaseObject implements PaymentProcessInterface
+final class PaymentProcess implements PaymentProcessInterface
 {
     const STATE_PENDING = 0;
 
@@ -55,22 +55,14 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
     
     const STATE_ABORT = 3;
     
-    public $orderId;
-    
-    public $currency;
-    
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    protected function checkConfig()
     {
-        parent::init();
-    
-        if (empty($this->orderId) || empty($this->currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
+        if (empty($this->_orderId) || empty($this->_currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
             throw new PaymentException("orderId, currency, successLink, errorLink and abortLink properties can not be null!");
         }
     }
     
+
     private $_successLink;
 
     public function setSuccessLink($link)
@@ -137,6 +129,13 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
         return $this->_abortLink;
     }
     
+    private $_currency;
+
+    public function setCurrency($currency)
+    {
+        return $this->_currency = $currency;
+    }
+
     /**
      * Get the transaction currency
      *
@@ -144,7 +143,14 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
      */
     public function getCurrency()
     {
-        return $this->currency;
+        return $this->_currency;
+    }
+
+    private $_orderId;
+
+    public function setOrderId($orderId)
+    {
+        $this->_orderId = $orderId;
     }
     
     /**
@@ -154,7 +160,7 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
      */
     public function getOrderId()
     {
-        return $this->orderId;
+        return $this->_orderId;
     }
    
     private $_model;
@@ -178,6 +184,7 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
      */
     public function getModel()
     {
+        $this->checkConfig();
         if ($this->_model === null) {
 
             $items = $this->_items;
@@ -252,7 +259,7 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
     /**
      * Dispatch the current controller to the getTransactionGatewayCreat link.
      *
-     * @param \yii\web\Controller $controller The Yii controller object.
+     * @param \luya\web\Controller $controller The context controller object.
      * @throws Exception
      */
     public function dispatch(Controller $controller)
@@ -262,66 +269,6 @@ final class PaymentProcess extends BaseObject implements PaymentProcessInterface
         }
         
         $controller->redirect($this->getTransactionGatewayCreateLink());
-    }
-    
-    /**
-     * Get the Payment Gateway Create link.
-     *
-     * This method is used to retrieve the link for dispatching to the requested url.
-     *
-     * @return string
-     */
-    public function getTransactionGatewayCreateLink()
-    {
-        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
-    }
-    
-    /**
-     * Get the Payment Gateway Back link.
-     *
-     * This method is used to retrieve the link for dispatching to the requested url.
-     *
-     * @return string
-     */
-    public function getTransactionGatewayBackLink()
-    {
-        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
-    }
-    
-    /**
-     * Get the Payment Gateway Fail link.
-     *
-     * This method is used to retrieve the link for dispatching to the requested url.
-     *
-     * @return string
-     */
-    public function getTransactionGatewayFailLink()
-    {
-        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
-    }
-    
-    /**
-     * Get the Payment Gateway Abort link.
-     *
-     * This method is used to retrieve the link for dispatching to the requested url.
-     *
-     * @return string
-     */
-    public function getTransactionGatewayAbortLink()
-    {
-        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
-    }
-    
-    /**
-     * Get the Payment Gateway Notify link.
-     *
-     * This method is used to retrieve the link for dispatching to the requested url.
-     *
-     * @return string
-     */
-    public function getTransactionGatewayNotifyLink()
-    {
-        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->model->auth_token, 'lpKey' => $this->model->random_key], true);
     }
     
     /**

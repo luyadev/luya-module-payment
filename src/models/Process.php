@@ -29,13 +29,13 @@ use luya\payment\PaymentProcess;
  */
 class Process extends NgRestModel
 {
-    const STATE_PENDING = PaymentProcess::STATE_PENDING;
+    const STATE_PENDING = 0;
 
-    const STATE_SUCCESS = PaymentProcess::STATE_SUCCESS;
+    const STATE_SUCCESS = 1;
 
-    const STATE_ABORT = PaymentProcess::STATE_ABORT;
+    const STATE_ERROR = 2;
 
-    const STATE_ERROR = PaymentProcess::STATE_ERROR;
+    const STATE_ABORT = 3;
 
     public $auth_token;
 

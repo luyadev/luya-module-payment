@@ -67,5 +67,7 @@ interface TransactionInterface
      *
      * @return \luya\payment\PaymentProcess
      */
-    public function getProcess();
+    public function getModel();
+
+    public function setModel(PayModel $model);
 }

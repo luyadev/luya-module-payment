@@ -4,13 +4,13 @@ namespace luya\payment\base;
 
 interface PaymentProcessInterface
 {
-    public function getId();
-
     public function getTotalAmount();
 
     public function getOrderId();
 
     public function getCurrency();
+
+    public function getItems();
 
     public function getApplicationSuccessLink();
 

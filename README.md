@@ -14,8 +14,9 @@ This module allows you to integrate payments in a safe and common way. The payme
 
 Currently supported payment providers:
 
-+ [paypal.com](http://paypal.com)
-+ [saferpay.com](http://saferpay.com)
++ [paypal.com](https://paypal.com)
++ [saferpay.com](https://www.saferpay.com)
++ [stripe.com](https://stripe.com)
 
 Create an issue if your payment provider is missing!
 
@@ -39,12 +40,16 @@ configure the payment module in your config
             'class' => \luya\payment\transaction\PayPalTransaction::class,
             'clientId' => 'ClientIdFromPayPalApplication',
             'clientSecret' => 'ClientSecretFromPayPalApplication',
-            'mode' => YII_ENV_PROD ? 'live' : 'sandbox',
             'productDescription' => 'MyOnlineStore Order',
         
             // SaferPay Example
             //'class' => \luya\payment\transaction\SaferPayTransaction::class,
             //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
+
+            // Stripe
+            // 'class' => StripeTransaction::class,
+            // 'publishableKey' => 'pk_test_....',
+            // 'secretKey' => 'sk_test_.....',
         ],
     ],
 ]
@@ -63,70 +68,56 @@ Add a transaction to your estore logic, **save the processId** and dispatch() th
 ```php
 <?php
 
-use luya\payment\PaymentProcess;
+use luya\payment\Pay;
 
 class StoreCheckoutController extends \luya\web\Controller
 {
     public function actionIndex()
     {
-        // The orderId/basketId should be an unique key for each transaction. based on this key the transacton
-        // hash and auth token will be created.
-        $orderId = 'Order-' . uniqid();
+        $orderId = 'order-'.uniqid();
         
-        $process = new PaymentProcess([
-            'orderId' => $orderId,
-            'currency' => 'USD',
-            'successLink' => ['/mystore/store-checkout/success', 'orderId' => $orderId], // user has paid successfull
-            'errorLink' => ['/mystore/store-checkout/error', 'orderId' => $orderId], // user got a payment error
-            'abortLink' => ['/mystore/store-checkout/abort', 'orderId' => $orderId], // user has pushed the back button
-        ]);
-       
-        $process->addItem('Product 1', 1, 100); // amount in cents. 100 Cent = 1 Euro
+        // define the pay object
+        $process = new Pay();
+        $process->setOrderId($orderId);
+        $process->setCurrency('EUR');
+        $process->setSuccessLink(['success', 'orderId' => $orderId]);
+        $process->setErrorLink(['error', 'orderId' => $orderId]);
+        $process->setAbortLink(['abort', 'orderId' => $orderId]);
+        $process->addItem('Product 1', 1, 200);
 
-        // store the id in your estore logic model
-        // $order = new EstoreOrder();
-        // $order->process_id = $process->getId(); // VERY IMPORTANT TO RESTORE THE PROCESS.
-        // $order->order_id = $orderId;
-        // $order->update();
-        
-       return $process->dispatch($this); // where $this is the current controller environment
+        // prepare the order and store the process->getId()
+        // ....
+        $payId = $process->getId();
+        // store this payId in your estore object, where you where also saving the orderId, customer data, customer basket, etc. 
+
+        return $process->dispatch($this);
     }
     
     public function actionSuccess($orderId)
     {
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_SUCCESS);
+        
         // find the order in your estore logic model
         // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success = 0)
-        
-        $process = PaymentProcess::findById($order->process_id);
-        
-        // create order for customer ...
         // ...
-        
-        $process->close(PaymentProcess::STATE_SUCCESS);
     }
     
     public function actionError($orderId)
     {
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ERROR);
+
         // find the order in your estore logic model
         // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
-        
-        $process = PaymentProcess::findById($order->process_id);
-        
-        // display error for payment
-        
-        $process->close(PaymentProcess::STATE_ERROR);
+        // ...
     }
     
     public function actionAbort($orderId)
     {
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ABORT);
+
         // find the order in your estore logic model
         // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
-        
-        $process = PaymentProcess::findById($order->process_id);
-        
-        // redirect the user back to where he can choose another payment.
-        
-        $process->close(PaymentProcess::STATE_ABORT);
+        // ...
     }
 }
 ```

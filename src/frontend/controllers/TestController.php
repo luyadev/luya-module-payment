@@ -7,68 +7,71 @@ use luya\helpers\Url;
 use luya\payment\PaymentProcess;
 use luya\payment\transaction\SaferPayTransaction;
 use luya\payment\transaction\PayPalTransaction;
+use luya\payment\Pay;
 
 class TestController extends \luya\web\Controller
 {
+    public function beforeAction($action)
+    {
+        if (parent::beforeAction($action)) {
+            if (YII_ENV_DEV && YII_DEBUG) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function actionIndex()
     {
-        Yii::$app->session->removeAll();
-        
-        if (YII_ENV_DEV && YII_DEBUG) {
-            $process = new PaymentProcess([
-                'orderId' => 'Order-'.uniqid(),
-                'currency' => 'CHF',
-                'successLink' => ['/payment/test/test-success'], // user has paid successfull
-                'errorLink' => ['/payment/test/test-error'], // user got a payment error
-                'abortLink' => ['/payment/test/test-abort'], // user has pushed the back button
-            ]);
-    
-            $process->addItem('Product 1', 1, 200);
-            $process->addItem('Product 2', 2, 400);
+        Yii::$app->session->remove('storeTransactionId');
 
-            Yii::$app->session->set('storeTransactionId', $process->getId());
-    
-            return $process->dispatch($this);
-        }
+        $process = new Pay();
+        $process->setOrderId('order-'.uniqid());
+        $process->setCurrency('CHF');
+        $process->setSuccessLink(['/payment/test/test-success']);
+        $process->setErrorLink(['/payment/test/test-error']);
+        $process->setAbortLink(['/payment/test/test-abort']);
+        $process->addItem('Product 1', 1, 200);
+        $process->addItem('Product 2', 2, 400);
+
+        // prepare the order and store the process->getId()
+        // ....
+
+        Yii::$app->session->set('storeTransactionId', $process->getId());
+
+        return $process->dispatch($this);
     }
     
     public function actionTestSuccess()
     {
-        if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
-    
-            // create order for customer ...
-            // ...
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_SUCCESS);
 
-            $process->close(PaymentProcess::STATE_SUCCESS);
-    
-            return 'success!';
-        }
+        // create order for customer ...
+        // ...
+
+
+        return 'success!';
     }
     
     public function actionTestError()
     {
-        if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
-    
-            // display error for payment
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ERROR);
+        // display error for payment mark order as failed
+        // ....
 
-            $process->close(PaymentProcess::STATE_ERROR);
-    
-            return 'error!';
-        }
+
+        return 'error!';
     }
     
     public function actionTestAbort()
     {
-        if (YII_ENV_DEV && YII_DEBUG) {
-            $process = PaymentProcess::findByProcessId(Yii::$app->session->get('storeTransactionId', 0));
-    
-            // redirect the user back to where he can choose another payment.
+        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ABORT);
 
-            $process->close(PaymentProcess::STATE_ABORT);
-    
-            return 'abort/stop button!';
-        }
+        // redirect the user back to where he can choose another payment and mark order as aborted/failed.
+        // ...
+
+
+        return 'abort/stop!';
     }
 }

@@ -4,6 +4,7 @@ namespace luya\payment\frontend;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use luya\payment\integrators\DatabaseIntegrator;
 
 /**
  * Payment Module.
@@ -80,5 +81,25 @@ class Module extends \luya\base\Module
     public function setTransaction(array $config)
     {
         $this->_transaction = Yii::createObject($config);
+    }
+
+    private $_integrator;
+
+    public function setIntegrator(array $config)
+    {
+        $this->_integrator = $config;
+    }
+
+    public function getIntegrator()
+    {
+        if ($this->_integrator === null) {
+            $this->_integrator = ['class' => DatabaseIntegrator::class];
+        }
+        
+        if (is_array($this->_integrator)) {
+            $this->_integrator = Yii::createObject($this->_integrator);
+        }
+
+        return $this->_integrator;
     }
 }
