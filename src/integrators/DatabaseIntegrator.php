@@ -2,6 +2,7 @@
 
 namespace luya\payment\integrators;
 
+use Yii;
 use luya\payment\base\IntegratorInterface;
 use luya\payment\base\PayModel;
 use luya\payment\models\Process;
@@ -13,7 +14,6 @@ class DatabaseIntegrator implements IntegratorInterface
     public function createModel(PayModel $model)
     {
         $process = new Process();
-        $process->createTokens($model->orderId);
         $process->amount = $model->totalAmount;
         $process->currency = $model->currency;
         $process->order_id = $model->orderId;
@@ -22,20 +22,19 @@ class DatabaseIntegrator implements IntegratorInterface
         $process->abort_link = $model->abortLink;
         $process->close_state = Process::STATE_PENDING;
         $process->is_closed = $model->isClosed;
+        $items = [];
+        foreach ($model->items as $item) {
+            $items[] = [
+                'qty' => $item->qty,
+                'name' => $item->name,
+                'amount' => $item->amount,
+            ];
+        }
+        $process->items = $items;
         if ($process->save()) {
-
-            foreach ($model->items as $item) {
-                $itemModel = new ProcessItem();
-                $itemModel->process_id = $process->id;
-                $itemModel->qty = $item->qty;
-                $itemModel->amount = $item->amount;
-                $itemModel->name = $item->name;
-                $itemModel->save();
-            }
-
-            $model->id = $process->id;
-            $model->authToken = $process->auth_token;
-            $model->randomKey = $process->random_key;
+            $model->setId($process->id);
+            $model->setAuthToken($process->auth_token);
+            $model->setRandomKey($process->random_key);
             return $model;
         }
 

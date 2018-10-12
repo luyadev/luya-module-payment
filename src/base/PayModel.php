@@ -28,6 +28,21 @@ class PayModel extends Model
         ];
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function setAuthToken($token)
+    {
+        $this->authToken = $token;
+    }
+
+    public function setRandomKey($key)
+    {
+        $this->randomKey = $key;
+    }
+
     public function getTotalAmount()
     {
         return $this->totalAmount;

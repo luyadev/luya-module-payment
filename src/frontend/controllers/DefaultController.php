@@ -106,10 +106,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionNotify($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByKey($lpKey, $lpToken);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
         return $this->module->transaction->notify();

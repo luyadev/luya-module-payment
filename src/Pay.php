@@ -2,6 +2,7 @@
 
 namespace luya\payment;
 
+use Yii;
 use luya\helpers\Url;
 use luya\web\Controller;
 use luya\payment\frontend\Module;
@@ -9,6 +10,12 @@ use luya\payment\base\PayModel;
 use luya\payment\models\ProcessItem;
 use luya\payment\base\PayItemModel; // Rename to PayArticle?
 
+/**
+ * Create new Payment.
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class Pay
 {
     const STATE_PENDING = 0;
@@ -107,6 +114,13 @@ class Pay
         throw new PaymentException("Error while creating the pay model by the integratort.");
     }
 
+    /**
+     * Get the current payment pay model id. 
+     * 
+     * You can store this information in the estore logic of your project.
+     *
+     * @return integer The id from the pay process.
+     */
     public function getId()
     {
         return $this->getCreateModel()->id;
@@ -127,6 +141,12 @@ class Pay
         $controller->redirect($this->getCreateModel()->getTransactionGatewayCreateLink());
     }
 
+    /**
+     * Find the model by an id.
+     *
+     * @param integer $id
+     * @return PayModel
+     */
     public static function findById($id)
     {
         $integrator = Module::getInstance()->getIntegrator();
@@ -135,6 +155,13 @@ class Pay
         return $model;
     }
 
+    /**
+     * Close the current payment for a given id with a state message (success, error, abort).
+     *
+     * @param integer $id
+     * @param integer $state
+     * @return PayModel
+     */
     public static function close($id, $state)
     {
         $model = self::findById($id);

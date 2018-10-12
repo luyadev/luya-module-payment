@@ -66,12 +66,38 @@ class Process extends NgRestModel
         parent::init();
 
         $this->on(self::EVENT_BEFORE_VALIDATE, function($event) {
-            if ($this->isNewRecord) {
-                $this->create_timestamp = time();
-            }
+
             // ensure order_id is a string value even  when its a number ohter whise validation would fail.
             $this->order_id = (string) $this->order_id;
+
+            if ($this->isNewRecord) {
+                $this->create_timestamp = time();
+                $this->createTokens();
+            }
         });
+
+        //$this->on(self::EVENT_AFTER_INSERT, [$this, 'saveItems']);
+    }
+
+    private $_items;
+
+    public function setItems(array $items)
+    {
+        $this->_items = $items;
+    }
+
+    public function saveItems()
+    {
+        /*
+        foreach ($this->_items as $item) {
+            $itemModel = new ProcessItem();
+            $itemModel->process_id = $this->id;
+            $itemModel->qty = $item['qty'];
+            $itemModel->amount = $item['amount'];
+            $itemModel->name = $item['name'];
+            $itemModel->save();
+        }
+        */
     }
 
     /**
@@ -112,6 +138,7 @@ class Process extends NgRestModel
             [['success_link', 'error_link', 'abort_link'], 'string', 'max' => 255],
             [['hash'], 'unique'],
             [['random_key'], 'unique'],
+            [['items'], 'safe'],
         ];
     }
 
@@ -134,6 +161,13 @@ class Process extends NgRestModel
             'is_closed' => ['toggleStatus', 'interactive' => false],
             'create_timestamp' => 'datetime',
         ];
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['auth_token'] = 'auth_token';
+        return $fields;
     }
 
     /**
@@ -211,8 +245,10 @@ class Process extends NgRestModel
      * @param [type] $inputKey
      * @return void
      */
-    public function createTokens($inputKey)
+    public function createTokens()
     {
+        $inputKey = $this->order_id;
+
         $security = Yii::$app->security;
         
         // random string
