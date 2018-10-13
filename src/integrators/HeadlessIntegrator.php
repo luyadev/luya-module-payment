@@ -77,7 +77,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
             return false;
         }
 
-        return $this->createPayModel($api);
+        $model = self::createPayModel($api);
+        $model->setAuthToken($token);
+        return $model;
     }
 
     public function findById($id)
@@ -88,7 +90,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
             return false;
         }
 
-        return $this->createPayModel($api);
+        return self::createPayModel($api);
     }
 
     public function closeModel(PayModel $model, $state)
@@ -115,7 +117,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
 
     // internal
 
-    private function createPayModel(ApiPaymentProcess $process)
+    private static function createPayModel(ApiPaymentProcess $process)
     {
         $model = new PayModel();
         $model->orderId = $process->order_id;
@@ -126,7 +128,6 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $model->errorLink = $process->error_link;
         $model->successLink = $process->success_link;
         $model->abortLink = $process->abort_link;
-        $model->authToken = $process->auth_token;
         $model->items = $process->items;
         if ($model->validate()) {
             return $model;

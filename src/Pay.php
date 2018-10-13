@@ -123,7 +123,17 @@ class Pay
      */
     public function getId()
     {
-        return $this->getCreateModel()->id;
+        return $this->getCreateModel()->getid();
+    }
+
+    public function getRandomKey()
+    {
+        return $this->getCreateModel()->getRandomKey();
+    }
+
+    public function getAuthToken()
+    {
+        return $this->getCreateModel()->getAuthToken();
     }
     
     /**

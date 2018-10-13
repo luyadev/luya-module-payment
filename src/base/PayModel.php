@@ -4,6 +4,7 @@ namespace luya\payment\base;
 
 use luya\helpers\url;
 use yii\base\Model;
+use luya\payment\PaymentException;
 
 class PayModel extends Model
 {
@@ -33,9 +34,23 @@ class PayModel extends Model
         $this->id = $id;
     }
 
+    public function getAuthToken()
+    {
+        if (empty($this->authToken)) {
+            throw new PaymentException("The auth token is empty as it wont be stored in the database and is only available during creation or retrieving from action arguments.");
+        }
+
+        return $this->authToken;
+    }
+
     public function setAuthToken($token)
     {
         $this->authToken = $token;
+    }
+
+    public function getRandomKey()
+    {
+        return $this->randomKey;
     }
 
     public function setRandomKey($key)
@@ -87,7 +102,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayCreateLink()
     {
-        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->authToken, 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
     }
     
     /**
@@ -99,7 +114,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayBackLink()
     {
-        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->authToken, 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
     }
     
     /**
@@ -111,7 +126,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayFailLink()
     {
-        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->authToken, 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
     }
     
     /**
@@ -123,7 +138,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayAbortLink()
     {
-        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->authToken, 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
     }
     
     /**
@@ -135,6 +150,6 @@ class PayModel extends Model
      */
     public function getTransactionGatewayNotifyLink()
     {
-        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->authToken, 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
     }
 }
