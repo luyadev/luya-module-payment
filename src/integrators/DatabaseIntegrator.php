@@ -31,7 +31,7 @@ class DatabaseIntegrator implements IntegratorInterface
             ];
         }
         $process->items = $items;
-        if ($process->save()) {
+        if ($process->insert()) {
             $model->setId($process->id);
             $model->setAuthToken($process->auth_token);
             $model->setRandomKey($process->random_key);

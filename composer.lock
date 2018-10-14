@@ -600,12 +600,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "6f0c879f41c1e1c3d2814ab47b4668f31c444665"
+                "reference": "8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/6f0c879f41c1e1c3d2814ab47b4668f31c444665",
-                "reference": "6f0c879f41c1e1c3d2814ab47b4668f31c444665",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04",
+                "reference": "8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04",
                 "shasum": ""
             },
             "require": {
@@ -666,7 +666,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-12T07:06:40+00:00"
+            "time": "2018-10-13T20:58:48+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -1348,12 +1348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-testsuite.git",
-                "reference": "9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf"
+                "reference": "3356974e923a998020d6017ebc584e26a9a8371f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf",
-                "reference": "9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf",
+                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/3356974e923a998020d6017ebc584e26a9a8371f",
+                "reference": "3356974e923a998020d6017ebc584e26a9a8371f",
                 "shasum": ""
             },
             "require": {
@@ -1388,7 +1388,7 @@
                 "module",
                 "php"
             ],
-            "time": "2018-10-09T13:41:27+00:00"
+            "time": "2018-10-14T09:08:47+00:00"
         },
         {
             "name": "myclabs/deep-copy",

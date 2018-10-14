@@ -76,7 +76,7 @@ class Process extends NgRestModel
             }
         });
 
-        //$this->on(self::EVENT_AFTER_INSERT, [$this, 'saveItems']);
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'saveItems']);
     }
 
     private $_items;
@@ -88,7 +88,6 @@ class Process extends NgRestModel
 
     public function saveItems()
     {
-        /*
         foreach ($this->_items as $item) {
             $itemModel = new ProcessItem();
             $itemModel->process_id = $this->id;
@@ -97,7 +96,6 @@ class Process extends NgRestModel
             $itemModel->name = $item['name'];
             $itemModel->save();
         }
-        */
     }
 
     /**

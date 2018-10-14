@@ -102,7 +102,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayCreateLink()
     {
-        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/create', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
     
     /**
@@ -114,7 +114,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayBackLink()
     {
-        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/back', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
     
     /**
@@ -126,7 +126,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayFailLink()
     {
-        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
     
     /**
@@ -138,7 +138,7 @@ class PayModel extends Model
      */
     public function getTransactionGatewayAbortLink()
     {
-        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
     
     /**
@@ -150,6 +150,6 @@ class PayModel extends Model
      */
     public function getTransactionGatewayNotifyLink()
     {
-        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey], true);
+        return Url::toInternal(['/payment/default/notify', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
 }

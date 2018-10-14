@@ -108,6 +108,7 @@ class Pay
 
         $integrator = Module::getInstance()->getIntegrator();
         if ($integrator->createModel($model)) {
+            Yii::warning("model created with id: " . $model->getId());
             return $this->_model = $model;
         }
 
@@ -123,7 +124,7 @@ class Pay
      */
     public function getId()
     {
-        return $this->getCreateModel()->getid();
+        return $this->getCreateModel()->getId();
     }
 
     public function getRandomKey()
@@ -144,11 +145,9 @@ class Pay
      */
     public function dispatch(Controller $controller)
     {
-        if (empty($this->getId())) {
-            throw new PaymentException("Could not dispatch the controller to the requested url as the model object is empty or contains an error.");
-        }
+        $url = $this->getCreateModel()->getTransactionGatewayCreateLink();
         
-        $controller->redirect($this->getCreateModel()->getTransactionGatewayCreateLink());
+        return $controller->redirect($url);
     }
 
     /**

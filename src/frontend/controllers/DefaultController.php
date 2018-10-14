@@ -4,6 +4,7 @@ namespace luya\payment\frontend\controllers;
 
 use luya\payment\PaymentProcess;
 use luya\payment\Pay;
+use yii\filters\HttpCache;
 
 /**
  * Default Payment Controller.
@@ -16,6 +17,24 @@ use luya\payment\Pay;
  */
 class DefaultController extends \luya\web\Controller
 {
+    /**
+     * Disable cache
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        
+        $behaviors[] = [
+            'class' => HttpCache::class,
+            'cacheControlHeader' => 'no-store, no-cache',
+            'lastModified' => function ($action, $params) {
+                return time();
+            },
+        ];
+        
+        return $behaviors;
+    }
+
     /**
      * Create new payment
      *

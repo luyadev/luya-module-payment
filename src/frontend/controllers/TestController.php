@@ -8,9 +8,28 @@ use luya\payment\PaymentProcess;
 use luya\payment\transaction\SaferPayTransaction;
 use luya\payment\transaction\PayPalTransaction;
 use luya\payment\Pay;
+use yii\filters\HttpCache;
 
 class TestController extends \luya\web\Controller
 {
+    /**
+     * Disable cache
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        
+        $behaviors[] = [
+            'class' => HttpCache::class,
+            'cacheControlHeader' => 'no-store, no-cache',
+            'lastModified' => function ($action, $params) {
+                return time();
+            },
+        ];
+        
+        return $behaviors;
+    }
+
     public function beforeAction($action)
     {
         if (parent::beforeAction($action)) {
