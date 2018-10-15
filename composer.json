@@ -17,8 +17,8 @@
     },
     "require" : {
         "luyadev/luya-core" : "~1.0.0",
-        "luyadev/luya-module-admin" : "dev-master",
-        "luyadev/luya-headless" : "^1.0@RC",
+        "luyadev/luya-module-admin" : "^1.0@dev",
+        "luyadev/luya-headless" : "^1.0@dev",
         "stripe/stripe-php": "^6.19",
         "paypal/rest-api-sdk-php" : "~1.7.0"
     },

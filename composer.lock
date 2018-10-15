@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0339b025441e1f11c057989f01ad4629",
+    "content-hash": "3785acf524f6a2ea5f513706fc32c1a2",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -542,7 +542,7 @@
         },
         {
             "name": "luyadev/luya-headless",
-            "version": "1.0.0-rc4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-headless.git",
@@ -3339,7 +3339,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "luyadev/luya-module-admin": 20,
-        "luyadev/luya-headless": 5
+        "luyadev/luya-headless": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
