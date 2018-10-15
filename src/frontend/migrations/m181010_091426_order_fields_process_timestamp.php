@@ -24,6 +24,9 @@ class m181010_091426_order_fields_process_timestamp extends Migration
             'name' => $this->string()->notNull(),
             'qty' => $this->integer(),
             'amount' => $this->integer(),
+            'total_amount' => $this->integer(),
+            'is_tax' => $this->boolean()->default(false),
+            'is_shipping' => $this->boolean()->default(false),
         ]);
 
         $this->createIndex('process_id', 'payment_process_item', ['process_id']);

@@ -26,6 +26,13 @@ class Pay
     
     const STATE_ABORT = 3;
 
+    private $_totalAmount;
+
+    public function setTotalAmount($amount)
+    {
+        $this->_totalAmount = $amount;
+    }
+
     private $_orderId;
 
     public function setOrderId($orderId)
@@ -65,12 +72,29 @@ class Pay
 
     public function addItem($name, $qty, $amount)
     {
+        $this->internalAddItem($name, $qty, $amount, false, false);
+    }
+
+    public function addShipping($name, $amount)
+    {
+        $this->internalAddItem($name, 1, $amount, false, true);
+    }
+
+    public function addTax($name, $amount)
+    {
+        $this->internalAddItem($name, 1, $amount, true, false);
+    }
+
+    private function internalAddItem($name, $qty, $amount, $isTax, $isShipping)
+    {
         $item = new PayItemModel();
         $item->name = $name;
         $item->qty = $qty;
         $item->amount = $amount;
+        $item->is_tax = $isTax;
+        $item->is_shipping = $isShipping;
 
-        if (!$item->validate(['name', 'qty', 'amount'])) {
+        if (!$item->validate(['name', 'qty', 'amount', 'is_tax', 'is_shipping'])) {
             throw new PaymentException("Unable to validate the item model. Validation failed: " . var_export($item->getErrors(), true));
         }
 
@@ -85,12 +109,16 @@ class Pay
             return $this->_model;
         }
 
-        if (empty($this->_orderId) || empty($this->_currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
-            throw new PaymentException("orderId, currency, successLink, errorLink and abortLink properties can not be null!");
+        if (empty($this->_orderId) || empty($this->_totalAmount) || empty($this->_currency) || is_null($this->_successLink) || is_null($this->_errorLink) || is_null($this->_abortLink)) {
+            throw new PaymentException("orderId, totalAmount, currency, successLink, errorLink and abortLink properties can not be null!");
         }
         $amount = 0;
         foreach ($this->_items as $item) {
-            $amount += $item->amount;
+            $amount += $item->getTotalAmount();
+        }
+
+        if ($this->_totalAmount !== $amount) {
+            throw new PaymentException("The amount provided trough items,shipping and tax must be equal the provided totalAmount.");
         }
 
         $model = new PayModel();

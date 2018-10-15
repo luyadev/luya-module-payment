@@ -43,6 +43,9 @@ class ApiPaymentProcess extends ActiveEndpoint
                 'qty' => $item->qty,
                 'name' => $item->name,
                 'amount' => $item->amount,
+                'is_shipping' => $item->is_shipping,
+                'is_tax' => $item->is_tax,
+                'total_amount' => $item->getTotalAmount(),
             ];
         }
     }

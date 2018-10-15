@@ -63,7 +63,7 @@ execute database command
 
 Add a transaction to your estore logic, **save the processId** and dispatch() the payment, which will redirect to the payment gatway.
 
-> Make sure to store the `$process->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
+> Make sure to store the `$pay->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
 
 ```php
 <?php
@@ -77,20 +77,23 @@ class StoreCheckoutController extends \luya\web\Controller
         $orderId = 'order-'.uniqid();
         
         // define the pay object
-        $process = new Pay();
-        $process->setOrderId($orderId);
-        $process->setCurrency('EUR');
-        $process->setSuccessLink(['success', 'orderId' => $orderId]);
-        $process->setErrorLink(['error', 'orderId' => $orderId]);
-        $process->setAbortLink(['abort', 'orderId' => $orderId]);
-        $process->addItem('Product A', 2, 200); // buying Product A for 2x each 200 cents which is a total amount of 400 cents (the charged value).
+        $pay = new Pay();
+        $pay->setOrderId($orderId);
+        $pay->setCurrency('EUR');
+        $pay->setSuccessLink(['success', 'orderId' => $orderId]);
+        $pay->setErrorLink(['error', 'orderId' => $orderId]);
+        $pay->setAbortLink(['abort', 'orderId' => $orderId]);
+
+        $pay->addItem('Product A', 2, 200); // buying Product A for 2x each 200 cents which is a total amount of 400 cents (the charged value).
+        $pay->addTax('VAT 8%', 16);
+        $pay->totalAmount(416);
 
         // prepare the order and store the process->getId()
         // ....
-        $payId = $process->getId();
+        $payId = $pay->getId();
         // store this payId in your estore object, where you where also saving the orderId, customer data, customer basket, etc. 
 
-        return $process->dispatch($this);
+        return $pay->dispatch($this);
     }
     
     public function actionSuccess($orderId)

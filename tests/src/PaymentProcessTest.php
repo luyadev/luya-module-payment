@@ -34,8 +34,9 @@ class PaymentProcessTest extends BasePaymentTestCase
         $object->setSuccessLink(['/success']);
         $object->setErrorLink(['/error']);
         $object->setAbortLink(['/abort']);
-        
-        $object->addItem('Product 1', 1, 100);
+        $object->setTotalAmount(200);
+
+        $object->addItem('Product 1', 2, 100);
 
         /*
         $transaction = $object->getTransaction();
@@ -106,6 +107,7 @@ class PaymentProcessTest extends BasePaymentTestCase
         $object->setErrorLink(['/error']);
         $object->setAbortLink(['/abort']);
         $object->addItem('Product 1', 1, 100);
+        $object->setTotalAmount(100);
 
         $token = $object->getAuthToken();
         $key = $object->getRandomKey();

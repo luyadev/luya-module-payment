@@ -15,6 +15,9 @@ use luya\admin\ngrest\base\NgRestModel;
  * @property string $name
  * @property integer $qty
  * @property integer $amount
+ * @property integer $total_amount
+ * @property boolean $is_tax
+ * @property boolean $is_shipping
  */
 class ProcessItem extends NgRestModel
 {
@@ -55,7 +58,7 @@ class ProcessItem extends NgRestModel
     {
         return [
             [['process_id', 'name'], 'required'],
-            [['process_id', 'qty', 'amount'], 'integer'],
+            [['process_id', 'qty', 'amount', 'is_shipping', 'is_tax', 'total_amount'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -70,6 +73,9 @@ class ProcessItem extends NgRestModel
             'name' => 'text',
             'qty' => 'number',
             'amount' => 'number',
+            'total_amount' => 'number',
+            'is_shipping' => 'toggleStatus',
+            'is_tax' => 'toggleStatus',
         ];
     }
 
@@ -79,7 +85,7 @@ class ProcessItem extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['name', 'qty', 'amount']],
+            ['list', ['name', 'qty', 'amount', 'total_amount', 'is_shipping', 'is_tax']],
         ];
     }
 }

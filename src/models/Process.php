@@ -94,6 +94,9 @@ class Process extends NgRestModel
             $itemModel->qty = $item['qty'];
             $itemModel->amount = $item['amount'];
             $itemModel->name = $item['name'];
+            $itemModel->total_amount = $item['total_amount'];
+            $itemModel->is_shipping = $item['is_shipping'];
+            $itemModel->is_tax = $item['is_tax'];
             $itemModel->save();
         }
     }
