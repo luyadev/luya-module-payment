@@ -83,7 +83,7 @@ class StoreCheckoutController extends \luya\web\Controller
         $process->setSuccessLink(['success', 'orderId' => $orderId]);
         $process->setErrorLink(['error', 'orderId' => $orderId]);
         $process->setAbortLink(['abort', 'orderId' => $orderId]);
-        $process->addItem('Product 1', 1, 200);
+        $process->addItem('Product A', 2, 200); // buying Product A for 2x each 200 cents which is a total amount of 400 cents (the charged value).
 
         // prepare the order and store the process->getId()
         // ....
@@ -95,28 +95,28 @@ class StoreCheckoutController extends \luya\web\Controller
     
     public function actionSuccess($orderId)
     {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_SUCCESS);
-        
-        // find the order in your estore logic model
-        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success = 0)
-        // ...
-    }
-    
-    public function actionError($orderId)
-    {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ERROR);
+        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
+        $payId = null; // restore the pay id from your estore logic
+        $id = Pay::close($payId, Pay::STATE_SUCCESS);
 
-        // find the order in your estore logic model
-        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
         // ...
     }
     
     public function actionAbort($orderId)
     {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ABORT);
+        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
+        $payId = null; // restore the pay id from your estore logic
+        $id = Pay::close($payId, Pay::STATE_ABORT);
 
-        // find the order in your estore logic model
-        // $order = new EstoreOrder::findOne(['orderId' => $orderId]); // make sure you have a flag which ensures the state of the order (success != 1)
+        // ...
+    }
+
+    public function actionError($orderId)
+    {
+        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
+        $payId = null; // restore the pay id from your estore logic
+        $id = Pay::close($payId, Pay::STATE_ERROR);
+
         // ...
     }
 }

@@ -6,3 +6,4 @@
 + Run the migrate command `./luya migrate`.
 + Change the payment module class in the config from `luya\payment\Module` to `luya\payment\frontend\Module`.
 + Register the amount trough `addItem()`, the amount will be teh addition of all items.
++ Renamed `luya\payment\PaymentProcess` to `luya\payment\Pay`.
