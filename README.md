@@ -33,6 +33,7 @@ configure the payment module in your config
 
 ```php
 'modules' => [
+    'paymentadmin' => 'luya\payment\admin\Module',
     'payment' => [
         'class' => 'luya\payment\frontend\Module',
         'transaction' => 

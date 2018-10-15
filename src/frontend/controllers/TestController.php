@@ -53,6 +53,7 @@ class TestController extends \luya\web\Controller
         $process->setAbortLink(['/payment/test/test-abort']);
         $process->addItem('Product 1', 1, 200);
         $process->addItem('Product 2', 2, 400);
+        $process->setTotalAmount(1000);
 
         // prepare the order and store the process->getId()
         // ....
