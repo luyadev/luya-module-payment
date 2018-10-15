@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bf03a2892ddbd95586d53582e0430e0",
+    "content-hash": "0339b025441e1f11c057989f01ad4629",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -542,16 +542,16 @@
         },
         {
             "name": "luyadev/luya-headless",
-            "version": "dev-master",
+            "version": "1.0.0-rc4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-headless.git",
-                "reference": "6dcb46268395ca0ab14393f992ae1d0306aa7a6c"
+                "reference": "d1c09869aa77f7814a5f34bd68efb64a35568492"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/6dcb46268395ca0ab14393f992ae1d0306aa7a6c",
-                "reference": "6dcb46268395ca0ab14393f992ae1d0306aa7a6c",
+                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/d1c09869aa77f7814a5f34bd68efb64a35568492",
+                "reference": "d1c09869aa77f7814a5f34bd68efb64a35568492",
                 "shasum": ""
             },
             "require": {
@@ -592,7 +592,7 @@
                 "php",
                 "yii2"
             ],
-            "time": "2018-10-12T11:55:31+00:00"
+            "time": "2018-10-15T10:57:07+00:00"
         },
         {
             "name": "luyadev/luya-module-admin",
@@ -600,12 +600,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04"
+                "reference": "e60886b61f42fa9b1bcfcd24813a2397078aa5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04",
-                "reference": "8fd8b74e168f9dec1b126ccfcfcb6a319e19ad04",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/e60886b61f42fa9b1bcfcd24813a2397078aa5b1",
+                "reference": "e60886b61f42fa9b1bcfcd24813a2397078aa5b1",
                 "shasum": ""
             },
             "require": {
@@ -666,7 +666,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-13T20:58:48+00:00"
+            "time": "2018-10-15T11:03:48+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -3339,7 +3339,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "luyadev/luya-module-admin": 20,
-        "luyadev/luya-headless": 20
+        "luyadev/luya-headless": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
