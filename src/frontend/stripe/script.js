@@ -75,9 +75,8 @@ function stripeSourceHandler(token) {
         hiddenThreeD.setAttribute('type', 'hidden');
         hiddenThreeD.setAttribute('name', 'threeDSecure');
         hiddenThreeD.setAttribute('value', 1);
+        form.appendChild(hiddenThreeD);
     }
-
-    form.appendChild(hiddenThreeD);
 
     // Submit the form
     form.submit();
