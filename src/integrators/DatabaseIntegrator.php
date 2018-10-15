@@ -49,8 +49,8 @@ class DatabaseIntegrator implements IntegratorInterface
             return false;
         }
 
-        if (self::validateProcess($model, $token)) {
-            $model = self::createPayModel($model);
+        if ($this->validateProcess($model, $token)) {
+            $model = $this->createPayModel($model);
             $model->setAuthToken($token);
             return $model;
         }
@@ -89,14 +89,14 @@ class DatabaseIntegrator implements IntegratorInterface
 
     /* internal methods */
 
-    private static function validateProcess(Process $process, $token)
+    private function validateProcess(Process $process, $token)
     {
         $process->auth_token = $token;
 
         return $process->validateAuthToken();
     }
 
-    private static function createPayModel(Process $process)
+    private function createPayModel(Process $process)
     {
         $model = new PayModel();
         $model->orderId = $process->order_id;

@@ -49,7 +49,8 @@ class PaymentProcessTest extends BasePaymentTestCase
         
         $this->assertNotFalse($processId);
         
-        $model = DatabaseIntegrator::findByKey($object->getRandomKey(), $object->getAuthToken());
+        $int = $this->app->getModule('payment')->getIntegrator();
+        $model = $int->findByKey($object->getRandomKey(), $object->getAuthToken());
         $this->assertInstanceOf('\luya\payment\base\PayModel', $model);
         
         $token = $model->getAuthToken();
@@ -68,7 +69,7 @@ class PaymentProcessTest extends BasePaymentTestCase
 
         // find payment by token:
 
-        $object3 = DatabaseIntegrator::findByKey($randomKey, $token);
+        $object3 = $int->findByKey($randomKey, $token);
         
         $this->assertInstanceOf('\luya\payment\base\PayModel', $object3);
         $this->assertSame($processId, $object3->getId());
@@ -109,7 +110,8 @@ class PaymentProcessTest extends BasePaymentTestCase
         $token = $object->getAuthToken();
         $key = $object->getRandomKey();
 
-        $model = DatabaseIntegrator::findByKey($key, $token);
+        $int = $this->app->getModule('payment')->getIntegrator();
+        $model = $int->findByKey($key, $token);
 
         $this->assertContains('payment-create', $model->getTransactionGatewayCreateLink());
         $this->assertContains('payment-abort', $model->getTransactionGatewayAbortLink());
