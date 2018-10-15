@@ -76,14 +76,14 @@ class StripeTransaction extends Transaction
             if ($is3d) {
                 // SOurce\Create:
                 $source = Source::create([
-                    'amount' => $this->getProcess()->getTotalAmount(),
-                    'currency' => $this->getProcess()->getCurrency(),
+                    'amount' => $this->getModel()->getTotalAmount(),
+                    'currency' => $this->getModel()->getCurrency(),
                     'type' => "three_d_secure",
                     "three_d_secure" => array(
                         "card" => $token,
                     ),
                     "redirect" => array(
-                        "return_url" => $this->getProcess()->getTransactionGatewayBackLink()
+                        "return_url" => $this->getModel()->getTransactionGatewayBackLink()
                     ),
                 ]);
 
@@ -95,26 +95,26 @@ class StripeTransaction extends Transaction
 
             try {
                 $charge = Charge::create([
-                    'amount' => $this->getProcess()->getTotalAmount(),
-                    'currency' => $this->getProcess()->getCurrency(),
+                    'amount' => $this->getModel()->getTotalAmount(),
+                    'currency' => $this->getModel()->getCurrency(),
                     'source' => $token,
                 ]);
             } catch (\Exception $e) {
-                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+                return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
             }
 
             if ($charge) {
-                return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
+                return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
             }
             
-            return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+            return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
         }
 
         $html = Yii::$app->view->render('@payment/stripe/transaction', [
             'csrf' => Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken),
-            'url' => $this->getProcess()->getTransactionGatewayCreateLink(),
+            'url' => $this->getModel()->getTransactionGatewayCreateLink(),
             'publishableKey' => $this->publishableKey,
-            'abortLink' => $this->getProcess()->getTransactionGatewayAbortLink()
+            'abortLink' => $this->getModel()->getTransactionGatewayAbortLink()
         ]);
 
         return $html;
@@ -137,20 +137,20 @@ class StripeTransaction extends Transaction
             Stripe::setApiKey($this->secretKey);
             try {
                 $charge = Charge::create([
-                    'amount' => $this->getProcess()->getTotalAmount(),
-                    'currency' => $this->getProcess()->getCurrency(),
+                    'amount' => $this->getModel()->getTotalAmount(),
+                    'currency' => $this->getModel()->getCurrency(),
                     'source' => $sourceTokenId,
                 ]);
             } catch (\Exception $e) {
-                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+                return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
             }
 
             if (!$charge) {
-                return $this->getContext()->redirect($this->getProcess()->getTransactionGatewayFailLink());
+                return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
             }
         }
 
-        return $this->getContext()->redirect($this->getProcess()->getApplicationSuccessLink());
+        return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
     }
     
     /**
@@ -166,7 +166,7 @@ class StripeTransaction extends Transaction
      */
     public function fail()
     {
-        return $this->getContext()->redirect($this->getProcess()->getApplicationErrorLink());
+        return $this->getContext()->redirect($this->getModel()->getApplicationErrorLink());
     }
     
     /**
@@ -174,6 +174,6 @@ class StripeTransaction extends Transaction
      */
     public function abort()
     {
-        return $this->getContext()->redirect($this->getProcess()->getApplicationAbortLink());
+        return $this->getContext()->redirect($this->getModel()->getApplicationAbortLink());
     }
 }

@@ -15,26 +15,21 @@ use yii\base\BaseObject;
  */
 abstract class Transaction extends BaseObject implements TransactionInterface
 {
-    private $_process = null;
+    private $_model;
     
     /**
      * Setter method for payment process.
      *
      * @param PaymentProcess $process
      */
-    public function setProcess(PaymentProcess $process)
+    public function setModel(PayModel $model)
     {
-        $this->_process = $process;
+        $this->_model = $model;
     }
     
-    /**
-     * Get the current payment process
-     *
-     * @return PaymentProcess
-     */
-    public function getProcess()
+    public function getModel()
     {
-        return $this->_process;
+        return $this->_model;
     }
     
     private $_context = null;

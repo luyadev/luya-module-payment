@@ -2,7 +2,7 @@
     "name" : "luyadev/luya-module-payment",
     "description" : "LUYA Payment allows you to integrate payments in a safe and fast way. The module take care of all the provider required steps (call, create, success, abort, etc.) and provides all the informations for your store.",
     "type" : "luya-module",
-    "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal", "luya-module"],
+    "keywords" : ["php", "luya", "module", "yii2", "payment", "estore", "saferpay", "paypal", "luya-module", "stripe"],
     "license": "MIT",
     "homepage" : "https://luya.io",
     "authors" : [
@@ -16,13 +16,14 @@
         "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "require" : {
-        "paypal/rest-api-sdk-php" : "~1.7.0",
         "luyadev/luya-core" : "~1.0.0",
         "luyadev/luya-module-admin" : "dev-master",
-        "stripe/stripe-php": "^6.19"
+        "luyadev/luya-headless" : "^1.0@RC",
+        "stripe/stripe-php": "^6.19",
+        "paypal/rest-api-sdk-php" : "~1.7.0"
     },
     "require-dev" : {
-        "luyadev/luya-testsuite" : "dev-master",
+        "luyadev/luya-testsuite" : "~1.0.13",
         "php-coveralls/php-coveralls": "^1.0"
     },
     "autoload" : {

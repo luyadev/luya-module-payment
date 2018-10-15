@@ -2,6 +2,10 @@
 
 namespace luya\payment\admin\apis;
 
+use luya\payment\models\Process;
+use yii\web\ForbiddenHttpException;
+
+
 /**
  * Process Controller.
  * 
@@ -13,4 +17,25 @@ class ProcessController extends \luya\admin\ngrest\base\Api
      * @var string The path to the model which is the provider for the rules and fields.
      */
     public $modelClass = 'luya\payment\models\Process';
+
+    public function withRelations()
+    {
+        return ['items'];
+    }
+
+    public function actionFindByKey($key, $token)
+    {
+        $model = Process::find()->where(['random_key' => $key, 'is_closed' => 0])->with(['items'])->one();
+
+        if (!$model) {
+            return false;
+        }
+
+        $model->auth_token = $token;
+        if (!$model->validateAuthToken()) {
+            throw new ForbiddenHttpException("Invalid auth token and therefore forbidden.");
+        }
+
+        return $model;
+    }
 }

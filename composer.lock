@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e60aa214f6e4dc73a1ba0e79ebb1b1ea",
+    "content-hash": "0339b025441e1f11c057989f01ad4629",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -541,17 +541,71 @@
             "time": "2018-10-08T14:45:51+00:00"
         },
         {
+            "name": "luyadev/luya-headless",
+            "version": "1.0.0-rc4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/luyadev/luya-headless.git",
+                "reference": "d1c09869aa77f7814a5f34bd68efb64a35568492"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/d1c09869aa77f7814a5f34bd68efb64a35568492",
+                "reference": "d1c09869aa77f7814a5f34bd68efb64a35568492",
+                "shasum": ""
+            },
+            "require": {
+                "curl/curl": "^1.0",
+                "psr/simple-cache": "^1.0"
+            },
+            "require-dev": {
+                "luyadev/luya-testsuite": "~1.0.0"
+            },
+            "type": "luya-core",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "luya\\headless\\": "src/",
+                    "luya\\headless\\tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Basil Suter",
+                    "email": "git@nadar.io",
+                    "homepage": "https://github.com/nadar"
+                }
+            ],
+            "description": "LUYA headless API client",
+            "homepage": "https://luya.io",
+            "keywords": [
+                "headless",
+                "luya",
+                "php",
+                "yii2"
+            ],
+            "time": "2018-10-15T10:57:07+00:00"
+        },
+        {
             "name": "luyadev/luya-module-admin",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "272e36d99c52d4a6908259e928efeddb42396379"
+                "reference": "e60886b61f42fa9b1bcfcd24813a2397078aa5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/272e36d99c52d4a6908259e928efeddb42396379",
-                "reference": "272e36d99c52d4a6908259e928efeddb42396379",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/e60886b61f42fa9b1bcfcd24813a2397078aa5b1",
+                "reference": "e60886b61f42fa9b1bcfcd24813a2397078aa5b1",
                 "shasum": ""
             },
             "require": {
@@ -612,7 +666,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-10T11:27:45+00:00"
+            "time": "2018-10-15T11:03:48+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -768,17 +822,65 @@
             "time": "2012-12-21T11:40:51+00:00"
         },
         {
-            "name": "stripe/stripe-php",
-            "version": "v6.19.3",
+            "name": "psr/simple-cache",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "ef6b3efdc61b377d5e4fd1433eaef8d040d3dd3f"
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ef6b3efdc61b377d5e4fd1433eaef8d040d3dd3f",
-                "reference": "ef6b3efdc61b377d5e4fd1433eaef8d040d3dd3f",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v6.19.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "02bfccdf554a048c11c72567c31a43713ad3cd79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/02bfccdf554a048c11c72567c31a43713ad3cd79",
+                "reference": "02bfccdf554a048c11c72567c31a43713ad3cd79",
                 "shasum": ""
             },
             "require": {
@@ -820,7 +922,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-10-09T07:28:04+00:00"
+            "time": "2018-10-11T16:17:52+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -1242,16 +1344,16 @@
         },
         {
             "name": "luyadev/luya-testsuite",
-            "version": "dev-master",
+            "version": "1.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-testsuite.git",
-                "reference": "9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf"
+                "reference": "316bf8e8b35eb3690af426a6ae6a4349b8c897e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf",
-                "reference": "9c0799d1b2b2f67a7035bfe9e8366a6cd37f9adf",
+                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/316bf8e8b35eb3690af426a6ae6a4349b8c897e8",
+                "reference": "316bf8e8b35eb3690af426a6ae6a4349b8c897e8",
                 "shasum": ""
             },
             "require": {
@@ -1286,7 +1388,7 @@
                 "module",
                 "php"
             ],
-            "time": "2018-10-09T13:41:27+00:00"
+            "time": "2018-10-15T10:00:39+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3237,7 +3339,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "luyadev/luya-module-admin": 20,
-        "luyadev/luya-testsuite": 20
+        "luyadev/luya-headless": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,

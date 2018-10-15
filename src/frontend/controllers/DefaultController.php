@@ -3,6 +3,8 @@
 namespace luya\payment\frontend\controllers;
 
 use luya\payment\PaymentProcess;
+use luya\payment\Pay;
+use yii\filters\HttpCache;
 
 /**
  * Default Payment Controller.
@@ -16,6 +18,24 @@ use luya\payment\PaymentProcess;
 class DefaultController extends \luya\web\Controller
 {
     /**
+     * Disable cache
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        
+        $behaviors[] = [
+            'class' => HttpCache::class,
+            'cacheControlHeader' => 'no-store, no-cache',
+            'lastModified' => function ($action, $params) {
+                return time();
+            },
+        ];
+        
+        return $behaviors;
+    }
+
+    /**
      * Create new payment
      *
      * @param string $lpToken The LUYA payment token.
@@ -24,11 +44,13 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionCreate($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
+        
         
         return $this->module->transaction->create();
     }
@@ -42,10 +64,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionBack($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
         return $this->module->transaction->back();
@@ -62,10 +85,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionFail($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
         return $this->module->transaction->fail();
@@ -80,10 +104,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionAbort($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
         return $this->module->transaction->abort();
@@ -100,10 +125,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionNotify($lpToken, $lpKey)
     {
-        $process = PaymentProcess::findByToken($lpToken, $lpKey);
-        $process->model->addPaymentTraceEvent(__METHOD__);
+        $integrator = $this->module->getIntegrator();
+        $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
         
-        $this->module->transaction->setProcess($process);
+        $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
         return $this->module->transaction->notify();

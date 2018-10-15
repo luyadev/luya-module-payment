@@ -4,6 +4,7 @@ namespace luya\payment\frontend;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use luya\payment\integrators\DatabaseIntegrator;
 
 /**
  * Payment Module.
@@ -29,11 +30,11 @@ class Module extends \luya\base\Module
      * @inheritDoc
      */
     public $urlRules = [
-        ['pattern' => 'payment-create/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/create'],
-        ['pattern' => 'payment-back/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/back'],
-        ['pattern' => 'payment-fail/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/fail'],
-        ['pattern' => 'payment-abort/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/abort'],
-        ['pattern' => 'payment-notify/<lpToken:\w+>/<lpKey:\w+>', 'route' => 'payment/default/notify'],
+        ['pattern' => 'payment-create/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/create'],
+        ['pattern' => 'payment-back/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/back'],
+        ['pattern' => 'payment-fail/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/fail'],
+        ['pattern' => 'payment-abort/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/abort'],
+        ['pattern' => 'payment-notify/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/notify'],
     ];
 
     /**
@@ -80,5 +81,25 @@ class Module extends \luya\base\Module
     public function setTransaction(array $config)
     {
         $this->_transaction = Yii::createObject($config);
+    }
+
+    private $_integrator;
+
+    public function setIntegrator(array $config)
+    {
+        $this->_integrator = $config;
+    }
+
+    public function getIntegrator()
+    {
+        if ($this->_integrator === null) {
+            $this->_integrator = ['class' => DatabaseIntegrator::class];
+        }
+        
+        if (is_array($this->_integrator)) {
+            $this->_integrator = Yii::createObject($this->_integrator);
+        }
+
+        return $this->_integrator;
     }
 }
