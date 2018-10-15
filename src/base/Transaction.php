@@ -53,4 +53,16 @@ abstract class Transaction extends BaseObject implements TransactionInterface
     {
         return $this->_context;
     }
+
+    private $_integrator;
+
+    public function setIntegrator(IntegratorInterface $integrator)
+    {
+        $this->_integrator = $integrator;
+    }
+
+    public function getIntegrator()
+    {
+        return $this->_integrator;
+    }
 }

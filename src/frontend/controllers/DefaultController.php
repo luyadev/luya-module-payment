@@ -48,6 +48,7 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
@@ -56,7 +57,7 @@ class DefaultController extends \luya\web\Controller
     }
     
     /**
-     * Back Button in payment action.
+     * The action which is opened when coming back from the payment page.
      *
      * @param string $lpToken The LUYA payment token.
      * @param string $lpKey the LUYA payment key.
@@ -68,6 +69,7 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
@@ -89,6 +91,7 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
@@ -108,6 +111,7 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         
@@ -129,6 +133,7 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
         

@@ -27,6 +27,11 @@ use luya\payment\PaymentException;
  * @property tinyint $is_closed
  * @property integer $create_timestamp
  * @property integer $close_timestamp
+ * @property integer $state_create
+ * @property integer $state_back
+ * @property integer $state_fail
+ * @property integer $state_abort
+ * @property integer $state_notify
  */
 class Process extends NgRestModel
 {
@@ -134,7 +139,7 @@ class Process extends NgRestModel
     {
         return [
             [['salt', 'hash', 'random_key', 'amount', 'currency', 'order_id', 'success_link', 'error_link', 'abort_link'], 'required'],
-            [['amount', 'close_state', 'is_closed', 'create_timestamp', 'close_timestamp'], 'integer'],
+            [['amount', 'close_state', 'is_closed', 'create_timestamp', 'close_timestamp', 'state_notify', 'state_abort', 'state_fail', 'state_back', 'state_create'], 'integer'],
             [['salt', 'hash'], 'string', 'max' => 120],
             [['random_key'], 'string', 'max' => 32],
             [['currency'], 'string', 'max' => 10],
