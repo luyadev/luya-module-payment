@@ -108,7 +108,6 @@ class Pay
 
         $integrator = Module::getInstance()->getIntegrator();
         if ($integrator->createModel($model)) {
-            Yii::warning("model created with id: " . $model->getId());
             return $this->_model = $model;
         }
 
