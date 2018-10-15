@@ -21,8 +21,7 @@ class PayItemModel extends Model
     {
         return [
             [['name'], 'required'],
-            [['qty', 'amount'], 'integer'],
-            [['is_shipping', 'is_tax'], 'boolean'],
+            [['qty', 'amount', 'is_shipping', 'is_tax'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }

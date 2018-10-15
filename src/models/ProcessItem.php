@@ -57,7 +57,7 @@ class ProcessItem extends NgRestModel
     public function rules()
     {
         return [
-            [['process_id', 'name'], 'required'],
+            [['process_id', 'name', 'qty'], 'required'],
             [['process_id', 'qty', 'amount', 'is_shipping', 'is_tax', 'total_amount'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];

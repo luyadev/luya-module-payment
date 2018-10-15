@@ -91,8 +91,8 @@ class Pay
         $item->name = $name;
         $item->qty = $qty;
         $item->amount = $amount;
-        $item->is_tax = $isTax;
-        $item->is_shipping = $isShipping;
+        $item->is_tax = (int) $isTax;
+        $item->is_shipping = (int) $isShipping;
 
         if (!$item->validate(['name', 'qty', 'amount', 'is_tax', 'is_shipping'])) {
             throw new PaymentException("Unable to validate the item model. Validation failed: " . var_export($item->getErrors(), true));

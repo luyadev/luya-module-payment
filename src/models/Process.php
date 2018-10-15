@@ -6,6 +6,7 @@ use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\aws\DetailViewActiveWindow;
 use luya\payment\PaymentProcess;
+use luya\payment\PaymentException;
 
 /**
  * Process.
@@ -97,7 +98,9 @@ class Process extends NgRestModel
             $itemModel->total_amount = $item['total_amount'];
             $itemModel->is_shipping = $item['is_shipping'];
             $itemModel->is_tax = $item['is_tax'];
-            $itemModel->save();
+            if (!$itemModel->save()) {
+                throw new PaymentException("Unable to store the process item due to validation errors.");
+            }
         }
     }
 
