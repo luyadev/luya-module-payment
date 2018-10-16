@@ -9,6 +9,7 @@ use luya\payment\transaction\SaferPayTransaction;
 use luya\payment\transaction\PayPalTransaction;
 use luya\payment\Pay;
 use yii\filters\HttpCache;
+use luya\payment\PaymentException;
 
 class TestController extends \luya\web\Controller
 {
@@ -66,7 +67,7 @@ class TestController extends \luya\web\Controller
     public function actionTestSuccess()
     {
         if (!Pay::isSuccess(Yii::$app->session->get('storeTransactionId', 0))) {
-            throw new PaymentProcess("Error, invalid success payment process.");
+            throw new PaymentException("Error, invalid success payment process.");
         }
 
         // create order for customer ...

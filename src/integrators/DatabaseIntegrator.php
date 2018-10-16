@@ -115,7 +115,8 @@ class DatabaseIntegrator implements IntegratorInterface
         $model->successLink = $process->success_link;
         $model->abortLink = $process->abort_link;
         $model->authToken = $process->auth_token;
-        
+        $model->closeState = $process->close_state;
+        $model->isClosed = $process->is_closed;
         if ($model->validate()) {
             return $model;
         }
