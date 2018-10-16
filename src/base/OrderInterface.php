@@ -19,5 +19,5 @@ interface OrderInterface
 
     public function getPayId();
 
-    public function isDone();
+    public function isClosed();
 }
