@@ -19,7 +19,7 @@ use luya\payment\integrators\DatabaseIntegrator;
  * ]
  * ```
  *
- * @property \luya\payment\base\TransactionInterface $transaction
+ * @property \luya\payment\base\Transaction $transaction
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -54,7 +54,7 @@ class Module extends \luya\base\Module
     /**
      * Get the transaction object
      *
-     * @return \luya\payment\base\TransactionInterface
+     * @return \luya\payment\base\Transaction
      */
     public function getTransaction()
     {

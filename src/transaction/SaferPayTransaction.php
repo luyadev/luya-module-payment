@@ -97,11 +97,11 @@ class SaferPayTransaction extends Transaction
             $completeParts = explode(":", $completeResponse);
             
             if (isset($completeParts[0]) && $completeParts[0] == 'OK') {
-                return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
+                return $this->redirectApplicationSuccess();
             }
         }
         
-        return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
+        return $this->redirectTransactionFail();
     }
     
     /**
@@ -109,7 +109,7 @@ class SaferPayTransaction extends Transaction
      */
     public function notify()
     {
-        return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
+        return $this->redirectApplicationSuccess();
     }
     
     /**
@@ -117,7 +117,7 @@ class SaferPayTransaction extends Transaction
      */
     public function fail()
     {
-        return $this->getContext()->redirect($this->getModel()->getApplicationErrorLink());
+        return $this->redirectApplicationError();
     }
     
     /**
@@ -125,6 +125,6 @@ class SaferPayTransaction extends Transaction
      */
     public function abort()
     {
-        return $this->getContext()->redirect($this->getModel()->getApplicationAbortLink());
+        return $this->redirectApplicationAbort();
     }
 }

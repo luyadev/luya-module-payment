@@ -99,29 +99,21 @@ class StoreCheckoutController extends \luya\web\Controller
     
     public function actionSuccess($orderId)
     {
-        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
-        $payId = null; // restore the pay id from your estore logic
-        $id = Pay::close($payId, Pay::STATE_SUCCESS);
+        // find the $payId from the order model.
+        // this ensures if someone could open this url directly whether payment process for the given id was sucessfull or not.
+        if (!Pay::isSuccess($payId))) {
+            throw new \Exception("The request url is invalid, the payment process was not closed successfull.");
+        }
 
-        // ...
     }
     
     public function actionAbort($orderId)
     {
-        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
-        $payId = null; // restore the pay id from your estore logic
-        $id = Pay::close($payId, Pay::STATE_ABORT);
 
-        // ...
     }
 
     public function actionError($orderId)
     {
-        // restore your estore model from orderId and ensure if its not closed yet, also re allocate the pay id in order to close the payment process
-        $payId = null; // restore the pay id from your estore logic
-        $id = Pay::close($payId, Pay::STATE_ERROR);
-
-        // ...
     }
 }
 ```

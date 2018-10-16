@@ -3,10 +3,9 @@
 namespace luya\payment\tests\data;
 
 use luya\payment\base\Transaction;
-use luya\payment\base\TransactionInterface;
 use luya\payment\tests\data\DummyProvider;
 
-class DummyTransaction extends Transaction implements TransactionInterface
+class DummyTransaction extends Transaction
 {
     public function create()
     {

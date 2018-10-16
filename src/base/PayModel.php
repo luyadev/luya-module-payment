@@ -19,12 +19,13 @@ class PayModel extends Model
     public $randomKey;
     public $items = [];
     public $isClosed = 0;
+    public $closeState;
 
     public function rules()
     {
         return [
             [['orderId', 'currency', 'successLink', 'abortLink', 'errorLink', 'totalAmount'], 'required'],
-            [['totalAmount', 'isClosed', 'id'], 'integer'],
+            [['totalAmount', 'isClosed', 'id', 'closeState'], 'integer'],
             [['authToken', 'randomKey'], 'string'],
         ];
     }

@@ -75,11 +75,10 @@ class PaymentProcessTest extends BasePaymentTestCase
         $this->assertInstanceOf('\luya\payment\base\PayModel', $object3);
         $this->assertSame($processId, $object3->getId());
         $this->assertSame($token, $object3->getAuthTOken());
-        
-        // close the model
 
-        $c = Pay::close($processId, Pay::STATE_SUCCESS);
-        $this->assertNotFalse($c);
+        // there is not redirect trough the payment process and therefore the model is not set to success!
+        $this->assertFalse(Pay::isSuccess($processId));
+        
     }
     
     public function testErrorAmountProcess()

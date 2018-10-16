@@ -65,7 +65,9 @@ class TestController extends \luya\web\Controller
     
     public function actionTestSuccess()
     {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_SUCCESS);
+        if (!Pay::isSuccess(Yii::$app->session->get('storeTransactionId', 0))) {
+            throw new PaymentProcess("Error, invalid success payment process.");
+        }
 
         // create order for customer ...
         // ...
@@ -76,22 +78,12 @@ class TestController extends \luya\web\Controller
     
     public function actionTestError()
     {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ERROR);
-        // display error for payment mark order as failed
-        // ....
-
-
-        return 'error!';
+        
+        return 'Rendering: error action...';
     }
     
     public function actionTestAbort()
     {
-        $id = Pay::close(Yii::$app->session->get('storeTransactionId', 0), Pay::STATE_ABORT);
-
-        // redirect the user back to where he can choose another payment and mark order as aborted/failed.
-        // ...
-
-
-        return 'abort/stop!';
+        return 'Rendering: abort action...';
     }
 }

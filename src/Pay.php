@@ -191,14 +191,7 @@ class Pay
         return $model;
     }
 
-    /**
-     * Close the current payment for a given id with a state message (success, error, abort).
-     *
-     * @param integer $id
-     * @param integer $state
-     * @return PayModel
-     */
-    public static function close($id, $state)
+    public static function isSuccess($id)
     {
         $model = self::findById($id);
 
@@ -206,9 +199,8 @@ class Pay
             return false;
         }
 
-        $integrator = Module::getInstance()->getIntegrator();
-        if ($integrator->closeModel($model, $state)) {
-            return $model;
+        if ($model->isClosed && $model->closeState == self::STATE_SUCCESS) {
+            return true;
         }
 
         return false;

@@ -86,7 +86,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
     {
         $api = ApiPaymentProcess::viewOne($id, $this->getClient());
 
-        if (!$api || $api->is_closed) {
+        if (!$api) {
             return false;
         }
 

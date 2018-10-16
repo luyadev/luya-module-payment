@@ -4,7 +4,6 @@ namespace luya\payment\transaction;
 
 use Yii;
 use luya\payment\base\Transaction;
-use luya\payment\base\TransactionInterface;
 use luya\payment\PaymentException;
 use luya\payment\provider\PayPalProvider;
 use yii\base\InvalidConfigException;
@@ -15,7 +14,7 @@ use yii\base\InvalidConfigException;
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
-class PayPalTransaction extends Transaction implements TransactionInterface
+class PayPalTransaction extends Transaction
 {
     const MODE_LIVE = 'live';
     const MODE_SANDBOX = 'sandbox';
@@ -109,10 +108,10 @@ class PayPalTransaction extends Transaction implements TransactionInterface
         ]);
         
         if ($response) {
-            return $this->getContext()->redirect($this->getModel()->getApplicationSuccessLink());
+            return $this->redirectApplicationSuccess();
         }
         
-        return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
+        return $this->redirectTransactionFail();
     }
     
     /**
@@ -128,7 +127,7 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function fail()
     {
-        return $this->getContext()->redirect($this->getModel()->getApplicationErrorLink());
+        return $this->redirectApplicationError();
     }
     
     /**
@@ -136,6 +135,6 @@ class PayPalTransaction extends Transaction implements TransactionInterface
      */
     public function abort()
     {
-        return $this->getContext()->redirect($this->getModel()->getApplicationAbortLink());
+        return $this->redirectApplicationAbort();
     }
 }

@@ -70,7 +70,7 @@ class DatabaseIntegrator implements IntegratorInterface
 
     public function findById($id)
     {
-        $process = Process::find()->where(['id' => $id, 'is_closed' => 0])->with(['items'])->one();
+        $process = Process::find()->where(['id' => $id])->with(['items'])->one();
 
         if (!$process) {
             return false;
@@ -82,6 +82,10 @@ class DatabaseIntegrator implements IntegratorInterface
     public function closeModel(PayModel $model, $state)
     {
         $process = Process::find()->where(['id' => $model->getId(), 'is_closed' => 0])->one();
+
+        if (!$process) {
+            return false;
+        }
 
         $process->is_closed = 1;
         $process->close_state = $state;
