@@ -6,6 +6,14 @@ use luya\helpers\url;
 use yii\base\Model;
 use luya\payment\PaymentException;
 
+/**
+ * Pay Model.
+ * 
+ * The Pay Model represents the current payment informations and is used
+ * to exchange between process.
+ * 
+ * @since 1.0.0
+ */
 class PayModel extends Model
 {
     public $id;

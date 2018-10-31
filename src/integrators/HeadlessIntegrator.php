@@ -9,6 +9,7 @@ use luya\payment\PaymentException;
 use luya\payment\integrators\headless\ApiPaymentProcess;
 use luya\payment\Pay;
 use yii\base\BaseObject;
+use luya\payment\integrators\headless\ApiPaymentProcessTrace;
 
 /**
  * Headless Payment:
@@ -112,7 +113,11 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
 
     public function addTrace(PayModel $model, $event, $message = null)
     {
-
+        $trace = new ApiPaymentProcessTrace();
+        $trace->process_id = $model->getId();
+        $trace->event = $event;
+        $trace->message = $message;
+        return $trace->save();
     }
 
     // internal

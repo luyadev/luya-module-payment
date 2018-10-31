@@ -5,7 +5,9 @@ namespace luya\payment\integrators\headless;
 use luya\headless\ActiveEndpoint;
 use luya\headless\Client;
 
-
+/**
+ * Payment Process API
+ */
 class ApiPaymentProcess extends ActiveEndpoint
 {
     public $items = [];
