@@ -62,7 +62,7 @@ class StripeTransaction extends Transaction
     }
 
     /**
-     * Creates the transaction and mostly redirects to the provider afterwards
+     * {@inheritDoc}
      */
     public function create()
     {
@@ -123,7 +123,7 @@ class StripeTransaction extends Transaction
     }
     
     /**
-     * Return from create into the back
+     * {@inheritDoc}
      */
     public function back()
     {
@@ -154,7 +154,7 @@ class StripeTransaction extends Transaction
     }
     
     /**
-     * Some providers provide a notify link
+     * {@inheritDoc}
      */
     public function notify()
     {
@@ -162,7 +162,7 @@ class StripeTransaction extends Transaction
     }
     
     /**
-     * An error/failure happend
+     * {@inheritDoc}
      */
     public function fail()
     {
@@ -170,7 +170,7 @@ class StripeTransaction extends Transaction
     }
     
     /**
-     * All providers provide an abort/stop link to back into the onlinestore and choose
+     * {@inheritDoc}
      */
     public function abort()
     {

@@ -9,6 +9,8 @@ use luya\testsuite\fixtures\ActiveRecordFixture;
 use luya\payment\models\Process;
 use luya\payment\models\ProcessTrace;
 use luya\payment\models\ProcessItem;
+use luya\payment\base\PayModel;
+use luya\payment\frontend\controllers\DefaultController;
 
 class BasePaymentTestCase extends WebApplicationTestCase
 {
@@ -55,6 +57,29 @@ class BasePaymentTestCase extends WebApplicationTestCase
         $this->fixtureProcessItemModel = new ActiveRecordFixture([
             'modelClass' => ProcessItem::class,
         ]);
+    }
+
+    protected function generatePayModel()
+    {
+        $model = new PayModel();
+        $model->setAuthToken('authtoken');
+        $model->setRandomKey('randomkey');
+        $model->id = 1;
+        $model->totalAmount = 100;
+        $model->orderId = 1;
+        $model->currency = 'EUR';
+        $model->successLink = '#link';
+        $model->abortLink = '#abrot';
+        $model->errorLink = '#error';
+
+        return $model;
+    }
+
+    protected function generateContextController()
+    {
+        $ctrl = new DefaultController('default', $this->app);
+
+        return $ctrl;
     }
 
     public function beforeTearDown()
