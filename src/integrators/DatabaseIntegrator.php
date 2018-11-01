@@ -33,7 +33,7 @@ class DatabaseIntegrator implements IntegratorInterface
                 'total_amount' => $item->getTotalAmount(),
             ];
         }
-        $process->items = $items;
+        $process->setItems($items);
         if ($process->insert()) {
             $model->setId($process->id);
             $model->setAuthToken($process->auth_token);
