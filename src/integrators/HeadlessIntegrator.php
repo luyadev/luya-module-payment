@@ -117,7 +117,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $trace->process_id = $model->getId();
         $trace->event = $event;
         $trace->message = $message;
-        return $trace->save();
+        return $trace->save($this->getClient());
     }
 
     // internal
