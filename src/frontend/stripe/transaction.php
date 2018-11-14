@@ -2,6 +2,12 @@
 
 use luya\helpers\Html;
 
+$icons = [
+    'close' => '<svg class="payment-header-close" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m256 8c-137 0-248 111-248 248s111 248 248 248 248-111 248-248-111-248-248-248zm0 448c-110.5 0-200-89.5-200-200s89.5-200 200-200 200 89.5 200 200-89.5 200-200 200zm101.8-262.2-62.2 62.2 62.2 62.2c4.7 4.7 4.7 12.3 0 17l-22.6 22.6c-4.7 4.7-12.3 4.7-17 0l-62.2-62.2-62.2 62.2c-4.7 4.7-12.3 4.7-17 0l-22.6-22.6c-4.7-4.7-4.7-12.3 0-17l62.2-62.2-62.2-62.2c-4.7-4.7-4.7-12.3 0-17l22.6-22.6c4.7-4.7 12.3-4.7 17 0l62.2 62.2 62.2-62.2c4.7-4.7 12.3-4.7 17 0l22.6 22.6c4.7 4.7 4.7 12.3 0 17z"/></svg>',
+    'check' => '<svg class="payment-icon payment-icon-check" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m173.898 439.404-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0l112.095 112.094 240.095-240.094c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg>',
+    'back' => '<svg class="payment-icon payment-icon-back" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m31.7 239 136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-96.3 96.5 96.4 96.4c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.7c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>'
+];
+
 $this->beginPage();
 ?><!DOCTYPE html>
 <html>
@@ -18,28 +24,90 @@ $this->beginPage();
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div id="payment-wrapper">
-  <div id="payment-inline-wrapper">
-    <form action="<?= $url; ?>" method="post" id="payment-form">
-        <?= $csrf; ?>
-        
-        <div class="form-row">
-          <label for="card-element">
-            Credit or debit card
-          </label>
-          <div id="card-element">
-            <!-- A Stripe Element will be inserted here. -->
-          </div>
 
-          <!-- Used to display form errors. -->
-          <div id="card-errors" role="alert"></div>
+
+<div class="payment-wrapper" id="payment-wrapper">
+    <div class="payment-wrapper-inner" id="payment-wrapper-inline">
+        <div class="payment-header">
+            <p class="payment-header-text payment-text">Place Ad checkout</p>
+            <a class="payment-header-close-link" href="<?= $abortLink ?>"><?= $icons['close'] ?></a>
         </div>
 
-      <button class="">Submit Payment</button>
-    </form>
-    <a href="<?= $abortLink; ?>">Abbrechen und Zurück</a>
-  </div>
+        <form class="payment-form" id="payment-form" action="<?= $url ?>" method="post">
+            <?= $csrf; ?>
+
+            <div class="payment-details">
+
+                <p class="payment-text payment-text-bold">Details</p>
+
+                <div class="payment-items">
+                    <div class="payment-item">
+                        <div class="payment-item-name">
+                            <p class="payment-text">1x Stellenausschrieb</p>
+                        </div>
+                        <div class="payment-item-price">
+                            <p class="payment-text">200.-</p>
+                        </div>
+                    </div>
+                    <div class="payment-item">
+                        <div class="payment-item-name">
+                            <p class="payment-text">3x Stellenausschrieb</p>
+                        </div>
+                        <div class="payment-item-price">
+                            <p class="payment-text">600.-</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="payment-items">
+                    <div class="payment-item">
+                        <div class="payment-item-name">
+                            <p class="payment-text">MWST</p>
+                        </div>
+                        <div class="payment-item-price">
+                            <p class="payment-text">2.-</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="payment-items">
+                    <div class="payment-item">
+                        <div class="payment-item-name">
+                            <p class="payment-text">Shipping</p>
+                        </div>
+                        <div class="payment-item-price">
+                            <p class="payment-text">10.-</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="payment-items">
+                    <div class="payment-item">
+                        <div class="payment-item-total">
+                            <p class="payment-text">Total</p>
+                        </div>
+                        <div class="payment-item-price">
+                            <p class="payment-text">812.-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-pay">
+                <label class="payment-label payment-text payment-text-bold" for="payment-stripe">Pay with credit or debit card</label>
+                <div class="payment-stripe" id="payment-stripe"></div>
+                <div class="payment-errors payment-text payment-text-danger" id="payment-errors" role="alert"></div>
+
+                <div class="payment-buttons">
+                    <div class="payment-buttons-button">
+                        <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span>Abbrechen</span></a>
+                    </div>
+                    <div class="payment-buttons-button">
+                        <button class="payment-button payment-button-submit" type="submit"><?= $icons['check'] ?><span>Bezahlen</span></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
 <script>
 <?= $this->render('@payment/stripe/script.js', ['publishableKey' => $publishableKey]); ?>
 </script>

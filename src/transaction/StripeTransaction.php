@@ -14,15 +14,14 @@ use luya\payment\provider\StripeProvider;
 use luya\helpers\Html;
 use yii\base\InvalidConfigException;
 
-
 /**
  * Stripe Transaction.
- * 
+ *
  * Testing Cards:
- * 
+ *
  * Visa card: 4242424242424242
- * 3D secure card: 4000000000003063	
- * 
+ * 3D secure card: 4000000000003063
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  * @see 3d secure guide: https://stripe.com/docs/sources/three-d-secure
@@ -90,7 +89,6 @@ class StripeTransaction extends Transaction
                 if ($source->pending != 'chargeable') {
                     return $this->getContext()->redirect($source->redirect->url);
                 }
-                
             }
 
             try {
@@ -106,7 +104,7 @@ class StripeTransaction extends Transaction
             if ($charge) {
                 return $this->redirectApplicationSuccess();
             }
-            
+
             return $this->redirectTransactionFail();
         }
 
@@ -117,11 +115,11 @@ class StripeTransaction extends Transaction
             'abortLink' => $this->getModel()->getTransactionGatewayAbortLink()
         ]);
 
-        return $html;
+        //return $html;
 
-        //return $this->getContext()->renderContent($html);
+        return $this->getContext()->renderContent($html);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -152,7 +150,7 @@ class StripeTransaction extends Transaction
 
         return $this->redirectApplicationSuccess();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -160,7 +158,7 @@ class StripeTransaction extends Transaction
     {
         throw new PaymentException("The notify action is not supported for Stripe integration.");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -168,7 +166,7 @@ class StripeTransaction extends Transaction
     {
         return $this->redirectApplicationError();
     }
-    
+
     /**
      * {@inheritDoc}
      */

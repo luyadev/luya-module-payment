@@ -8,7 +8,7 @@ var elements = stripe.elements();
 // (Note that this demo uses a wider set of styles than the guide below.)
 var style = {
   base: {
-    color: '#32325d',
+    color: '#3e4e59',
     lineHeight: '18px',
     fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
     fontSmoothing: 'antialiased',
@@ -27,11 +27,11 @@ var style = {
 var card = elements.create('card', {style: style});
 
 // Add an instance of the card Element into the `card-element` <div>.
-card.mount('#card-element');
+card.mount('#payment-stripe');
 
 // Handle real-time validation errors from the card Element.
 card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
+  var displayError = document.getElementById('payment-errors');
   if (event.error) {
     displayError.textContent = event.error.message;
   } else {
@@ -47,7 +47,7 @@ form.addEventListener('submit', function(event) {
   stripe.createSource(card).then(function(result) {
     if (result.error) {
       // Inform the user if there was an error.
-      var errorElement = document.getElementById('card-errors');
+      var errorElement = document.getElementById('payment-errors');
       errorElement.textContent = result.error.message;
     } else {
       stripeSourceHandler(result);
@@ -63,7 +63,7 @@ function stripeSourceHandler(token) {
     }
 
     var form = document.getElementById('payment-form');
-    
+
     var hiddenInput = document.createElement('input');
     hiddenInput.setAttribute('type', 'hidden');
     hiddenInput.setAttribute('name', 'sourceToken');
