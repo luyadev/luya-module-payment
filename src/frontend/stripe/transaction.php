@@ -24,8 +24,6 @@ $this->beginPage();
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-
 <div class="payment-wrapper" id="payment-wrapper">
     <div class="payment-wrapper-inner" id="payment-wrapper-inline">
         <div class="payment-header">
@@ -41,60 +39,60 @@ $this->beginPage();
                 <p class="payment-text payment-text-bold">Details</p>
 
                 <div class="payment-items">
+                    <?php foreach ($productItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text">1x Stellenausschrieb</p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text">200.-</p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
                         </div>
                     </div>
-                    <div class="payment-item">
-                        <div class="payment-item-name">
-                            <p class="payment-text">3x Stellenausschrieb</p>
-                        </div>
-                        <div class="payment-item-price">
-                            <p class="payment-text">600.-</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php if (!empty($taxItems)): ?>
                 <div class="payment-items">
+                    <?php foreach ($taxItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text">MWST</p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text">2.-</p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
+                <?php if (!empty($shippingItems)): ?>
                 <div class="payment-items">
+                <?php foreach ($shippingItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text">Shipping</p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text">10.-</p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
                 <div class="payment-items">
                     <div class="payment-item">
                         <div class="payment-item-total">
                             <p class="payment-text">Total</p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text">812.-</p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency(($totalAmount/100), $currency); ?></p>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="payment-pay">
                 <label class="payment-label payment-text payment-text-bold" for="payment-stripe">Pay with credit or debit card</label>
                 <div class="payment-stripe" id="payment-stripe"></div>
                 <div class="payment-errors payment-text payment-text-danger" id="payment-errors" role="alert"></div>
-
                 <div class="payment-buttons">
                     <div class="payment-buttons-button">
                         <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span>Abbrechen</span></a>
@@ -107,7 +105,6 @@ $this->beginPage();
         </form>
     </div>
 </div>
-
 <script>
 <?= $this->render('@payment/stripe/script.js', ['publishableKey' => $publishableKey]); ?>
 </script>

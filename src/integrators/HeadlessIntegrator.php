@@ -133,7 +133,12 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $model->errorLink = $process->error_link;
         $model->successLink = $process->success_link;
         $model->abortLink = $process->abort_link;
-        $model->items = $process->items;
+
+        // assign items from origin process modell
+        foreach ($process->items as $item) {
+            $model->addItem($item->name, $item->qty, $item->amount, $item->total_amount, $item->is_tax, $item->is_shipping);
+        }
+        
         $model->closeState = $process->close_state;
         $model->isClosed = $process->is_closed;
         if ($model->validate()) {

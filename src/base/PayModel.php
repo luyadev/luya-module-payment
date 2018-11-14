@@ -5,6 +5,7 @@ namespace luya\payment\base;
 use luya\helpers\url;
 use yii\base\Model;
 use luya\payment\PaymentException;
+use luya\helpers\ArrayHelper;
 
 /**
  * Pay Model.
@@ -36,6 +37,37 @@ class PayModel extends Model
             [['totalAmount', 'isClosed', 'id', 'closeState'], 'integer'],
             [['authToken', 'randomKey'], 'string'],
         ];
+    }
+
+    public function addItem($name, $qty, $amount, $totalAmount, $isShipping, $isTax)
+    {
+        $this->items[] = ['name' => $name, 'qty' => $qty, 'amount' => ($amount/100), 'total_amount' => ($totalAmount/100), 'is_shipping' => $isShipping, 'is_tax' => $isTax];
+    }
+
+    public function getProductItems()
+    {
+        $items = [];
+        foreach ($this->items as $i) {
+            if (empty($i['is_shipping']) && empty($i['is_tax'])) {
+                $items[] = $i;
+            }
+        }
+
+        return $items;
+    }
+
+    public function getTaxItems()
+    {
+        $items = ArrayHelper::searchColumn($this->items, 'is_tax', 1);
+
+        return $tiems ?: [];
+    }
+
+    public function getShippingItems()
+    {
+        $items = ArrayHelper::searchColumn($this->items, 'is_shipping', 1); 
+
+        return $items ?: [];
     }
 
     public function setId($id)

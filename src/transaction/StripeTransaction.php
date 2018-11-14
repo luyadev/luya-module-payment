@@ -112,7 +112,14 @@ class StripeTransaction extends Transaction
             'csrf' => Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken),
             'url' => $this->getModel()->getTransactionGatewayCreateLink(),
             'publishableKey' => $this->publishableKey,
-            'abortLink' => $this->getModel()->getTransactionGatewayAbortLink()
+            'abortLink' => $this->getModel()->getTransactionGatewayAbortLink(),
+
+            // aded new values for given views
+            'productItems' => $this->getModel()->getProductItems(),
+            'taxItems' => $this->getModel()->getTaxItems(),
+            'shippingItems' => $this->getModel()->getShippingItems(),
+            'currency' => $this->getModel()->getCurrency(),
+            'totalAmount' => $this->getModel()->getTotalAmount(),
         ]);
 
         //return $html;

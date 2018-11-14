@@ -117,6 +117,12 @@ class DatabaseIntegrator implements IntegratorInterface
         $model->authToken = $process->auth_token;
         $model->closeState = $process->close_state;
         $model->isClosed = $process->is_closed;
+
+        // assign items from origin process modell
+        foreach ($process->items as $item) {
+            $model->addItem($item->name, $item->qty, $item->amount, $item->total_amount, $item->is_tax, $item->is_shipping);
+        }
+        
         if ($model->validate()) {
             return $model;
         }
