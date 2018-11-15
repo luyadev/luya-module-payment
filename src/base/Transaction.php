@@ -17,7 +17,6 @@ use luya\payment\PaymentException;
  */
 abstract class Transaction extends BaseObject
 {
-
     /**
      * Creates the transaction and mostly redirects to the provider afterwards
      */
@@ -43,18 +42,33 @@ abstract class Transaction extends BaseObject
      */
     abstract public function abort();
 
+    /**
+     * @var string Certain transactions allows you to configure a color for the payment page.
+     */
+    public $color = '#e50060';
+
+    /**
+     * @var string Certain transactions allows you to configure a title for the payment. For example `John Doe's Estore`.
+     */
+    public $title;
+
     private $_model;
     
     /**
      * Setter method for payment process.
      *
-     * @param PaymentProcess $process
+     * @param PayModel $process
      */
     public function setModel(PayModel $model)
     {
         $this->_model = $model;
     }
     
+    /**
+     * Getter method for model
+     *
+     * @return PayModel
+     */
     public function getModel()
     {
         return $this->_model;
@@ -84,36 +98,79 @@ abstract class Transaction extends BaseObject
 
     private $_integrator;
 
+    /**
+     * Setter method for Integrator.
+     *
+     * @param IntegratorInterface $integrator
+     */
     public function setIntegrator(IntegratorInterface $integrator)
     {
         $this->_integrator = $integrator;
     }
 
+    /**
+     * Getter method for Integrator
+     * 
+     * @return IntegratorInterface
+     */
     public function getIntegrator()
     {
         return $this->_integrator;
     }
 
+    /**
+     * Redirect to the transaction `back`.
+     * 
+     * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
+     *
+     * @return \yii\web\Response
+     */
     public function redirectTransactionBack()
     {
         return $this->getContext()->redirect($this->getModel()->getTransactionGatewayBackLink());
     }
 
+    /**
+     * Redirect to the transaction `notify`.
+     * 
+     * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
+     *
+     * @return \yii\web\Response
+     */
     public function redirectTransactionNotify()
     {
         return $this->getContext()->redirect($this->getModel()->getTransactionGatewayNotifyLink());
     }
 
+    /**
+     * Redirect to the transaction `fail`.
+     * 
+     * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
+     *
+     * @return \yii\web\Response
+     */
     public function redirectTransactionFail()
     {
         return $this->getContext()->redirect($this->getModel()->getTransactionGatewayFailLink());
     }
 
+    /**
+     * Redirect to the transaction `abort`.
+     * 
+     * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
+     *
+     * @return \yii\web\Response
+     */
     public function redirectTransactionAbort()
     {
         return $this->getContext()->redirect($this->getModel()->getTransactionGatewayAbortLink());
     }
 
+    /**
+     * Redirect back to the application success action.
+     *
+     * @return \yii\web\Response
+     */
     public function redirectApplicationSuccess()
     {
         $url = $this->getModel()->getApplicationSuccessLink();
@@ -127,6 +184,11 @@ abstract class Transaction extends BaseObject
         return $this->getContext()->redirect($url);
     }
 
+    /**
+     * Redirect back to the application abort action.
+     *
+     * @return \yii\web\Response
+     */
     public function redirectApplicationAbort()
     {
         $url = $this->getModel()->getApplicationAbortLink();
@@ -139,6 +201,11 @@ abstract class Transaction extends BaseObject
         return $this->getContext()->redirect($url);
     }
 
+    /**
+     * Redirect back to the application error action.
+     *
+     * @return \yii\web\Response
+     */
     public function redirectApplicationError()
     {
         $url = $this->getModel()->getApplicationErrorLink();

@@ -13,6 +13,7 @@ use luya\payment\base\Transaction;
 use luya\payment\provider\StripeProvider;
 use luya\helpers\Html;
 use yii\base\InvalidConfigException;
+use luya\payment\frontend\Module;
 
 /**
  * Stripe Transaction.
@@ -120,6 +121,8 @@ class StripeTransaction extends Transaction
         }
 
         $html = Yii::$app->view->render('@payment/stripe/transaction', [
+            'title' => $this->title ?: Module::t('stripe_header_title'),
+            'color' => $this->color,
             'csrf' => Html::hiddenInput(Yii::$app->request->csrfParam, Yii::$app->request->csrfToken),
             'url' => $this->getModel()->getTransactionGatewayCreateLink(),
             'publishableKey' => $this->publishableKey,

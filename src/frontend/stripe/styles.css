@@ -61,7 +61,7 @@
  * ============================== */
 
 .payment-header {
-    background-color: #e50060;
+    background-color: {color};
     color: #fff;
     padding: 10px 20px;
     position: relative;

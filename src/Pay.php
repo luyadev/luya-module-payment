@@ -8,7 +8,8 @@ use luya\web\Controller;
 use luya\payment\frontend\Module;
 use luya\payment\base\PayModel;
 use luya\payment\models\ProcessItem;
-use luya\payment\base\PayItemModel; // Rename to PayArticle?
+use luya\payment\base\PayItemModel;// Rename to PayArticle?
+use yii\base\InvalidConfigException; 
 
 /**
  * Create new Payment.
@@ -42,8 +43,17 @@ class Pay
 
     private $_currency;
 
+    /**
+     * The 3-letter ISO 4217 currency code.
+     *
+     * @param string $currency
+     */
     public function setCurrency($currency)
     {
+        if (strlen($currency) !== 3) {
+            throw new InvalidConfigException("The currency must be a 3-letter ISO 4217 code.");
+        }
+        
         $this->_currency = $currency;
     }
 
