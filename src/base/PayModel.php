@@ -60,7 +60,7 @@ class PayModel extends Model
     {
         $items = ArrayHelper::searchColumn($this->items, 'is_tax', 1);
 
-        return $tiems ?: [];
+        return $items ?: [];
     }
 
     public function getShippingItems()
