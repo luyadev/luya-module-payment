@@ -2,6 +2,7 @@
 
 use luya\helpers\Html;
 use luya\web\View;
+use luya\payment\frontend\Module;
 
 $this->title = 'Payment';
 $icons = [
@@ -14,12 +15,11 @@ $this->registerCss($this->render('@payment/stripe/styles.css'));
 $this->registerJsFile('https://js.stripe.com/v3/');
 $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' => $publishableKey]), View::POS_END);
 
-
 ?>
 <div class="payment-wrapper" id="payment-wrapper">
     <div class="payment-wrapper-inner" id="payment-wrapper-inline">
         <div class="payment-header">
-            <p class="payment-header-text payment-text">Place Ad checkout</p>
+            <p class="payment-header-text payment-text"><?= Module::t('stripe_header_title'); ?></p>
             <a class="payment-header-close-link" href="<?= $abortLink ?>"><?= $icons['close'] ?></a>
         </div>
 
@@ -28,7 +28,7 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
 
             <div class="payment-details">
 
-                <p class="payment-text payment-text-bold">Details</p>
+                <p class="payment-text payment-text-bold"><?= Module::t('stripe_item_list_title'); ?></p>
 
                 <div class="payment-items">
                     <?php foreach ($productItems as $item): ?>
@@ -73,7 +73,7 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                 <div class="payment-items">
                     <div class="payment-item">
                         <div class="payment-item-total">
-                            <p class="payment-text">Total</p>
+                            <p class="payment-text"><?= Module::t('stripe_items_total'); ?></p>
                         </div>
                         <div class="payment-item-price">
                             <p class="payment-text"><?= Yii::$app->formatter->asCurrency(($totalAmount/100), $currency); ?></p>
@@ -82,15 +82,15 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                 </div>
             </div>
             <div class="payment-pay">
-                <label class="payment-label payment-text payment-text-bold" for="payment-stripe">Pay with credit or debit card</label>
+                <label class="payment-label payment-text payment-text-bold" for="payment-stripe"><?= Module::t('stripe_card_info'); ?></label>
                 <div class="payment-stripe" id="payment-stripe"></div>
                 <div class="payment-errors payment-text payment-text-danger" id="payment-errors" role="alert"></div>
                 <div class="payment-buttons">
                     <div class="payment-buttons-button">
-                        <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span>Abbrechen</span></a>
+                        <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span><?= Module::t('stripe_button_abort'); ?></span></a>
                     </div>
                     <div class="payment-buttons-button">
-                        <button class="payment-button payment-button-submit" type="submit"><?= $icons['check'] ?><span>Bezahlen</span></button>
+                        <button class="payment-button payment-button-submit" type="submit"><?= $icons['check'] ?><span><?= Module::t('stripe_button_pay'); ?></span></button>
                     </div>
                 </div>
             </div>

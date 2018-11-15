@@ -77,6 +77,7 @@ class Module extends \luya\base\Module
      * 'class' => payment\transaction\SaferPayTransaction::className(),
      * 'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
      * ```
+     * + stripe
      */
     public function setTransaction(array $config)
     {
@@ -115,5 +116,17 @@ class Module extends \luya\base\Module
         }
 
         return $this->_integrator;
+    }
+
+    public static function onLoad()
+    {
+        self::registerTranslation('paymentfrontend', static::staticBasePath() . '/messages', [
+            'paymentfrontend' => 'paymentfrontend.php',
+        ]);
+    }
+
+    public static function t($message, array $params = [])
+    {
+        return parent::baseT('paymentfrontend', $message, $params);
     }
 }
