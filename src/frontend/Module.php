@@ -85,17 +85,31 @@ class Module extends \luya\base\Module
 
     private $_integrator;
 
+    /**
+     * Setter method for integrator.
+     *
+     * @param array $config The configuration to use when the integrato is created (on get).
+     */
     public function setIntegrator(array $config)
     {
         $this->_integrator = $config;
     }
 
+    /**
+     * Getter method for integrator.
+     * 
+     * If there is no integrator defined trough setter method, the datbase integrator is used by default.
+     *
+     * @return \luya\payment\base\IntegratorInterface
+     */
     public function getIntegrator()
     {
+        // use default database integrator config if not defined.
         if ($this->_integrator === null) {
             $this->_integrator = ['class' => DatabaseIntegrator::class];
         }
         
+        // create the integrator object if not done previously.
         if (is_array($this->_integrator)) {
             $this->_integrator = Yii::createObject($this->_integrator);
         }

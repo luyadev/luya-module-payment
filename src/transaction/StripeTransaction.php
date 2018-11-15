@@ -29,14 +29,25 @@ use yii\base\InvalidConfigException;
  */
 class StripeTransaction extends Transaction
 {
+    /**
+     * @var string The publishable key from stripe web interface.
+     */
     public $publishableKey;
 
+    /**
+     * @var string The secrete key from stripe web interface.
+     */
     public $secretKey;
 
     /**
      * @var string The string for the label on the "first blue" button which opens the credit card enter dialog.
      */
     public $buttonLabel;
+
+    /**
+     * @var boolean Whether the layout of the website should be wrapped or not. If not the a black window with the payment dialog is shown.
+     */
+    public $layout = true;
 
     /**
      * {@inheritDoc}
@@ -122,7 +133,11 @@ class StripeTransaction extends Transaction
             'totalAmount' => $this->getModel()->getTotalAmount(),
         ]);
 
-        //return $html;
+        if (!$this->layout) {
+            return Yii::$app->view->render('@payment/stripe/layout', [
+                'content' => $html,
+            ]);
+        }
 
         return $this->getContext()->renderContent($html);
     }

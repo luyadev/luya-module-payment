@@ -13,6 +13,7 @@ class StripeTransactionTest extends BasePaymentTestCase
         $stripe = new StripeTransaction([
             'publishableKey' => 'foobar',
             'secretKey' => 'barfoo',
+            'layout' => false,
         ]);
         $stripe->setModel($this->generatePayModel());
 

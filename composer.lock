@@ -546,12 +546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-headless.git",
-                "reference": "10185af414778d8a54c57f88bd95f7c0b1558ccb"
+                "reference": "d9de24fd63c1f763b9fd0a5b1de505442f8c49fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/10185af414778d8a54c57f88bd95f7c0b1558ccb",
-                "reference": "10185af414778d8a54c57f88bd95f7c0b1558ccb",
+                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/d9de24fd63c1f763b9fd0a5b1de505442f8c49fc",
+                "reference": "d9de24fd63c1f763b9fd0a5b1de505442f8c49fc",
                 "shasum": ""
             },
             "require": {
@@ -561,6 +561,9 @@
             "require-dev": {
                 "luyadev/luya-testsuite": "~1.0.0",
                 "nadar/github-markdown-fixer": "^1.0"
+            },
+            "suggest": {
+                "symfony/cache": "A very fast PSR-16 caching library easy to setup for caching API responses."
             },
             "type": "luya-core",
             "extra": {
@@ -593,7 +596,7 @@
                 "php",
                 "yii2"
             ],
-            "time": "2018-10-30T13:34:35+00:00"
+            "time": "2018-11-15T09:31:45+00:00"
         },
         {
             "name": "luyadev/luya-module-admin",
@@ -601,12 +604,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "8c6ecbdf45ebad593bc6e9574219e256f7814de5"
+                "reference": "91e97c76c69055b1deceb103476890f74219a612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/8c6ecbdf45ebad593bc6e9574219e256f7814de5",
-                "reference": "8c6ecbdf45ebad593bc6e9574219e256f7814de5",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/91e97c76c69055b1deceb103476890f74219a612",
+                "reference": "91e97c76c69055b1deceb103476890f74219a612",
                 "shasum": ""
             },
             "require": {
@@ -667,7 +670,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-30T13:34:22+00:00"
+            "time": "2018-11-14T17:03:42+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -881,16 +884,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.20.0",
+            "version": "v6.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "eef8383c1b54417c470f3f60f14ffdd6f04773d4"
+                "reference": "c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/eef8383c1b54417c470f3f60f14ffdd6f04773d4",
-                "reference": "eef8383c1b54417c470f3f60f14ffdd6f04773d4",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891",
+                "reference": "c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891",
                 "shasum": ""
             },
             "require": {
@@ -932,7 +935,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-10-30T17:02:13+00:00"
+            "time": "2018-11-12T22:23:04+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -2860,16 +2863,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.46",
+            "version": "v2.8.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "84ae343f39947aa084426ed1138bb96bf94d1f12"
+                "reference": "76494bc38ff38d90d01913d23b5271acd4d78dd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/84ae343f39947aa084426ed1138bb96bf94d1f12",
-                "reference": "84ae343f39947aa084426ed1138bb96bf94d1f12",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/76494bc38ff38d90d01913d23b5271acd4d78dd3",
+                "reference": "76494bc38ff38d90d01913d23b5271acd4d78dd3",
                 "shasum": ""
             },
             "require": {
@@ -2916,7 +2919,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T09:03:18+00:00"
+            "time": "2018-10-20T23:16:31+00:00"
         },
         {
             "name": "symfony/filesystem",

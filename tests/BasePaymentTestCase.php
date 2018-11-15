@@ -46,8 +46,7 @@ class BasePaymentTestCase extends WebApplicationTestCase
 
         $this->fixtureProcessModel = new ActiveRecordFixture([
             'modelClass' => Process::class,
-            'fixtureData' => [
-            ]
+            'ignoreColumns' => ['items']
         ]);
 
         $this->fixtureProcessTraceModel = new ActiveRecordFixture([

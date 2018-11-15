@@ -46,6 +46,13 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        // a closed payment model returns false and must redirect to the application
+        // This happens when users click "back" after payment.
+        if (!$model) {
+            return $this->goHome();
+        }
+
         $integrator->addTrace($model, __METHOD__);
         
         $this->module->transaction->setIntegrator($integrator);
