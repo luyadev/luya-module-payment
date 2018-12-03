@@ -39,11 +39,26 @@ class PayModel extends Model
         ];
     }
 
+    /**
+     * Add item to items array
+     *
+     * @param string $name
+     * @param integer $qty
+     * @param integer $amount
+     * @param integer $totalAmount
+     * @param boolean $isShipping
+     * @param boolean $isTax
+     */
     public function addItem($name, $qty, $amount, $totalAmount, $isShipping, $isTax)
     {
         $this->items[] = ['name' => $name, 'qty' => $qty, 'amount' => ($amount/100), 'total_amount' => ($totalAmount/100), 'is_shipping' => $isShipping, 'is_tax' => $isTax];
     }
 
+    /**
+     * An array with all items which are not shipping or tax
+     *
+     * @return array With the keys: name, qty, amount, total_amount, is_shipping, is_tax
+     */
     public function getProductItems()
     {
         $items = [];
@@ -56,6 +71,11 @@ class PayModel extends Model
         return $items;
     }
 
+    /**
+     * An array with all tax items
+     *
+     * @return array With the keys: name, qty, amount, total_amount, is_shipping, is_tax
+     */
     public function getTaxItems()
     {
         $items = ArrayHelper::searchColumn($this->items, 'is_tax', 1);
@@ -63,6 +83,11 @@ class PayModel extends Model
         return $items ?: [];
     }
 
+    /**
+     * An array with all shippings items
+     *
+     * @return array With the keys: name, qty, amount, total_amount, is_shipping, is_tax
+     */
     public function getShippingItems()
     {
         $items = ArrayHelper::searchColumn($this->items, 'is_shipping', 1); 

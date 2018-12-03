@@ -30,11 +30,11 @@ class Module extends \luya\base\Module
      * @inheritDoc
      */
     public $urlRules = [
-        ['pattern' => 'payment-create/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/create'],
-        ['pattern' => 'payment-back/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/back'],
-        ['pattern' => 'payment-fail/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/fail'],
-        ['pattern' => 'payment-abort/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/abort'],
-        ['pattern' => 'payment-notify/<lpToken:\w+>/<lpKey:\w+>/<time:[0-9\.]+>', 'route' => 'payment/default/notify'],
+        ['pattern' => 'payment-create/<lpToken:[0-9\.\,a-zA-Z\-]+>/<lpKey:[0-9\.\,a-zA-Z\-]+>/<time:[0-9\.\,]+>', 'route' => 'payment/default/create'],
+        ['pattern' => 'payment-back/<lpToken:[0-9\.\,a-zA-Z\-]+>/<lpKey:[0-9\.\,a-zA-Z\-]+>/<time:[0-9\.\,]+>', 'route' => 'payment/default/back'],
+        ['pattern' => 'payment-fail/<lpToken:[0-9\.\,a-zA-Z\-]+>/<lpKey:[0-9\.\,a-zA-Z\-]+>/<time:[0-9\.\,]+>', 'route' => 'payment/default/fail'],
+        ['pattern' => 'payment-abort/<lpToken:[0-9\.\,a-zA-Z\-]+>/<lpKey:[0-9\.\,a-zA-Z\-]+>/<time:[0-9\.\,]+>', 'route' => 'payment/default/abort'],
+        ['pattern' => 'payment-notify/<lpToken:[0-9\.\,a-zA-Z\-]+>/<lpKey:[0-9\.\,a-zA-Z\-]+>/<time:[0-9\.\,]+>', 'route' => 'payment/default/notify'],
     ];
 
     /**

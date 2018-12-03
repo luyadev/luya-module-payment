@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5793f7c0ab5bd67384bb828b6400a60f",
+    "content-hash": "be1cd2f4da1e7d29c29b691223ac528f",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -223,24 +223,24 @@
         },
         {
             "name": "curl/curl",
-            "version": "1.9.3",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mod/curl.git",
-                "reference": "43436a604b18c2a985cbc3f983be817fbe500e99"
+                "reference": "63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-mod/curl/zipball/43436a604b18c2a985cbc3f983be817fbe500e99",
-                "reference": "43436a604b18c2a985cbc3f983be817fbe500e99",
+                "url": "https://api.github.com/repos/php-mod/curl/zipball/63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6",
+                "reference": "63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=5.3.0"
+                "php": "^5.6 | ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*",
+                "phpunit/phpunit": "^5.7",
                 "squizlabs/php_codesniffer": "~2.1"
             },
             "type": "library",
@@ -274,7 +274,7 @@
                 "curl",
                 "dot"
             ],
-            "time": "2018-09-05T17:16:47+00:00"
+            "time": "2018-11-17T10:32:36+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -485,20 +485,20 @@
         },
         {
             "name": "luyadev/luya-core",
-            "version": "1.0.13",
+            "version": "1.0.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-core.git",
-                "reference": "ac920503016031b39a24ef998d2267ce543031ba"
+                "reference": "46226dc830d03b9428b337a446e2df5837a80b7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/ac920503016031b39a24ef998d2267ce543031ba",
-                "reference": "ac920503016031b39a24ef998d2267ce543031ba",
+                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/46226dc830d03b9428b337a446e2df5837a80b7c",
+                "reference": "46226dc830d03b9428b337a446e2df5837a80b7c",
                 "shasum": ""
             },
             "require": {
-                "curl/curl": "~1.0",
+                "curl/curl": "^2.0 || ^1.0",
                 "luyadev/luya-composer": "~1.0.0",
                 "phpmailer/phpmailer": "^6.0",
                 "yiisoft/yii2": "~2.0.15"
@@ -538,24 +538,24 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-10-30T11:06:56+00:00"
+            "time": "2018-12-03T12:45:15+00:00"
         },
         {
             "name": "luyadev/luya-headless",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-headless.git",
-                "reference": "d9de24fd63c1f763b9fd0a5b1de505442f8c49fc"
+                "reference": "d95747a4b6d9279ae838b7e77d390766666ef178"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/d9de24fd63c1f763b9fd0a5b1de505442f8c49fc",
-                "reference": "d9de24fd63c1f763b9fd0a5b1de505442f8c49fc",
+                "url": "https://api.github.com/repos/luyadev/luya-headless/zipball/d95747a4b6d9279ae838b7e77d390766666ef178",
+                "reference": "d95747a4b6d9279ae838b7e77d390766666ef178",
                 "shasum": ""
             },
             "require": {
-                "curl/curl": "^1.0",
+                "curl/curl": "^2.0",
                 "psr/simple-cache": "^1.0"
             },
             "require-dev": {
@@ -596,20 +596,20 @@
                 "php",
                 "yii2"
             ],
-            "time": "2018-11-15T09:31:45+00:00"
+            "time": "2018-11-30T09:30:01+00:00"
         },
         {
             "name": "luyadev/luya-module-admin",
-            "version": "dev-master",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "91e97c76c69055b1deceb103476890f74219a612"
+                "reference": "dc7031e7c994cd76881c16049b2b60b2d1f78f73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/91e97c76c69055b1deceb103476890f74219a612",
-                "reference": "91e97c76c69055b1deceb103476890f74219a612",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/dc7031e7c994cd76881c16049b2b60b2d1f78f73",
+                "reference": "dc7031e7c994cd76881c16049b2b60b2d1f78f73",
                 "shasum": ""
             },
             "require": {
@@ -670,7 +670,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-11-14T17:03:42+00:00"
+            "time": "2018-11-21T21:00:04+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -723,16 +723,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.0.5",
+            "version": "v6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "cb3ea134d4d3729e7857737d5f320cce9caf4d32"
+                "reference": "8190d73eb5def11a43cfb020b7f36db65330698c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/cb3ea134d4d3729e7857737d5f320cce9caf4d32",
-                "reference": "cb3ea134d4d3729e7857737d5f320cce9caf4d32",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/8190d73eb5def11a43cfb020b7f36db65330698c",
+                "reference": "8190d73eb5def11a43cfb020b7f36db65330698c",
                 "shasum": ""
             },
             "require": {
@@ -785,20 +785,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2018-03-27T13:49:45+00:00"
+            "time": "2018-11-16T00:41:32+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -832,7 +832,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -884,16 +884,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.21.1",
+            "version": "v6.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891"
+                "reference": "e608b6538b45d233db66838c389c6548c1152a27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891",
-                "reference": "c9f1c61bcf91f47cc85b4cb94dcf8113eeb5a891",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e608b6538b45d233db66838c389c6548c1152a27",
+                "reference": "e608b6538b45d233db66838c389c6548c1152a27",
                 "shasum": ""
             },
             "require": {
@@ -935,7 +935,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-11-12T22:23:04+00:00"
+            "time": "2018-11-28T16:32:29+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -1293,16 +1293,16 @@
         },
         {
             "name": "luyadev/luya-module-cms",
-            "version": "1.0.7.2",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-cms.git",
-                "reference": "4b57893b2d847c0cbddf4796332c225188f7c6ca"
+                "reference": "80863ec01f17487ede12cc11d170ef8eba92c64e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-cms/zipball/4b57893b2d847c0cbddf4796332c225188f7c6ca",
-                "reference": "4b57893b2d847c0cbddf4796332c225188f7c6ca",
+                "url": "https://api.github.com/repos/luyadev/luya-module-cms/zipball/80863ec01f17487ede12cc11d170ef8eba92c64e",
+                "reference": "80863ec01f17487ede12cc11d170ef8eba92c64e",
                 "shasum": ""
             },
             "require-dev": {
@@ -1353,24 +1353,24 @@
                 "yii2",
                 "yii2-cms"
             ],
-            "time": "2018-10-17T19:22:23+00:00"
+            "time": "2018-12-03T14:07:31+00:00"
         },
         {
             "name": "luyadev/luya-testsuite",
-            "version": "1.0.13.2",
+            "version": "1.0.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-testsuite.git",
-                "reference": "941544dd0d46e1ac6df818bc42dfd291fba62f12"
+                "reference": "0818dd2acb3ac1324e8af802b77de45514c2d785"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/941544dd0d46e1ac6df818bc42dfd291fba62f12",
-                "reference": "941544dd0d46e1ac6df818bc42dfd291fba62f12",
+                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/0818dd2acb3ac1324e8af802b77de45514c2d785",
+                "reference": "0818dd2acb3ac1324e8af802b77de45514c2d785",
                 "shasum": ""
             },
             "require": {
-                "curl/curl": "^1.0",
+                "curl/curl": "^2.0 || ^1.0",
                 "luyadev/luya-core": "^1.0",
                 "luyadev/luya-module-admin": "^1.0",
                 "luyadev/luya-module-cms": "^1.0",
@@ -1401,7 +1401,7 @@
                 "module",
                 "php"
             ],
-            "time": "2018-10-25T21:44:20+00:00"
+            "time": "2018-11-17T12:24:14+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2863,16 +2863,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.47",
+            "version": "v2.8.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "76494bc38ff38d90d01913d23b5271acd4d78dd3"
+                "reference": "a77e974a5fecb4398833b0709210e3d5e334ffb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/76494bc38ff38d90d01913d23b5271acd4d78dd3",
-                "reference": "76494bc38ff38d90d01913d23b5271acd4d78dd3",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a77e974a5fecb4398833b0709210e3d5e334ffb0",
+                "reference": "a77e974a5fecb4398833b0709210e3d5e334ffb0",
                 "shasum": ""
             },
             "require": {
@@ -2919,7 +2919,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-20T23:16:31+00:00"
+            "time": "2018-11-21T14:20:20+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -3350,10 +3350,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "luyadev/luya-module-admin": 20,
-        "luyadev/luya-headless": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

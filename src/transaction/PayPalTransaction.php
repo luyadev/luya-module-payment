@@ -88,6 +88,10 @@ class PayPalTransaction extends Transaction
             'description' => $this->getOrderDescription(),
             'returnUrl' => $this->getModel()->getTransactionGatewayBackLink(),
             'cancelUrl' => $this->getModel()->getTransactionGatewayAbortLink(),
+            // add new items informations
+            'items' => $this->getModel()->getProductItems(),
+            'taxes' => $this->getModel()->getTaxItems(),
+            'shipping' => $this->getModel()->getShippingItems(),
         ]);
         
         return $this->getContext()->redirect($url);

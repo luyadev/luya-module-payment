@@ -32,7 +32,7 @@ class PayPalProvider extends Provider implements ProviderInterface
         return 'paypal';
     }
     
-    public function callCreate($clientId, $clientSecret, $orderId, $amount, $currency, $description, $returnUrl, $cancelUrl)
+    public function callCreate($clientId, $clientSecret, $orderId, $amount, $currency, $description, $returnUrl, $cancelUrl, array $items, array $taxes, array $shipping)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
         
@@ -44,14 +44,27 @@ class PayPalProvider extends Provider implements ProviderInterface
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
         
+        // $items
+        /*
         $item = new Item();
         $item->setName($description);
         $item->setCurrency($currency);
         $item->setPrice($amount);
         $item->setQuantity(1);
+        */
+        $products = [];
+        foreach ($items as $item) {
+            $i = new Item();
+            $i->setName($item['name']);
+            $i->setCurrency($currency);
+            $i->setPrice($item['amount']);
+            $i->setQuantity($item['qty']);
+            $products[] = $i;
+        }
+
         
         $itemList = new ItemList();
-        $itemList->setItems(array($item));
+        $itemList->setItems($products);
         
         $amountObject = new Amount();
         $amountObject->setCurrency($currency);

@@ -36,19 +36,19 @@ configure the payment module in your config
     'paymentadmin' => 'luya\payment\admin\Module',
     'payment' => [
         'class' => 'luya\payment\frontend\Module',
-        'transaction' => 
+        'transaction' => [
             // Paypal Example
-            'class' => \luya\payment\transaction\PayPalTransaction::class,
+            'class' => 'luya\payment\transaction\PayPalTransaction',
             'clientId' => 'ClientIdFromPayPalApplication',
             'clientSecret' => 'ClientSecretFromPayPalApplication',
             'productDescription' => 'MyOnlineStore Order',
         
             // SaferPay Example
-            //'class' => \luya\payment\transaction\SaferPayTransaction::class,
+            //'class' => 'luya\payment\transaction\SaferPayTransaction',
             //'accountId' => 'SAFERPAYACCOUNTID', // each transaction can have specific attributes, saferpay requires an accountId',
 
             // Stripe
-            // 'class' => StripeTransaction::class,
+            // 'class' => 'luya\payment\transaction\StripeTransaction',
             // 'publishableKey' => 'pk_test_....',
             // 'secretKey' => 'sk_test_.....',
         ],
