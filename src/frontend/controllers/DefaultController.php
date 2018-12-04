@@ -4,6 +4,7 @@ namespace luya\payment\frontend\controllers;
 
 use luya\payment\PaymentProcess;
 use luya\payment\Pay;
+use luya\payment\base\PayModel;
 use yii\filters\HttpCache;
 
 /**
@@ -36,6 +37,41 @@ class DefaultController extends \luya\web\Controller
     }
 
     /**
+     * Undocumented function
+     *
+     * @param PayModel|boolean $model
+     * @return void
+     */
+    private function ensureModelState($model)
+    {
+        /** @var PayModel $model */
+
+        // unable to find the model means $model is false.
+        if (!$model) {
+            return $this->goHome();
+        }
+
+        if ($model->isClosedSuccess()) {
+            return $this->redirect($model->getApplicationSuccessLink());
+        }
+
+        if ($model->isClosedAbort()) {
+            return $this->redirect($model->getApplicationAbortLink());
+        }
+
+        if ($model->isClosedError()) {
+            return $this->redirect($model->getApplicationErrorLink());
+        }
+
+        // Its closed, but we can not determine a status.
+        if ($model->isClosed()) {
+            return $this->redirect($model->getApplicationErrorLink());
+        }
+
+        return false;
+    }
+
+    /**
      * Create new payment
      *
      * @param string $lpToken The LUYA payment token.
@@ -46,14 +82,14 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+        $integrator->addTrace($model, __METHOD__);
 
-        // a closed payment model returns false and must redirect to the application
-        // This happens when users click "back" after payment.
-        if (!$model) {
-            return $this->goHome();
+        $state = $this->ensureModelState($model);
+        if ($state !== false) {
+            return $state;
         }
 
-        $integrator->addTrace($model, __METHOD__);
+        
         
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
@@ -75,6 +111,11 @@ class DefaultController extends \luya\web\Controller
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
+
+        $state = $this->ensureModelState($model);
+        if ($state !== false) {
+            return $state;
+        }
         
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
@@ -97,6 +138,11 @@ class DefaultController extends \luya\web\Controller
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
+
+        $state = $this->ensureModelState($model);
+        if ($state !== false) {
+            return $state;
+        }
         
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
@@ -118,6 +164,11 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $state = $this->ensureModelState($model);
+        if ($state !== false) {
+            return $state;
+        }
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
@@ -140,6 +191,11 @@ class DefaultController extends \luya\web\Controller
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
         
+        $state = $this->ensureModelState($model);
+        if ($state !== false) {
+            return $state;
+        }
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);

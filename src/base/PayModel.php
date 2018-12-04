@@ -6,6 +6,7 @@ use luya\helpers\url;
 use yii\base\Model;
 use luya\payment\PaymentException;
 use luya\helpers\ArrayHelper;
+use luya\payment\Pay;
 
 /**
  * Pay Model.
@@ -30,6 +31,26 @@ class PayModel extends Model
     public $isClosed = 0;
     public $closeState;
 
+    public function isClosed()
+    {
+        return $this->isClosed;
+    }
+    
+    public function isClosedSuccess()
+    {
+        return $this->isClosed() && $this->closeState == Pay::STATE_SUCCESS;
+    }
+
+    public function isClosedError()
+    {
+        return $this->isClosed() && $this->closeState == Pay::STATE_ERROR;
+    }
+
+    public function isClosedAbort()
+    {
+        return $this->isClosed() && $this->closeState == Pay::STATE_ABORT;
+    }
+
     public function rules()
     {
         return [
@@ -51,7 +72,7 @@ class PayModel extends Model
      */
     public function addItem($name, $qty, $amount, $totalAmount, $isShipping, $isTax)
     {
-        $this->items[] = ['name' => $name, 'qty' => $qty, 'amount' => ($amount/100), 'total_amount' => ($totalAmount/100), 'is_shipping' => $isShipping, 'is_tax' => $isTax];
+        $this->items[] = ['name' => $name, 'qty' => $qty, 'amount' => $amount, 'total_amount' => $totalAmount, 'is_shipping' => $isShipping, 'is_tax' => $isTax];
     }
 
     /**
@@ -78,9 +99,14 @@ class PayModel extends Model
      */
     public function getTaxItems()
     {
-        $items = ArrayHelper::searchColumn($this->items, 'is_tax', 1);
+        $items = [];
+        foreach ($this->items as $i) {
+            if ($i['is_tax']) {
+                $items[] = $i;
+            }
+        }
 
-        return $items ?: [];
+        return $items;
     }
 
     /**
@@ -90,9 +116,14 @@ class PayModel extends Model
      */
     public function getShippingItems()
     {
-        $items = ArrayHelper::searchColumn($this->items, 'is_shipping', 1); 
-
-        return $items ?: [];
+        $items = [];
+        foreach ($this->items as $i) {
+            if ($i['is_shipping']) {
+                $items[] = $i;
+            }
+        }
+        
+        return $items;
     }
 
     public function setId($id)

@@ -25,7 +25,7 @@ class ProcessController extends \luya\admin\ngrest\base\Api
 
     public function actionFindByKey($key, $token)
     {
-        $model = Process::find()->where(['random_key' => $key, 'is_closed' => 0])->with(['items'])->one();
+        $model = Process::find()->where(['random_key' => $key])->with(['items'])->one();
 
         if (!$model) {
             return false;

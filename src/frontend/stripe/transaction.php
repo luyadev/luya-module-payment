@@ -33,7 +33,7 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                             <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name']); ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -46,7 +46,7 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                             <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -60,7 +60,7 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                             <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'], $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>

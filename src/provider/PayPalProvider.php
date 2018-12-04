@@ -2,6 +2,7 @@
 
 namespace luya\payment\provider;
 
+use Yii;
 use luya\payment\base\Provider;
 use luya\payment\base\ProviderInterface;
 use luya\payment\PaymentException;
@@ -15,6 +16,8 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\ItemList;
 use PayPal\Api\Item;
+use luya\payment\transaction\PayPalTransaction;
+use PayPal\Api\Details;
 
 /**
  * @todo Unable to generate auth token with curl library: https://github.com/php-mod/curl
@@ -25,11 +28,24 @@ class PayPalProvider extends Provider implements ProviderInterface
     /**
      * @var string string The mode of the api context `live` or `sandbox`.
      */
-    public $mode = 'live';
+    public $mode = PayPalTransaction::MODE_LIVE;
     
     public function getId()
     {
         return 'paypal';
+    }
+
+    public function getConfigArray()
+    {
+        $config = ['mode' => $this->mode];
+
+        if ($this->mode == PayPalTransaction::MODE_SANDBOX) {
+            $config['log.LogEnabled'] = true;
+            $config['log.FileName'] = Yii::getAlias('@runtime/PayPal.log');
+            $config['log.LogLevel'] = 'DEBUG';
+        }
+
+        return $config;
     }
     
     public function callCreate($clientId, $clientSecret, $orderId, $amount, $currency, $description, $returnUrl, $cancelUrl, array $items, array $taxes, array $shipping)
@@ -37,9 +53,7 @@ class PayPalProvider extends Provider implements ProviderInterface
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
         
         $apiContext = new ApiContext($oauthCredential);
-        $apiContext->setConfig([
-            'mode' => $this->mode,
-        ]);
+        $apiContext->setConfig($this->getConfigArray());
         
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
@@ -53,13 +67,37 @@ class PayPalProvider extends Provider implements ProviderInterface
         $item->setQuantity(1);
         */
         $products = [];
+        $itemTotalAmount = 0;
         foreach ($items as $item) {
             $i = new Item();
             $i->setName($item['name']);
             $i->setCurrency($currency);
-            $i->setPrice($item['amount']);
+            $i->setPrice(PayPalTransaction::floatAmount($item['amount']));
             $i->setQuantity($item['qty']);
             $products[] = $i;
+            $itemTotalAmount += $item['total_amount'];
+        }
+
+        $taxAmount = 0;
+        foreach ($taxes as $tax) {
+            $taxAmount += $tax['amount'];
+        }
+
+        $shippingAmount = 0;
+        foreach ($shipping as $ship) {
+            $shippingAmount += $ship['amount'];
+        }
+
+        $details = false;
+        if ($shippingAmount || $taxAmount) {
+            $details = new Details();
+            if ($shippingAmount) {
+                $details->setShipping(PayPalTransaction::floatAmount($shippingAmount));
+            }
+            if ($taxAmount) {
+                $details->setTax(PayPalTransaction::floatAmount($taxAmount));
+            }
+            $details->setSubtotal(PayPalTransaction::floatAmount($itemTotalAmount));
         }
 
         
@@ -68,7 +106,10 @@ class PayPalProvider extends Provider implements ProviderInterface
         
         $amountObject = new Amount();
         $amountObject->setCurrency($currency);
-        $amountObject->setTotal($amount);
+        $amountObject->setTotal(PayPalTransaction::floatAmount($amount));
+        if ($details) {
+            $amountObject->setDetails($details);
+        }
         
         $transaction = new Transaction();
         $transaction->setItemList($itemList);
@@ -101,9 +142,7 @@ class PayPalProvider extends Provider implements ProviderInterface
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
         
         $apiContext = new ApiContext($oauthCredential);
-        $apiContext->setConfig([
-            'mode' => $this->mode,
-        ]);
+        $apiContext->setConfig($this->getConfigArray());
         
         $payment = Payment::get($paymentId, $apiContext);
         

@@ -80,16 +80,37 @@ class Pay
 
     private $_items;
 
+    /**
+     * Add an item.
+     * 
+     * The amount is always the amount for 1 qty! not the total amount
+     *
+     * @param string $name The name of the product item.
+     * @param integer $qty The number of items.
+     * @param integer $amount The price in smallest unit for **1 item** not total price.
+     */
     public function addItem($name, $qty, $amount)
     {
         $this->internalAddItem($name, $qty, $amount, false, false);
     }
 
+    /**
+     * Add shipping product
+     *
+     * @param string $name The name of the shipping product like "International Shipping"  
+     * @param string $amount
+     */
     public function addShipping($name, $amount)
     {
         $this->internalAddItem($name, 1, $amount, false, true);
     }
 
+    /**
+     * A tax item.
+     *
+     * @param string $name
+     * @param integer $amount
+     */
     public function addTax($name, $amount)
     {
         $this->internalAddItem($name, 1, $amount, true, false);
@@ -128,7 +149,7 @@ class Pay
         }
 
         if ($this->_totalAmount !== $amount) {
-            throw new PaymentException("The amount provided trough items,shipping and tax must be equal the provided totalAmount.");
+            throw new PaymentException("The amount provided trough items,shipping & tax ({$amount}) must be equal the provided totalAmount ({$this->_totalAmount}).");
         }
 
         $model = new PayModel();

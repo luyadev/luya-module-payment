@@ -69,9 +69,9 @@ class PayPalTransaction extends Transaction
      *
      * @param unknown $amount
      */
-    private function getFloatAmount()
+    public static function floatAmount($value)
     {
-        return number_format($this->getModel()->getTotalAmount() / 100, 2);
+        return number_format($value / 100, 2);
     }
     
     /**
@@ -83,7 +83,7 @@ class PayPalTransaction extends Transaction
             'clientId' => $this->clientId,
             'clientSecret' => $this->clientSecret,
             'orderId' => $this->getModel()->getOrderId(),
-            'amount' => $this->getFloatAmount(),
+            'amount' => $this->getModel()->getTotalAmount(),
             'currency' => $this->getModel()->getCurrency(),
             'description' => $this->getOrderDescription(),
             'returnUrl' => $this->getModel()->getTransactionGatewayBackLink(),
