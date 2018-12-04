@@ -107,7 +107,7 @@ class PayPalTransaction extends Transaction
             'clientSecret' => $this->clientSecret,
             'paymentId' => Yii::$app->request->get('paymentId', false),
             'payerId' => Yii::$app->request->get('PayerID', false),
-            'amount' => $this->getFloatAmount(),
+            'amount' => $this->getModel()->getTotalAmount(),
             'currency' => $this->getModel()->getCurrency(),
         ]);
         

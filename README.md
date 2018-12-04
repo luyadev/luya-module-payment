@@ -62,7 +62,7 @@ execute database command
 ./vendor/bin/luya migrate
 ```
 
-Add a transaction to your estore logic, **save the processId** and dispatch() the payment, which will redirect to the payment gatway.
+Add a transaction to your estore logic, **save the pay id** and dispatch() the payment, which will redirect to the payment gatway.
 
 > Make sure to store the `$pay->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
 
@@ -82,8 +82,8 @@ class StoreCheckoutController extends \luya\web\Controller
         $pay->setOrderId($orderId);
         $pay->setCurrency('EUR');
         $pay->setSuccessLink(['success', 'orderId' => $orderId]);
-        $pay->setErrorLink(['error', 'orderId' => $orderId]);
-        $pay->setAbortLink(['abort', 'orderId' => $orderId]);
+        $pay->setErrorLink(['error']);
+        $pay->setAbortLink(['abort']);
 
         $pay->addItem('Product A', 2, 200); // buying Product A for 2x each 200 cents which is a total amount of 400 cents (the charged value).
         $pay->addTax('VAT 8%', 16);
@@ -101,19 +101,19 @@ class StoreCheckoutController extends \luya\web\Controller
     {
         // find the $payId from the order model.
         // this ensures if someone could open this url directly whether payment process for the given id was sucessfull or not.
-        if (!Pay::isSuccess($payId))) {
+        if (!Pay::isSuccess($payId)) {
             throw new \Exception("The request url is invalid, the payment process was not closed successfull.");
         }
-
     }
     
     public function actionAbort($orderId)
     {
-
+        // redirect to the view where the users klicks "pay" ...
     }
 
     public function actionError($orderId)
     {
+        // display a an error message for the user
     }
 }
 ```
