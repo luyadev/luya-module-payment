@@ -39,7 +39,7 @@ class BasePaymentTestCase extends WebApplicationTestCase
     public $fixtureProcessItemModel;
     
     public $fixtureProcessTraceModel;
-
+    
     public function afterSetup()
     {
         parent::afterSetup();

@@ -13,7 +13,7 @@ class PayPalTransactiontest extends BasePaymentTestCase
         $paypal = new PayPalTransaction([
             'clientId' => 'clientid',
             'clientSecret' => 'secret',
-            'mode' => 'sandbox',
+            'mode' => PayPalTransaction::MODE_LIVE,
         ]);
 
         $paypal->setModel($this->generatePayModel());

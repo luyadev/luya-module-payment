@@ -223,16 +223,16 @@
         },
         {
             "name": "curl/curl",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mod/curl.git",
-                "reference": "63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6"
+                "reference": "d22086dd2eee5ca02e4c29b9a5bdf3645bfdbbff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-mod/curl/zipball/63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6",
-                "reference": "63ef7e7ba7b37c909886f7ca0bbf99bfb0dfaad6",
+                "url": "https://api.github.com/repos/php-mod/curl/zipball/d22086dd2eee5ca02e4c29b9a5bdf3645bfdbbff",
+                "reference": "d22086dd2eee5ca02e4c29b9a5bdf3645bfdbbff",
                 "shasum": ""
             },
             "require": {
@@ -274,7 +274,7 @@
                 "curl",
                 "dot"
             ],
-            "time": "2018-11-17T10:32:36+00:00"
+            "time": "2018-12-04T19:47:03+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -600,16 +600,16 @@
         },
         {
             "name": "luyadev/luya-module-admin",
-            "version": "1.2.3",
+            "version": "1.2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "dc7031e7c994cd76881c16049b2b60b2d1f78f73"
+                "reference": "58d70f66edabb68ad93224174f7389676ae08b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/dc7031e7c994cd76881c16049b2b60b2d1f78f73",
-                "reference": "dc7031e7c994cd76881c16049b2b60b2d1f78f73",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/58d70f66edabb68ad93224174f7389676ae08b29",
+                "reference": "58d70f66edabb68ad93224174f7389676ae08b29",
                 "shasum": ""
             },
             "require": {
@@ -670,7 +670,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-11-21T21:00:04+00:00"
+            "time": "2018-12-06T19:34:24+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -884,16 +884,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.24.0",
+            "version": "v6.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "e608b6538b45d233db66838c389c6548c1152a27"
+                "reference": "ba85ad7c1618462083a7e9a542ded929232e8bff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e608b6538b45d233db66838c389c6548c1152a27",
-                "reference": "e608b6538b45d233db66838c389c6548c1152a27",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ba85ad7c1618462083a7e9a542ded929232e8bff",
+                "reference": "ba85ad7c1618462083a7e9a542ded929232e8bff",
                 "shasum": ""
             },
             "require": {
@@ -935,7 +935,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-11-28T16:32:29+00:00"
+            "time": "2018-12-11T21:33:24+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -2863,7 +2863,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.48",
+            "version": "v2.8.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
