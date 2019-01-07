@@ -6,6 +6,7 @@ use luya\base\Widget;
 use luya\helpers\Html;
 use luya\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\web\JsExpression;
 
 /**
  * Generates a submit button for a form. This should be used when submiting payment forms
@@ -57,15 +58,16 @@ class SubmitFormButtonWidget extends Widget
     public function run()
     {
         $js = [
-            'this.disabled=true',
+            'this.disabled=true;',
         ];
 
         if ($this->pushed) {
-            $js[] = "this.value='{$this->pushed}'";
+            $js[] = "this.innerHTML='{$this->pushed}';";
         }
 
-        return Html::submitButton($this->label, ArrayHelper::merge([
-            'onclick' => implode(" ", $js),
-        ], $this->options));
+        return Html::decode(Html::submitButton($this->label, ArrayHelper::merge([
+            'onclick' => new JsExpression(implode(" ", $js)),
+            'encoding' => false,
+        ], $this->options)));
     }
 }
