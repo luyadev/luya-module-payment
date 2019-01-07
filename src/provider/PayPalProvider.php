@@ -28,7 +28,7 @@ class PayPalProvider extends Provider implements ProviderInterface
     /**
      * @var string string The mode of the api context `live` or `sandbox`.
      */
-    public $mode = PayPalTransaction::MODE_LIVE;
+    public $mode;
     
     public function getId()
     {

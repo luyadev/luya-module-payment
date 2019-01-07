@@ -11,17 +11,45 @@ use yii\base\InvalidConfigException;
 /**
  * Safer Pay Transaction.
  * 
+ * Test SaferPay Transaction:
+ * 
+ * ```php
+ * 'class' => 'luya\payment\transaction\SaferPayTransaction',
+ * 'accountId' => '401860-17795278',
+ * 'spPassword' => '8e7Yn5yk',
+ * 'mode' => 'sandbox',
+ * ```
+ * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class SaferPayTransaction extends Transaction
 {
     /**
+     * @var string Production mode
+     */
+    const MODE_LIVE = 'live';
+
+    /**
+     * @var string Sandbox/Testing mode
+     */
+    const MODE_SANDBOX = 'sandbox';
+
+    /**
      * @var string The accountId value from the safer pay backend.
      */
     public $accountId;
    
+    /**
+     * @param string Test account spPassword (from the docs: Die Übergabe des Parameters spPassword ist nur beim Testkonto erforderlich. Für produktive Konten wird
+     * dieser Parameter nicht benötigt!)
+     */
     public $spPassword;
+
+    /**
+     * @param string The mode which changes the urls for sandbox or live
+     */
+    public $mode = self::MODE_LIVE;
     
     /**
      * {@inheritDoc}
@@ -42,7 +70,9 @@ class SaferPayTransaction extends Transaction
      */
     public function getProvider()
     {
-        return new SaferPayProvider();
+        return new SaferPayProvider([
+            'mode' => $this->mode,
+        ]);
     }
     
     /**

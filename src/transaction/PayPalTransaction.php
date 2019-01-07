@@ -16,11 +16,24 @@ use yii\base\InvalidConfigException;
  */
 class PayPalTransaction extends Transaction
 {
+    /**
+     * @var string Production mode
+     */
     const MODE_LIVE = 'live';
+
+    /**
+     * @var string Sandbox/Testing mode
+     */
     const MODE_SANDBOX = 'sandbox';
 
+    /**
+     * @var string The client id
+     */
     public $clientId;
     
+    /**
+     * @var string the Client secret.
+     */
     public $clientSecret;
     
     /**
@@ -52,7 +65,9 @@ class PayPalTransaction extends Transaction
      */
     public function getProvider()
     {
-        return new PayPalProvider(['mode' => $this->mode]);
+        return new PayPalProvider([
+            'mode' => $this->mode,
+        ]);
     }
     
     private function getOrderDescription()
