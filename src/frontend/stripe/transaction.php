@@ -86,7 +86,8 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                         <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span><?= Module::t('stripe_button_abort'); ?></span></a>
                     </div>
                     <div class="payment-buttons-button">
-                        <button class="payment-button payment-button-submit" type="submit"><?= $icons['check'] ?><span><?= Module::t('stripe_button_pay'); ?></span></button>
+                        <button class="payment-button payment-button-submit" type="submit" id="payment-button-submit"><?= $icons['check'] ?><span><?= Module::t('stripe_button_pay'); ?></span></button>
+                        <div id="payment-button-spinner" style="display:none;">sending</div>
                     </div>
                 </div>
             </div>

@@ -43,12 +43,18 @@ card.addEventListener('change', function(event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
+  var submit = document.getElementById('payment-button-submit');
+  var spinner = document.getElementById('payment-button-spinner');
+  spinner.style.display = 'block';
+  submit.disabled = true;
 
   stripe.createSource(card).then(function(result) {
     if (result.error) {
       // Inform the user if there was an error.
       var errorElement = document.getElementById('payment-errors');
       errorElement.textContent = result.error.message;
+      spinner.style.display = 'none';
+      submit.disabled = false;
     } else {
       stripeSourceHandler(result);
     }
