@@ -4,4 +4,10 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.0 (in progress)
 
-+ [#2](https://github.com/luyadev/luya-module-payment/issues/2) Remove transaction config.
++ Move payment transaction config to config file
++ Changed full class API structure.
++ Added abstraction layers which allows you to use payment with headless library.
++ Added admin module with payment informations.
++ Added status of payment while processing (success, back, failure) instead of the controller implementation.
+
+## 1.0.0-RC4 (19.12.2017)
