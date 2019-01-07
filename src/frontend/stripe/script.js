@@ -23,6 +23,28 @@ var style = {
   }
 };
 
+function addClass(el, className)
+{
+    if (el.classList)
+        el.classList.add(className)
+    else if (!hasClass(el, className))
+        el.className += " " + className;
+}
+
+function removeClass(el, className)
+{
+    if (el.classList)
+        el.classList.remove(className)
+    else if (hasClass(el, className))
+    {
+        var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+        el.className = el.className.replace(reg, ' ');
+    }
+}
+
+// element vars
+var submit = document.getElementById('payment-button-submit');
+
 // Create an instance of the card Element.
 var card = elements.create('card', {style: style});
 
@@ -34,8 +56,10 @@ card.addEventListener('change', function(event) {
   var displayError = document.getElementById('payment-errors');
   if (event.error) {
     displayError.textContent = event.error.message;
+    removeClass(submit, 'submit-is-ready');
   } else {
     displayError.textContent = '';
+    addClass(submit, 'submit-is-ready');
   }
 });
 
@@ -43,7 +67,7 @@ card.addEventListener('change', function(event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
-  var submit = document.getElementById('payment-button-submit');
+  
   var spinner = document.getElementById('payment-button-spinner');
   spinner.style.display = 'block';
   submit.disabled = true;
