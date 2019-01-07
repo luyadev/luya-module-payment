@@ -23,6 +23,7 @@
         "paypal/rest-api-sdk-php" : "^1.0"
     },
     "require-dev" : {
+        "unglue/client" : "^1.0",
         "luyadev/luya-testsuite" : "~1.0.13",
         "php-coveralls/php-coveralls": "^1.0"
     },
