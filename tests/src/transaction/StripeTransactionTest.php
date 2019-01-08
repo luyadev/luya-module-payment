@@ -3,7 +3,7 @@
 namespace luya\payment\tests\transaction;
 
 use luya\payment\tests\BasePaymentTestCase;
-use luya\payment\transaction\StripeTransaction;
+use luya\payment\transactions\StripeTransaction;
 
 
 class StripeTransactionTest extends BasePaymentTestCase

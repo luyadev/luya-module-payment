@@ -1,10 +1,10 @@
 <?php
 
-namespace luya\payment\transaction;
+namespace luya\payment\transactions;
 
 use Yii;
 use luya\payment\base\Transaction;
-use luya\payment\provider\SaferPayProvider;
+use luya\payment\providers\SaferPayProvider;
 use luya\payment\PaymentException;
 use yii\base\InvalidConfigException;
 
@@ -14,7 +14,7 @@ use yii\base\InvalidConfigException;
  * Test SaferPay Transaction:
  * 
  * ```php
- * 'class' => 'luya\payment\transaction\SaferPayTransaction',
+ * 'class' => 'luya\payment\transactions\SaferPayTransaction',
  * 'accountId' => '401860-17795278',
  * 'spPassword' => '8e7Yn5yk',
  * 'mode' => 'sandbox',

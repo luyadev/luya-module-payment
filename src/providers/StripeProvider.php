@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment\provider;
+namespace luya\payment\providers;
 
 use luya\payment\base\Provider;
 

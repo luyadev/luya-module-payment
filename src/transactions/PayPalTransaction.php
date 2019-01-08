@@ -1,11 +1,11 @@
 <?php
 
-namespace luya\payment\transaction;
+namespace luya\payment\transactions;
 
 use Yii;
 use luya\payment\base\Transaction;
 use luya\payment\PaymentException;
-use luya\payment\provider\PayPalProvider;
+use luya\payment\providers\PayPalProvider;
 use yii\base\InvalidConfigException;
 
 /**

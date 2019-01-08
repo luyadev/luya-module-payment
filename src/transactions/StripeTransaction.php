@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment\transaction;
+namespace luya\payment\transactions;
 
 use Yii;
 use Stripe\Stripe;
@@ -10,7 +10,7 @@ use Stripe\ThreeDSecure;
 use Stripe\Source;
 use luya\payment\PaymentException;
 use luya\payment\base\Transaction;
-use luya\payment\provider\StripeProvider;
+use luya\payment\providers\StripeProvider;
 use luya\helpers\Html;
 use yii\base\InvalidConfigException;
 use luya\payment\frontend\Module;

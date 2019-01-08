@@ -3,7 +3,7 @@
 namespace luya\payment\tests\transaction;
 
 use luya\payment\tests\BasePaymentTestCase;
-use luya\payment\transaction\PayPalTransaction;
+use luya\payment\transactions\PayPalTransaction;
 
 
 class PayPalTransactiontest extends BasePaymentTestCase

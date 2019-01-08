@@ -1,6 +1,6 @@
 <?php
 
-namespace luya\payment\provider;
+namespace luya\payment\providers;
 
 use Yii;
 use luya\payment\base\Provider;
@@ -16,7 +16,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\ItemList;
 use PayPal\Api\Item;
-use luya\payment\transaction\PayPalTransaction;
+use luya\payment\transactions\PayPalTransaction;
 use PayPal\Api\Details;
 
 /**
