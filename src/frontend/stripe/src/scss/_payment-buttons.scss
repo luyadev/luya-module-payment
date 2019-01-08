@@ -1,0 +1,135 @@
+/* ==============================
+ * Buttons
+ * ============================== */
+
+.payment-buttons {
+    display: flex;
+    margin: 10px 0 0 -10px;
+}
+
+.payment-buttons-button {
+    flex: 1 1 50%;
+    padding: 10px 0 0 10px;
+}
+
+.payment-button {
+    background-color: #3e4e59;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 10px 15px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%;
+
+    &-submit {
+        background-color: #45c48b;
+    }
+
+    @media (min-width: 520px) {
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    // State hover / focus
+    &:not([disabled]):hover,
+    &:not([disabled]):focus {
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        text-decoration: none;
+    }
+
+    // State disabled
+    &[disabled] {
+        background-color: #8ea3b2;
+        cursor: default;
+    }
+
+    // State is loading
+    &.submit-is-loading {
+        background-color: #45c48b;
+    }
+}
+
+// Icons
+
+.payment-icon-check {
+    height: 16px;
+    width: 16px;
+
+    @media (min-width: 520px) {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+.payment-icon-back {
+    height: 22px;
+    width: 10px;
+
+    @media (min-width: 520px) {
+        height: 26px;
+        width: 13px;
+    }
+}
+
+.payment-icon {
+    display: inline-block;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    transition: .25s ease-in-out opacity, .25s ease-in-out transform, .25s ease-in-out opacity;
+
+    & + span {
+        transition: .25s ease-in-out margin-right, .25s ease-in-out margin-left, .25s ease-in-out opacity;
+    }
+
+    .submit-is-loading &,
+    .submit-is-loading & + span {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .payment-button:not([disabled]):hover &,
+    .payment-button:not([disabled]):focus & {
+        margin-left: -5px;
+        opacity: 1;
+        transform: translate(-100%, -50%);
+
+        @media (min-width: 520px) {
+            margin-left: -10px;
+        }
+
+        & + span {
+            margin-right: -20px;
+
+            @media (min-width: 520px) {
+                margin-right: -10px;
+            }
+        }
+    }
+}
+
+// Spinner
+
+.payment-button-spinner {
+    height: 25px;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: .25s ease-in-out opacity;
+    width: 25px;
+
+    .submit-is-loading & {
+        opacity: 1;
+    }
+}

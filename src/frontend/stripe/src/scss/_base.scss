@@ -1,0 +1,39 @@
+/* ==============================
+ * Basic text styles
+ * ============================== */
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+.payment-text {
+    color: #3e4e59;
+    font-size: 16px;
+    margin: 0;
+}
+
+.payment-standalone .payment-text,
+.payment-standalone .payment-button {
+    font-family: 'Verdana', 'Helvetica', 'Arial Black', 'Arial';
+    /* Smoothing */
+    -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+.payment-text-bold {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.payment-text-danger {
+    color: #fa755a;
+}
+
+.clearfix::after {
+    clear: both;
+    content: '';
+    display: table;
+}

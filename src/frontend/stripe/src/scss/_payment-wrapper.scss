@@ -1,0 +1,35 @@
+/* ==============================
+ * Wrapper (Background, position and size)
+ * ============================== */
+
+.payment-wrapper {
+    background-color: rgba(0, 0, 0, .75);
+    bottom: 0;
+    left: 0;
+    padding: 0 20px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 10000;
+}
+
+.payment-wrapper-inner {
+    background-color: #fff;
+    border-radius: 5px;
+    display: block;
+    left: 10px;
+    max-height: 100%;
+    max-width: 500px;
+    overflow: auto;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translate(0, -50%);
+
+    @media (min-width: 520px) {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+}

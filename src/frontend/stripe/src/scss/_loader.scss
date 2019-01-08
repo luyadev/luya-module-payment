@@ -1,0 +1,45 @@
+/* ==============================
+  * Loader
+  * ============================== */
+
+  .loader {
+    animation: loader-rotate 2s linear infinite;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform-origin: center center;
+    width: 100%;
+}
+
+.loader-path {
+    animation: loader-dash 1.5s ease-in-out infinite;
+    stroke: #fff;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+}
+
+@keyframes loader-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loader-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}

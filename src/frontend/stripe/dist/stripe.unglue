@@ -1,0 +1,8 @@
+{
+    "css": [
+        "../src/scss/main.scss"
+    ],
+    "js": [
+        "../src/js/script.js"
+    ]
+}

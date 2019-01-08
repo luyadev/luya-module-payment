@@ -11,14 +11,14 @@ $icons = [
     'back' => '<svg class="payment-icon payment-icon-back" viewBox="0 0 256 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m31.7 239 136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-96.3 96.5 96.4 96.4c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.7c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>'
 ];
 
-$this->registerCss(str_replace("{color}", $color, $this->render('@payment/stripe/styles.css')));
+$this->registerCss($this->render('@payment/stripe/dist/stripe.css'));
 $this->registerJsFile('https://js.stripe.com/v3/');
-$this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' => $publishableKey]), View::POS_END);
+$this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableKey' => $publishableKey]), View::POS_END);
 
 ?>
 <div class="payment-wrapper" id="payment-wrapper">
     <div class="payment-wrapper-inner" id="payment-wrapper-inline">
-        <div class="payment-header">
+        <div class="payment-header" style="background-color: <?= $color ?>;"">
             <p class="payment-header-text payment-text"><?= Html::encode($title); ?></p>
             <a class="payment-header-close-link" href="<?= $abortLink ?>"><?= $icons['close'] ?></a>
         </div>
@@ -86,8 +86,15 @@ $this->registerJs($this->render('@payment/stripe/script.js', ['publishableKey' =
                         <a class="payment-button" href="<?= $abortLink ?>"><?= $icons['back'] ?><span><?= Module::t('stripe_button_abort'); ?></span></a>
                     </div>
                     <div class="payment-buttons-button">
-                        <button class="payment-button payment-button-submit" type="submit" id="payment-button-submit"><?= $icons['check'] ?><span><?= Module::t('stripe_button_pay'); ?></span></button>
-                        <div id="payment-button-spinner" style="display:none;">sending</div>
+                        <button class="payment-button payment-button-submit" type="submit" id="payment-button-submit" disabled>
+                            <?= $icons['check'] ?>
+                            <span><?= Module::t('stripe_button_pay'); ?></span>
+                            <div id="payment-button-spinner" class="payment-button-spinner">
+                                <svg class="loader" viewBox="25 25 50 50">
+                                    <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                </svg>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
