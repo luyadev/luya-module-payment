@@ -22,10 +22,6 @@ Currently supported payment providers:
 
 ## Documentation
 
-+ [Documentation](guide/README.md)
-
-## Documentation
-
 See the [full Documentation](guide/README.md) in order to learn how to integrate the process, use the different providers or change the integrator class.
 
 + [Documentation](guide/README.md)
