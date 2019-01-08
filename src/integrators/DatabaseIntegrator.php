@@ -120,7 +120,7 @@ class DatabaseIntegrator implements IntegratorInterface
 
         // assign items from origin process modell
         foreach ($process->items as $item) {
-            $model->addItem($item->name, $item->qty, $item->amount, $item->total_amount, $item->is_tax, $item->is_shipping);
+            $model->addItem($item->name, $item->qty, $item->amount, $item->total_amount, $item->is_shipping, $item->is_tax);
         }
         
         if ($model->validate()) {
