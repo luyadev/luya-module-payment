@@ -1,39 +1,58 @@
 # Available Payment Providers
 
-Current available transaction/provider configs:
+A list of all currently built in payment transaction providers. The transaction provider must be defined in the `transaction` key of the `luya\payment\frontend\Module` config.
 
 ## Stripe Transaction
 
-...TBD
+The [Stripe](https://stripe.com) transaction integration config:
+
+```php
+'payment' => [
+    'class' => 'luya\payment\frontend\Module',
+    'transaction' => [
+'       class' => 'luya\payment\transactions\StripeTransaction',
+        'publishableKey' => 'pk_test_....',
+        'secretKey' => 'sk_test_.....',
+    ]
+]
+```
+
++ `publishableKey`: The publishable key from the strip website (starts with pk_).
++ `secretKey`: The secret key from the strip website (starts with sk_).
 
 ## PayPal Transaction
 
-The [PayPal](https://paypal.com) integration:
+The [PayPal](https://paypal.com) transaction integration config:
 
 ```php
-'class' => PayPalTransaction::className(),
-'clientId' => '<CLIENT_ID>',
-'clientSecret' => '<CLIENT_SECRET>',
+'payment' => [
+    'class' => 'luya\payment\frontend\Module',
+    'transaction' => [
+        'class' => 'luya\payment\transactions\PayPalTransaction',
+        'clientId' => '<CLIENT_ID>',
+        'clientSecret' => '<CLIENT_SECRET>',
+    ]
+]
 ```
 
-
-|property   |description
-|---        |---
-|`mode`    |defines whether the paypal transaction should be in `live` or `sandbox` mode. Default value is `live`.
-|`productDescription`|The production description name in the paypal process. This is displayed by PayPal in the *shopping cart* list.
-
++ `clientId`: The client id from the paypal website.
++ `clientSecret`: The client secret from the paypal website.
++ `mode`: The mode `live` or `sandbox` values are available.
 
 ## SaferPay Transaction
 
-The [SaferPay](https://saferpay.com) integration:
+The [SaferPay](https://saferpay.com) transaction integration config:
 
 ```php
-'class' => SaferPayTransaction::className(),
-'accountId' => '<ACCOUNT-ID>',
+'payment' => [
+    'class' => 'luya\payment\frontend\Module',
+    'transaction' => [
+        'class' => 'luya\payment\transactions\SaferPayTransaction',
+        'accountId' => '<ACCOUNT-ID>',
+    ]
+]
 ```
 
-The test account requireds an optional `spPassword` propertie:
-
-```php
-'spPassword' => '<SP-PASSWORD-FROM-DOCS>',
-```
++ `accountId`: The account id from the saferpay docs.
++ `mode`: The mode `live` or `sandbox` values are available.
++ `spPassword`: When using the test account, the spPassword is required.

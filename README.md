@@ -10,7 +10,9 @@
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-module-payment/downloads)](https://packagist.org/packages/luyadev/luya-module-payment)
 [![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
 
-This module allows you to integrate payments in a safe and common way. The payment module take care of all the provider required steps (call, create, success, abort, etc.) and provides all the informations for your store.
+The LUYA Payment module is a very easy way to add payment systems to your Website. The payment providers can be changed trough configuration, without changing code in your application. No more copy paste of Payment code between projects as the LUYA Payment module unifies does tasks and simplifies the integration. The integrated admin modules provides tracking and debuging of payments.
+
+Its even possible to define an `integrator` which allows you to add the module connected to the database (default) or as headless integration connecting to the admin APIs.
 
 Currently supported payment providers:
 
@@ -18,8 +20,12 @@ Currently supported payment providers:
 + [saferpay.com](https://www.saferpay.com)
 + [stripe.com](https://stripe.com)
 
-Create an issue if your payment provider is missing!
+## Documentation
+
++ [Documentation](guide/README.md)
 
 ## Documentation
 
-[Documentation](guide/README.md)
+See the [full Documentation](guide/README.md) in order to learn how to integrate the process, use the different providers or change the integrator class.
+
++ [Documentation](guide/README.md)

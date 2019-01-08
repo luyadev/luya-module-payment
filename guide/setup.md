@@ -1,12 +1,16 @@
-# How to use
+# Setup and Integration
 
-require the payment module
+The setup explains how to configure the payment properly afterwards you need to integrate the Pay Logic into your application.
+
+## Setup
+
+Add the payment module to your composer json.
 
 ```sh
-composer require luyadev/luya-module-payment:^1.0@dev
+composer require luyadev/luya-module-payment
 ```
 
-configure the payment module in your config
+Configure the payment module in your config with the transaction payment provider you choosen:
 
 ```php
 'modules' => [
@@ -33,15 +37,17 @@ configure the payment module in your config
 ]
 ```
 
-execute database command
+Execute the migrate commands.
 
 ```sh
 ./vendor/bin/luya migrate
 ```
 
+## Integration
+
 Add a transaction to your estore logic, **save the pay id** and dispatch() the payment, which will redirect to the payment gatway.
 
-> Make sure to store the `$pay->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
+This is a very basic setup which shows how to use the `Pay` class within a controller with 4 actions.
 
 ```php
 <?php
@@ -94,5 +100,7 @@ class StoreCheckoutController extends \luya\web\Controller
     }
 }
 ```
+
+> Make sure to store the `$pay->getId()` in your E-Store model in order to retrieve the payment process object to complet/error/abort.
 
 > You should **not use session** variables to make the urls for the success, error and abort links as they can be called by notify urls. Lets assume an user has payed with saferpay but saferpay allows you to close the window after the payment succeeded (without going back to the store). The success url would be called by the notify process of SaferPay instead of the users Browser. In this case the session environment would have been lost and the payment informations page which is triggered would return an exception/error.
