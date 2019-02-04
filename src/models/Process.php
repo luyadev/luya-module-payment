@@ -202,8 +202,8 @@ class Process extends NgRestModel
     public function ngRestRelations()
     {
         return [
-            ['label' => 'Articles', 'apiEndpoint' => ProcessItem::ngRestApiEndpoint(), 'dataProvider' => $this->getItems()],
-            ['label' => 'Log', 'apiEndpoint' => ProcessTrace::ngRestApiEndpoint(), 'dataProvider' => $this->getTraces()],
+            ['label' => 'Articles', 'targetModel' => ProcessItem::class,'apiEndpoint' => ProcessItem::ngRestApiEndpoint(), 'dataProvider' => $this->getItems()],
+            ['label' => 'Log', 'targetModel' => ProcessTrace::class,'apiEndpoint' => ProcessTrace::ngRestApiEndpoint(), 'dataProvider' => $this->getTraces()],
         ];
     }
 
