@@ -16,15 +16,15 @@
         "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "require" : {
-        "luyadev/luya-core" : "~1.0.0",
+        "luyadev/luya-core" : "^1.0",
         "luyadev/luya-module-admin" : "dev-master",
-        "luyadev/luya-headless" : "^1.0",
+        "luyadev/luya-headless" : "^2.0 | ^1.0",
         "stripe/stripe-php": "^6.19",
         "paypal/rest-api-sdk-php" : "^1.0"
     },
     "require-dev" : {
         "unglue/client" : "^1.0",
-        "luyadev/luya-testsuite" : "~1.0.13",
+        "luyadev/luya-testsuite" : "^1.0",
         "php-coveralls/php-coveralls": "^1.0"
     },
     "autoload" : {
