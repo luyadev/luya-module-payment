@@ -18,8 +18,8 @@ $this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableK
 ?>
 <div class="payment-wrapper" id="payment-wrapper">
     <div class="payment-wrapper-inner" id="payment-wrapper-inline">
-        <div class="payment-header" style="background-color: <?= $color ?>;"">
-            <p class="payment-header-text payment-text"><?= Html::encode($title); ?></p>
+        <div class="payment-header" style="background-color: <?= $color ?>;">
+            <p class="payment-header-text payment-text"><?= Html::encode($title, false); ?></p>
             <a class="payment-header-close-link" href="<?= $abortLink ?>"><?= $icons['close'] ?></a>
         </div>
         <form class="payment-form" id="payment-form" action="<?= $url ?>" method="post">
@@ -30,7 +30,7 @@ $this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableK
                     <?php foreach ($productItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name']); ?></p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
                             <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
@@ -43,7 +43,7 @@ $this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableK
                     <?php foreach ($taxItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
                             <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
@@ -57,7 +57,7 @@ $this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableK
                 <?php foreach ($shippingItems as $item): ?>
                     <div class="payment-item">
                         <div class="payment-item-name">
-                            <p class="payment-text"><?= $item['qty']; ?>x <?= $item['name']; ?></p>
+                            <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
                             <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
