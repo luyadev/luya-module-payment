@@ -5,11 +5,13 @@ namespace luya\payment\admin\apis;
 use luya\payment\models\Process;
 use yii\web\ForbiddenHttpException;
 
-
 /**
  * Process Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ProcessController extends \luya\admin\ngrest\base\Api
 {

@@ -7,8 +7,8 @@ use luya\admin\ngrest\base\NgRestModel;
 
 /**
  * Process Item.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property integer $process_id
@@ -18,6 +18,9 @@ use luya\admin\ngrest\base\NgRestModel;
  * @property integer $total_amount
  * @property boolean $is_tax
  * @property boolean $is_shipping
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ProcessItem extends NgRestModel
 {

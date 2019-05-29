@@ -485,16 +485,16 @@
         },
         {
             "name": "luyadev/luya-core",
-            "version": "1.0.17",
+            "version": "1.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-core.git",
-                "reference": "cb60abb6a65912088feeabfd7bd9e3a472be2f72"
+                "reference": "8aec9d5dc32f5c9363989e55dcef825214b783e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/cb60abb6a65912088feeabfd7bd9e3a472be2f72",
-                "reference": "cb60abb6a65912088feeabfd7bd9e3a472be2f72",
+                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/8aec9d5dc32f5c9363989e55dcef825214b783e5",
+                "reference": "8aec9d5dc32f5c9363989e55dcef825214b783e5",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2019-04-23T08:27:34+00:00"
+            "time": "2019-05-27T10:05:39+00:00"
         },
         {
             "name": "luyadev/luya-headless",
@@ -600,16 +600,16 @@
         },
         {
             "name": "luyadev/luya-module-admin",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-admin.git",
-                "reference": "00111ca327c4380bb89b4af805bfa24a963465de"
+                "reference": "8d332f982bf75bdb3d5774e394f7c929c8285eb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/00111ca327c4380bb89b4af805bfa24a963465de",
-                "reference": "00111ca327c4380bb89b4af805bfa24a963465de",
+                "url": "https://api.github.com/repos/luyadev/luya-module-admin/zipball/8d332f982bf75bdb3d5774e394f7c929c8285eb7",
+                "reference": "8d332f982bf75bdb3d5774e394f7c929c8285eb7",
                 "shasum": ""
             },
             "require": {
@@ -637,7 +637,7 @@
             "type": "luya-core",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "2.0.x-dev"
                 },
                 "luya": {
                     "bootstrap": [
@@ -676,7 +676,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2019-05-27T09:01:48+00:00"
+            "time": "2019-05-29T12:54:39+00:00"
         },
         {
             "name": "paypal/rest-api-sdk-php",
@@ -1429,22 +1429,24 @@
         },
         {
             "name": "luyadev/luya-module-cms",
-            "version": "1.0.9",
+            "version": "1.0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-module-cms.git",
-                "reference": "f5153ddc3211f73cfd3661f5866349c159e5e99a"
+                "reference": "47421e183d5b9f59e4e2fe52f84f434b679f072e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-module-cms/zipball/f5153ddc3211f73cfd3661f5866349c159e5e99a",
-                "reference": "f5153ddc3211f73cfd3661f5866349c159e5e99a",
+                "url": "https://api.github.com/repos/luyadev/luya-module-cms/zipball/47421e183d5b9f59e4e2fe52f84f434b679f072e",
+                "reference": "47421e183d5b9f59e4e2fe52f84f434b679f072e",
                 "shasum": ""
             },
             "require-dev": {
+                "luyadev/luya-module-admin": "dev-master",
                 "luyadev/luya-testsuite": "~1.0.0",
                 "php-coveralls/php-coveralls": "^1.0",
-                "twbs/bootstrap": "v4.0.0-beta"
+                "twbs/bootstrap": "~4.3.0",
+                "unglue/client": "^1.3"
             },
             "type": "luya-core",
             "extra": {
@@ -1456,7 +1458,7 @@
                         "\\luya\\cms\\frontend\\Bootstrap"
                     ],
                     "blocks": [
-                        "src/frontend/blocks"
+                        "src{{DS}}frontend{{DS}}blocks"
                     ]
                 }
             },
@@ -1489,7 +1491,7 @@
                 "yii2",
                 "yii2-cms"
             ],
-            "time": "2019-02-18T09:55:07+00:00"
+            "time": "2019-05-27T08:20:08+00:00"
         },
         {
             "name": "luyadev/luya-testsuite",

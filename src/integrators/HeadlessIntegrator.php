@@ -13,9 +13,9 @@ use luya\payment\integrators\headless\ApiPaymentProcessTrace;
 
 /**
  * Headless Payment:
- * 
+ *
  * You can either pass a callable with returns an headless client object or provide the accesstoken and server url.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */

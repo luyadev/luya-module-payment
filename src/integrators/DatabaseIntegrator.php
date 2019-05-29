@@ -7,8 +7,13 @@ use luya\payment\base\IntegratorInterface;
 use luya\payment\base\PayModel;
 use luya\payment\models\Process;
 use luya\payment\models\ProcessTrace;
-use luya\payment\models\ProcessItem;
 
+/**
+ * Database integrator
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class DatabaseIntegrator implements IntegratorInterface
 {
     public function createModel(PayModel $model)

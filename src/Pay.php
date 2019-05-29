@@ -9,11 +9,11 @@ use luya\payment\frontend\Module;
 use luya\payment\base\PayModel;
 use luya\payment\models\ProcessItem;
 use luya\payment\base\PayItemModel;// Rename to PayArticle?
-use yii\base\InvalidConfigException; 
+use yii\base\InvalidConfigException;
 
 /**
  * Create new Payment.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -82,7 +82,7 @@ class Pay
 
     /**
      * Add an item.
-     * 
+     *
      * The amount is always the amount for 1 qty! not the total amount
      *
      * @param string $name The name of the product item.
@@ -97,7 +97,7 @@ class Pay
     /**
      * Add shipping product
      *
-     * @param string $name The name of the shipping product like "International Shipping"  
+     * @param string $name The name of the shipping product like "International Shipping"
      * @param string $amount
      */
     public function addShipping($name, $amount)
@@ -174,8 +174,8 @@ class Pay
     }
 
     /**
-     * Get the current payment pay model id. 
-     * 
+     * Get the current payment pay model id.
+     *
      * You can store this information in the estore logic of your project.
      *
      * @return integer The id from the pay process.

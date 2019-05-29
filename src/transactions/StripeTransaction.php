@@ -23,10 +23,11 @@ use luya\payment\frontend\Module;
  * Visa card: 4242424242424242
  * 3D secure card: 4000000000003063
  *
- * @author Basil Suter <basil@nadar.io>
- * @since 1.0.0
  * @see 3d secure guide: https://stripe.com/docs/sources/three-d-secure
  * @see stripe elements: https://stripe.com/docs/stripe-js
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class StripeTransaction extends Transaction
 {

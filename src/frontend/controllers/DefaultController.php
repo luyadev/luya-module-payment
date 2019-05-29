@@ -126,7 +126,7 @@ class DefaultController extends \luya\web\Controller
     
     /**
      * Failed payment response.
-     * 
+     *
      * This can be called by an internal call from the provider after the user (unsuccessfull) finished the payment.
      *
      * @param string $lpToken The LUYA payment token.
@@ -178,7 +178,7 @@ class DefaultController extends \luya\web\Controller
     
     /**
      * Notification from the Payment Provider.
-     * 
+     *
      * This is commonly a background process.
      *
      * @param string $lpToken The LUYA payment token.

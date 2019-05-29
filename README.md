@@ -6,7 +6,7 @@
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
 [![Build Status](https://travis-ci.org/luyadev/luya-module-payment.svg?branch=master)](https://travis-ci.org/luyadev/luya-module-payment)
-[![Coverage Status](https://coveralls.io/repos/github/luyadev/luya-module-payment/badge.svg?branch=master)](https://coveralls.io/github/luyadev/luya-module-payment?branch=master)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/713bfdbebb5a8bce7155/test_coverage)](https://codeclimate.com/github/luyadev/luya-module-payment/test_coverage)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-module-payment/downloads)](https://packagist.org/packages/luyadev/luya-module-payment)
 [![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
 

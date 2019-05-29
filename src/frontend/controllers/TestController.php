@@ -79,7 +79,6 @@ class TestController extends \luya\web\Controller
     
     public function actionTestError()
     {
-        
         return 'Rendering: error action...';
     }
     

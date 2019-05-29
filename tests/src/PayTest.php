@@ -4,7 +4,6 @@ namespace luya\payment\tests;
 
 use luya\payment\Pay;
 
-
 class PayTest extends BasePaymentTestCase
 {
     public function testTotalAmountCalculations()

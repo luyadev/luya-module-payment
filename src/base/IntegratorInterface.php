@@ -6,10 +6,10 @@ use luya\web\Controller;
 
 /**
  * Integrator Interface.
- * 
+ *
  * This interfaces enables the option to choose whether payment informations are sent
  * directly into a database or a headless API.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */

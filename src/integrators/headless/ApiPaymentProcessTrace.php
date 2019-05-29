@@ -6,6 +6,9 @@ use luya\headless\ActiveEndpoint;
 
 /**
  * Payment Process Trace API
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ApiPaymentProcessTrace extends ActiveEndpoint
 {

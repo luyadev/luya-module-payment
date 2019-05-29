@@ -10,10 +10,11 @@ use luya\payment\Pay;
 
 /**
  * Pay Model.
- * 
+ *
  * The Pay Model represents the current payment informations and is used
  * to exchange between process.
- * 
+ *
+ * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class PayModel extends Model

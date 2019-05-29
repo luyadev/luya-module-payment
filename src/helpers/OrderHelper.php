@@ -8,6 +8,7 @@ use Yii;
  * Helper class for Orders.
  *
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class OrderHelper
 {

@@ -7,6 +7,9 @@ use luya\headless\Client;
 
 /**
  * Payment Process API
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ApiPaymentProcess extends ActiveEndpoint
 {

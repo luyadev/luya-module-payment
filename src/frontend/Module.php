@@ -98,7 +98,7 @@ class Module extends \luya\base\Module
 
     /**
      * Getter method for integrator.
-     * 
+     *
      * If there is no integrator defined trough setter method, the datbase integrator is used by default.
      *
      * @return \luya\payment\base\IntegratorInterface
@@ -118,6 +118,9 @@ class Module extends \luya\base\Module
         return $this->_integrator;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function onLoad()
     {
         self::registerTranslation('paymentfrontend', static::staticBasePath() . '/messages', [
@@ -125,6 +128,9 @@ class Module extends \luya\base\Module
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function t($message, array $params = [])
     {
         return parent::baseT('paymentfrontend', $message, $params);

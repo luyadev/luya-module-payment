@@ -9,8 +9,8 @@ use luya\admin\aws\DetailViewActiveWindow;
 
 /**
  * Process Trace.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property integer $process_id
@@ -21,6 +21,9 @@ use luya\admin\aws\DetailViewActiveWindow;
  * @property text $post
  * @property text $server
  * @property string $ip
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ProcessTrace extends NgRestModel
 {

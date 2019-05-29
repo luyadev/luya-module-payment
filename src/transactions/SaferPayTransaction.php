@@ -10,16 +10,16 @@ use yii\base\InvalidConfigException;
 
 /**
  * Safer Pay Transaction.
- * 
+ *
  * Test SaferPay Transaction:
- * 
+ *
  * ```php
  * 'class' => 'luya\payment\transactions\SaferPayTransaction',
  * 'accountId' => '401860-17795278',
  * 'spPassword' => '8e7Yn5yk',
  * 'mode' => 'sandbox',
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */

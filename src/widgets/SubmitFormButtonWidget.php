@@ -11,15 +11,15 @@ use yii\web\JsExpression;
 /**
  * Generates a submit button for a form. This should be used when submiting payment forms
  * in order to ensure a request is not send twice.
- * 
+ *
  * ```php
  * $form = ActiveForm::begin();
  * // form code
- * 
+ *
  * SubmitFormButtonWidget::widget(['label' => 'Submit', 'pushed' => 'Sending ...', 'options' => ['class' => 'btn btn-primary']]);
  * $form::end();
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */

@@ -4,10 +4,11 @@ namespace luya\payment\base;
 
 /**
  * An attachable interface to ensure estore integration.
- * 
+ *
  * This is just a recommendation for the payment process inside
  * your application and is not used by the payment process itself.
- * 
+ *
+ * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 interface OrderInterface

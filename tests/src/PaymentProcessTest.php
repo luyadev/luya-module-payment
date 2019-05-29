@@ -78,7 +78,6 @@ class PaymentProcessTest extends BasePaymentTestCase
 
         // there is not redirect trough the payment process and therefore the model is not set to success!
         $this->assertFalse(Pay::isSuccess($processId));
-        
     }
     
     public function testErrorAmountProcess()

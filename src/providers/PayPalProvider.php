@@ -20,8 +20,8 @@ use luya\payment\transactions\PayPalTransaction;
 use PayPal\Api\Details;
 
 /**
- * @todo Unable to generate auth token with curl library: https://github.com/php-mod/curl
- * @author nadar
+ * @author Basil Suter
+ * @since 1.0.0
  */
 class PayPalProvider extends Provider implements ProviderInterface
 {

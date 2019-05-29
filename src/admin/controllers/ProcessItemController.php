@@ -4,8 +4,11 @@ namespace luya\payment\admin\controllers;
 
 /**
  * Process Item Controller.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ProcessItemController extends \luya\admin\ngrest\base\Controller
 {

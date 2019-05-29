@@ -10,8 +10,8 @@ use luya\payment\PaymentException;
 
 /**
  * Process.
- * 
- * File has been created with `crud/create` command. 
+ *
+ * File has been created with `crud/create` command.
  *
  * @property integer $id
  * @property string $salt
@@ -32,6 +32,9 @@ use luya\payment\PaymentException;
  * @property integer $state_fail
  * @property integer $state_abort
  * @property integer $state_notify
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class Process extends NgRestModel
 {
@@ -71,7 +74,7 @@ class Process extends NgRestModel
 
         parent::init();
 
-        $this->on(self::EVENT_BEFORE_VALIDATE, function($event) {
+        $this->on(self::EVENT_BEFORE_VALIDATE, function ($event) {
 
             // ensure order_id is a string value even  when its a number ohter whise validation would fail.
             $this->order_id = (string) $this->order_id;
@@ -229,16 +232,16 @@ class Process extends NgRestModel
 
     /**
      * Create variables based on the input key.
-     * 
+     *
      * 1. Generate a random string
      * 2. generate a password hash based on random string and input key stored in $auth_token
      * 3. Generate a salt random string
      * 4. generate a password hash from salt and auth token
      * 5. Base 64 encode the auth token
-     * 6. Generate randon key and md5 
-     * 
+     * 6. Generate randon key and md5
+     *
      * Restore and ensure in application:
-     * 
+     *
      * 1. Get the model from with the random key
      * 2. Validate the auth token against this model
      *  a. decode the auth token

@@ -2,6 +2,12 @@
 
 namespace luya\payment\admin;
 
+/**
+ * Payment Admin Module
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class Module extends \luya\admin\base\Module
 {
     public $apis = [
@@ -19,7 +25,5 @@ class Module extends \luya\admin\base\Module
                     ->itemApi('Payment', 'paymentadmin/process/index', 'label', 'api-payment-process')
                     ->itemApi('Article', 'paymentadmin/process-item/index', 'label', 'api-payment-processitem')
                     ->itemApi('Log', 'paymentadmin/process-trace/index', 'label', 'api-payment-processtrace');
-
     }
-
 }

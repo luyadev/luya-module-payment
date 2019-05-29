@@ -14,6 +14,7 @@ use luya\payment\PaymentException;
  * Each transaction must implement the Transaction Abstraction class.
  *
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 abstract class Transaction extends BaseObject
 {
@@ -110,7 +111,7 @@ abstract class Transaction extends BaseObject
 
     /**
      * Getter method for Integrator
-     * 
+     *
      * @return IntegratorInterface
      */
     public function getIntegrator()
@@ -120,7 +121,7 @@ abstract class Transaction extends BaseObject
 
     /**
      * Redirect to the transaction `back`.
-     * 
+     *
      * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
      *
      * @return \yii\web\Response
@@ -132,7 +133,7 @@ abstract class Transaction extends BaseObject
 
     /**
      * Redirect to the transaction `notify`.
-     * 
+     *
      * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
      *
      * @return \yii\web\Response
@@ -144,7 +145,7 @@ abstract class Transaction extends BaseObject
 
     /**
      * Redirect to the transaction `fail`.
-     * 
+     *
      * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
      *
      * @return \yii\web\Response
@@ -156,7 +157,7 @@ abstract class Transaction extends BaseObject
 
     /**
      * Redirect to the transaction `abort`.
-     * 
+     *
      * > Those methods are internal redirects between of actions inside the payment controller and not application urls!
      *
      * @return \yii\web\Response

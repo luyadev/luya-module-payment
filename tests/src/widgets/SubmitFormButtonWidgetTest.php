@@ -5,7 +5,6 @@ namespace luya\payment\tests\widgets;
 use luya\payment\tests\BasePaymentTestCase;
 use luya\payment\widgets\SubmitFormButtonWidget;
 
-
 class SubmitFormButtonWidgetTest extends BasePaymentTestCase
 {
     public function testRun()

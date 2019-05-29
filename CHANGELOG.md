@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.0.0 (in progress)
+## 1.0.0 (29. May 2019)
 
 + Move payment transaction config to config file
 + Changed full class API structure.
@@ -11,4 +11,6 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 + Added admin module with payment informations.
 + Added status of payment while processing (success, back, failure) instead of the controller implementation.
 
-## 1.0.0-RC4 (19.12.2017)
+## 1.0.0-RC4 (19. December 2017)
+
++ First RC

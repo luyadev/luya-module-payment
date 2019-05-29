@@ -8,6 +8,12 @@ use luya\payment\PaymentException;
 use luya\payment\base\ProviderInterface;
 use luya\payment\transactions\SaferPayTransaction;
 
+/**
+ * Safer Pay Provider
+ *
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class SaferPayProvider extends Provider implements ProviderInterface
 {
     public $mode;

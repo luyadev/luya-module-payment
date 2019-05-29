@@ -7,9 +7,10 @@ use yii\base\Model;
 
 /**
  * A payment item.
- * 
+ *
  * Describeds are product which is part of the payment, like a basket entry.
- * 
+ *
+ * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
 class PayItemModel extends Model

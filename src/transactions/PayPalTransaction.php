@@ -10,7 +10,7 @@ use yii\base\InvalidConfigException;
 
 /**
  * PayPal Transaction.
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
