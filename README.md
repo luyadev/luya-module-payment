@@ -20,7 +20,9 @@ Currently supported payment providers:
 + [saferpay.com](https://www.saferpay.com)
 + [stripe.com](https://stripe.com)
 
-![LUYA Payment Stripe](https://raw.githubusercontent.com/luyadev/luya-module-payment/master/stripe)
+![LUYA Payment Stripe](https://raw.githubusercontent.com/luyadev/luya-module-payment/master/stripe.jpeg)
+
+> An example integration for Stripe Payment Provider, for other payment providers the users is redirect to the corresponding Payment Page.
 
 ## Documentation
 

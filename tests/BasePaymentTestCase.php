@@ -2,8 +2,6 @@
 
 namespace luya\payment\tests;
 
-use PHPUnit\Framework\TestCase;
-use luya\Boot;
 use luya\testsuite\cases\WebApplicationTestCase;
 use luya\testsuite\fixtures\ActiveRecordFixture;
 use luya\payment\models\Process;
@@ -23,6 +21,9 @@ class BasePaymentTestCase extends WebApplicationTestCase
                     'payment' => [
                         'class' => 'luya\payment\frontend\Module',
                         'transaction' => ['class' => 'luya\payment\tests\data\DummyTransaction']
+                    ],
+                    'paymentadmin' => [
+                        'class' => 'luya\payment\admin\Module',
                     ]
                 ],
                 'components' => [
