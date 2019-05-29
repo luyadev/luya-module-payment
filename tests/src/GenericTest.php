@@ -13,7 +13,7 @@ class GenericTest extends BasePaymentTestCase
 
     public function testMessages()
     {
-      $this->compareMessages(Yii::getAlias('@payment/messages'), 'en');
+        $this->compareMessages(Yii::getAlias('@payment/messages'), 'en');
     }
 
     public function testMigrations()
