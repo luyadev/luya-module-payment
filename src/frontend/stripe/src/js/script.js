@@ -16,6 +16,10 @@ function removeClass(el, className) {
     }
 }
 
+function getCsrfToken() {
+    return document.head.querySelector("[name=csrf-token]").content;
+}
+
 /* ****** STRIPE ********* */
 
 // Create a Stripe client.
@@ -72,6 +76,7 @@ card.addEventListener('change', function (event) {
 
 // Handle form submission.
 var form = document.getElementById('payment-form');
+
 form.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -80,25 +85,14 @@ form.addEventListener('submit', function (event) {
 
     stripe.createPaymentMethod('card', card).then(function(result) {
         if (result.error) {
-            // Inform the user if there was an error.
-            var errorElement = document.getElementById('payment-errors');
-            errorElement.textContent = result.error.message;
-            removeClass(submit, 'submit-is-loading');
-            submit.disabled = true;
+            handleError(result);
         } else {
             slaPaymentMethodHandler(result);
         }
     });
 });
 
-function getCsrfToken() {
-    return document.head.querySelector("[name=csrf-token]").content;
-}
-
 function slaPaymentMethodHandler(result) {
-
-    
-
     // Send paymentMethod.id to server
     fetch(confirmUrl, {
       method: 'POST',
@@ -130,7 +124,7 @@ function handleServerResponse(response) {
     }
 }
   
- function handleAction(response) {
+function handleAction(response) {
     stripe.handleCardAction(
       response.payment_intent_client_secret
     ).then(function(result) {
