@@ -2,7 +2,6 @@
 
 namespace luya\payment\providers;
 
-
 use Exception;
 use Yii;
 use luya\payment\base\Provider;
@@ -21,6 +20,15 @@ class StripeProvider extends Provider
         return 'stripe';
     }
 
+    /**
+     * Generate the repsponse for payment method creation.
+     *
+     * @param integer $paymentMethodId
+     * @param integer $totalAmount
+     * @param string $currency
+     * @return array
+     * @since 1.1.0
+     */
     public function callGeneratePaymentMethodResponse($paymentMethodId, $totalAmount, $currency)
     {
         try {
@@ -35,9 +43,16 @@ class StripeProvider extends Provider
             return $this->exceptionResponse($exception);
         }
 
-        return $this->handleIntentResponse($intent);
+        return $this->intentResponse($intent);
     }
 
+    /**
+     * Generate the reponse for the intent call
+     *
+     * @param integer $intentId
+     * @return array
+     * @since 1.1.0
+     */
     public function callGenerateIntentResponse($intentId)
     {
         try {
@@ -47,18 +62,35 @@ class StripeProvider extends Provider
             return $this->exceptionResponse($exception);
         }
 
-        return $this->handleIntentResponse($intent);
+        return $this->intentResponse($intent);
     }
 
+    /**
+     * Verify if a given intent id whether its succesfull or not.
+     *
+     * @param integer $id
+     * @return boolean
+     * @since 1.1.0
+     */
     public function callVerifySuccessIntent($id)
     {
-        return PaymentIntent::retrieve($id)->status === PaymentIntent::STATUS_SUCCEEDED;
+        try {
+            return PaymentIntent::retrieve($id)->status === PaymentIntent::STATUS_SUCCEEDED;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
-    protected function handleIntentResponse(PaymentIntent $intent)
+    /**
+     * Generate an arrayble response for a payment intent object.
+     *
+     * @param PaymentIntent $intent
+     * @return array
+     * @since 1.1.0
+     */
+    protected function intentResponse(PaymentIntent $intent)
     {
-        if ($intent->status == PaymentIntent::STATUS_REQUIRES_ACTION &&
-            $intent->next_action->type == 'use_stripe_sdk') {
+        if ($intent->status == PaymentIntent::STATUS_REQUIRES_ACTION && $intent->next_action->type == 'use_stripe_sdk') {
             # Tell the client to handle the action
             return [
                 'requires_action' => true,
@@ -71,15 +103,31 @@ class StripeProvider extends Provider
                 'success' => true,
                 'id' => $intent->id,
             ];
-        } else {
-            Yii::$app->response->statusCode = 400;
-            return ['error' => 'Invalid PaymentIntent status', 'status' => $intent->status];
         }
+
+        Yii::$app->response->statusCode = 400;
+            
+        return [
+            'error' => 'Invalid PaymentIntent status',
+            'status' => $intent->status,
+        ];
     }
 
+    /**
+     * Turn an exception into an arraytable response
+     *
+     * @param Exception $exception
+     * @return array
+     * @since 1.1.0
+     */
     protected function exceptionResponse(Exception $exception)
     {
         Yii::$app->response->statusCode = 400;
-        return ['error' => ['message' => $exception->getMessage()]];
+
+        return [
+            'error' => [
+                'message' => $exception->getMessage(),
+            ]
+        ];
     }
 }

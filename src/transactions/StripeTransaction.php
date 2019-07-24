@@ -77,7 +77,6 @@ class StripeTransaction extends Transaction
     {
         // handle incoming post requests, with body param or post data.
         if (Yii::$app->request->isPost) {
-
             Stripe::setApiKey($this->secretKey);
             try {
                 // catch fors method id body param call
@@ -96,7 +95,6 @@ class StripeTransaction extends Transaction
                 if ($this->getProvider()->callVerifySuccessIntent(Yii::$app->request->post('intentId'))) {
                     return $this->redirectApplicationSuccess();
                 }
-
             } catch (Exception $e) {
                 return $this->redirectTransactionFail();
             }
