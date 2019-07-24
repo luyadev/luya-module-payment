@@ -86,7 +86,7 @@ class PayPalTransaction extends Transaction
      */
     public static function floatAmount($value)
     {
-        return number_format($value / 100, 2);
+        return number_format($value / 100, 2, '.', '');
     }
     
     /**
