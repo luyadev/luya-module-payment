@@ -105,12 +105,7 @@ class StripeProvider extends Provider
             ];
         }
 
-        Yii::$app->response->statusCode = 400;
-            
-        return [
-            'error' => 'Invalid PaymentIntent status',
-            'status' => $intent->status,
-        ];
+        return $this->exceptionResponse(new Exception("Invalid PaymentIntent status:  {$intent->status}"));
     }
 
     /**
