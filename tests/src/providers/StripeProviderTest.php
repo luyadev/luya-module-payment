@@ -10,7 +10,7 @@ class StripeProviderTest extends BasePaymentTestCase
     public function testGeneratePaymentResponse()
     {
         $provider = new StripeProvider();
-        $response = $provider->callGenerateIntentResponse(0);
+        $response = $provider->callGeneratePaymentMethodResponse(0);
         $this->assertArrayHasKey('error', $response);
     }
 
