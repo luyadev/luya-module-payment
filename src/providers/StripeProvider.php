@@ -105,7 +105,7 @@ class StripeProvider extends Provider
             ];
         }
 
-        return $this->exceptionResponse(new Exception("Invalid PaymentIntent status:  {$intent->status}"));
+        return $this->exceptionResponse(new Exception("Invalid PaymentIntent status: {$intent->status}"));
     }
 
     /**
