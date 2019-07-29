@@ -3,9 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.1.0
+## 1.1.0 (29. July 2019)
 
 + [#13](https://github.com/luyadev/luya-module-payment/issues/13) Use new Stripe Payment Intents over Checkout API in order to support SCA checkout flow.
++ Fixed bug with large float numbers when using PayPal Provider.
 
 ## 1.0.0 (29. May 2019)
 
