@@ -2,12 +2,9 @@
 
 namespace luya\payment\transactions;
 
+use Exception;
 use Yii;
 use Stripe\Stripe;
-use Stripe\Charge;
-use Stripe\Customer;
-use Stripe\ThreeDSecure;
-use Stripe\Source;
 use luya\payment\PaymentException;
 use luya\payment\base\Transaction;
 use luya\payment\providers\StripeProvider;
@@ -78,44 +75,28 @@ class StripeTransaction extends Transaction
      */
     public function create()
     {
+        // handle incoming post requests, with body param or post data.
         if (Yii::$app->request->isPost) {
-            // stripeCard
-            $token = Yii::$app->request->post('sourceToken');
-            $is3d = Yii::$app->request->post('threeDSecure');
-
             Stripe::setApiKey($this->secretKey);
-
-            if ($is3d) {
-                // SOurce\Create:
-                $source = Source::create([
-                    'amount' => $this->getModel()->getTotalAmount(),
-                    'currency' => $this->getModel()->getCurrency(),
-                    'type' => "three_d_secure",
-                    "three_d_secure" => array(
-                        "card" => $token,
-                    ),
-                    "redirect" => array(
-                        "return_url" => $this->getModel()->getTransactionGatewayBackLink()
-                    ),
-                ]);
-
-                if ($source->pending != 'chargeable') {
-                    return $this->getContext()->redirect($source->redirect->url);
-                }
-            }
-
             try {
-                $charge = Charge::create([
-                    'amount' => $this->getModel()->getTotalAmount(),
-                    'currency' => $this->getModel()->getCurrency(),
-                    'source' => $token,
-                ]);
-            } catch (\Exception $e) {
-                return $this->redirectTransactionFail();
-            }
+                // catch fors method id body param call
+                $paymentMethodId = Yii::$app->request->getBodyParam('payment_method_id');
+                if ($paymentMethodId) {
+                    return $this->getContext()->asJson($this->getProvider()->callGeneratePaymentMethodResponse($paymentMethodId, $this->getModel()->getTotalAmount(), $this->getModel()->getCurrency()));
+                }
 
-            if ($charge) {
-                return $this->redirectApplicationSuccess();
+                // catch second intent call
+                $paymentIntentId = Yii::$app->request->getBodyParam('payment_intent_id');
+                if ($paymentIntentId) {
+                    return $this->getContext()->asJson($this->getProvider()->callGenerateIntentResponse($paymentIntentId));
+                }
+
+                // catch last post and verify the intent. Redirect to application on success.
+                if ($this->getProvider()->callVerifySuccessIntent(Yii::$app->request->post('intentId'))) {
+                    return $this->redirectApplicationSuccess();
+                }
+            } catch (Exception $e) {
+                return $this->redirectTransactionFail();
             }
 
             return $this->redirectTransactionFail();
@@ -128,8 +109,6 @@ class StripeTransaction extends Transaction
             'url' => $this->getModel()->getTransactionGatewayCreateLink(),
             'publishableKey' => $this->publishableKey,
             'abortLink' => $this->getModel()->getTransactionGatewayAbortLink(),
-
-            // aded new values for given views
             'productItems' => $this->getModel()->getProductItems(),
             'taxItems' => $this->getModel()->getTaxItems(),
             'shippingItems' => $this->getModel()->getShippingItems(),
@@ -151,30 +130,7 @@ class StripeTransaction extends Transaction
      */
     public function back()
     {
-        // 3d secure get params
-        // @see https://stripe.com/docs/sources/three-d-secure#customer-action
-        $sourceTokenId = Yii::$app->request->get('source');
-        $livemode = Yii::$app->request->get('livemode');
-        $clientSecret = Yii::$app->request->get('client_secret');
-
-        if ($sourceTokenId) {
-            Stripe::setApiKey($this->secretKey);
-            try {
-                $charge = Charge::create([
-                    'amount' => $this->getModel()->getTotalAmount(),
-                    'currency' => $this->getModel()->getCurrency(),
-                    'source' => $sourceTokenId,
-                ]);
-            } catch (\Exception $e) {
-                return $this->redirectTransactionFail();
-            }
-
-            if (!$charge) {
-                return $this->redirectTransactionFail();
-            }
-        }
-
-        return $this->redirectApplicationSuccess();
+        throw new PaymentException("The back action is not supported for Stripe integration.");
     }
 
     /**

@@ -23,6 +23,19 @@ abstract class Provider extends BaseObject implements ProviderInterface
      *
      * Is currently used as its more readable for integrations as most methos have a lot of parameters.
      *
+     * ```php
+     * $provider->call('foo-bar', ['name' => 'john']);
+     * ```
+     *
+     * would call
+     *
+     * ```php
+     * public function callFooBar($name)
+     * {
+     *    return $name;
+     * }
+     * ```
+     *
      * @param string $method The method to call without the `call` prefix.
      * @param array $vars Options to pass to the method.
      */

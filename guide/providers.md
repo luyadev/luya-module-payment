@@ -20,6 +20,12 @@ The [Stripe](https://stripe.com) transaction integration config:
 + `publishableKey`: The publishable key from the strip website (starts with pk_).
 + `secretKey`: The secret key from the strip website (starts with sk_).
 
+**test cards**
+
++ 4000000000003220 - with 3D secure 2
+
+[See all cards](https://stripe.com/docs/testing#regulatory-cards)
+
 ## PayPal Transaction
 
 The [PayPal](https://paypal.com) transaction integration config:
