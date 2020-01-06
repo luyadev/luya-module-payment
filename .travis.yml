@@ -14,8 +14,9 @@ matrix:
     allow_failures:
         - php: nightly
         - php: 7.4
-  services:
+services:
   - mysql
+  
 sudo: false
 install:
   - travis_retry composer self-update && composer --version
