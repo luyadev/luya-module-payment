@@ -26,8 +26,10 @@ class OrderHelper
      * @param nummeric $id The nummeric id to generate.
      * @return string The generated order id e.g. `xjf300005`.
      */
-    public static function generateOrderId($id, $zeroAmount = 5)
+    public static function generateOrderId($id, $zeroAmount = 5, $randomString = 4)
     {
-        return Yii::$app->security->generateRandomString(4) . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
+        $string = Yii::$app->security->generateRandomString($randomString) . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
+
+        return str_replace(['-', '_'], rand(0,9), $string);
     }
 }
