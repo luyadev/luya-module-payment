@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.3 (28. February 2020)
+
++ Changed german translation
++ Changed version constraint for LUYA Admin Module.
+
 ## 1.1.2 (14. February 2020)
 
 + [#16](https://github.com/luyadev/luya-module-payment/pull/16) New IT translation messages.
