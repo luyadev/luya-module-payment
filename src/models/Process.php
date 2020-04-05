@@ -69,7 +69,7 @@ class Process extends NgRestModel
     {
         return [
             [
-                'clss' => JsonBehavior::class, 
+                'class' => JsonBehavior::class, 
                 'attributes' => ['provider_data']
             ],
         ];
