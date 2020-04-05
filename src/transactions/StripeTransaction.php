@@ -88,7 +88,11 @@ class StripeTransaction extends Transaction
                 // catch second intent call
                 $paymentIntentId = Yii::$app->request->getBodyParam('payment_intent_id');
                 if ($paymentIntentId) {
-                    return $this->getContext()->asJson($this->getProvider()->callGenerateIntentResponse($paymentIntentId));
+                    $intentResponse = $this->getProvider()->callGenerateIntentResponse($paymentIntentId);
+
+                    // add this point store payment data
+                    $this->getIntegrator()->saveProviderData($this->getModel(), $intentResponse);
+                    return $this->getContext()->asJson($intentResponse);
                 }
 
                 // catch last post and verify the intent. Redirect to application on success.

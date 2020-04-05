@@ -31,6 +31,7 @@ class PayModel extends Model
     public $items = [];
     public $isClosed = 0;
     public $closeState;
+    public $providerData = [];
 
     public function isClosed()
     {
@@ -58,6 +59,7 @@ class PayModel extends Model
             [['orderId', 'currency', 'successLink', 'abortLink', 'errorLink', 'totalAmount'], 'required'],
             [['totalAmount', 'isClosed', 'id', 'closeState'], 'integer'],
             [['authToken', 'randomKey'], 'string'],
+            [['providerData', 'each', 'rule' => ['safe']]]
         ];
     }
 

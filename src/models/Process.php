@@ -5,7 +5,7 @@ namespace luya\payment\models;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\aws\DetailViewActiveWindow;
-use luya\payment\PaymentProcess;
+use luya\behaviors\JsonBehavior;
 use luya\payment\PaymentException;
 
 /**
@@ -32,6 +32,7 @@ use luya\payment\PaymentException;
  * @property integer $state_fail
  * @property integer $state_abort
  * @property integer $state_notify
+ * @property array $provider_data An optional json array which can store data about payment process. Data can merged at any step of the process.
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -62,6 +63,16 @@ class Process extends NgRestModel
     public static function ngRestApiEndpoint()
     {
         return 'api-payment-process';
+    }
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'clss' => JsonBehavior::class, 
+                'attributes' => ['provider_data']
+            ],
+        ];
     }
 
     /**
@@ -151,6 +162,7 @@ class Process extends NgRestModel
             [['hash'], 'unique'],
             [['random_key'], 'unique'],
             [['items'], 'safe'],
+            [['provider_data'], 'each', 'rule' => ['safe']],
         ];
     }
 
@@ -172,6 +184,7 @@ class Process extends NgRestModel
             'close_state' => ['selectArray', 'emptyListValue' => false, 'data' => [self::STATE_PENDING => 'Pending', self::STATE_SUCCESS => 'Success', self::STATE_ABORT => 'Aborted', self::STATE_ERROR => 'Error']],
             'is_closed' => ['toggleStatus', 'interactive' => false],
             'create_timestamp' => 'datetime',
+            'provider_data' => 'raw',
         ];
     }
 

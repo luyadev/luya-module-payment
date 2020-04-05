@@ -59,6 +59,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $api->abort_link = $model->abortLink;
         $api->close_state = Pay::STATE_PENDING;
         $api->is_closed = $model->isClosed;
+        $api->provider_data = $model->providerData;
         $api->loadItems($model->items);
         if ($api->save($this->getClient())) {
             $model->setId($api->id);
@@ -120,6 +121,14 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $trace->save($this->getClient());
     }
 
+    public function saveProviderData(PayModel $model, array $data)
+    {
+        return ApiPaymentProcess::put()
+            ->setArgs(['provider_data' => $data])
+            ->response($this->getClient())
+            ->isSuccess();
+    }
+
     // internal
 
     private static function createPayModel(ApiPaymentProcess $process)
@@ -133,6 +142,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $model->errorLink = $process->error_link;
         $model->successLink = $process->success_link;
         $model->abortLink = $process->abort_link;
+        $model->providerData = $process->provider_data;
 
         // assign items from origin process model
         foreach ($process->items as $item) {

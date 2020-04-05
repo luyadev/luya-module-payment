@@ -27,6 +27,7 @@ class DatabaseIntegrator implements IntegratorInterface
         $process->abort_link = $model->abortLink;
         $process->close_state = Process::STATE_PENDING;
         $process->is_closed = $model->isClosed;
+        $process->provider_data = $model->providerData;
         $items = [];
         foreach ($model->items as $item) {
             $items[] = [
@@ -99,6 +100,15 @@ class DatabaseIntegrator implements IntegratorInterface
         return $process->update(true, ['is_closed', 'close_state', 'close_timestamp']);
     }
 
+    public function saveProviderData(PayModel $model, array $data)
+    {
+        $process = Process::find()->where(['id' => $model->getId()])->one();
+
+        $process->provider_data = $data;
+
+        return $process->update(true, ['provider_data']);
+    }
+
     /* internal methods */
 
     private function validateProcess(Process $process, $token)
@@ -122,6 +132,7 @@ class DatabaseIntegrator implements IntegratorInterface
         $model->authToken = $process->auth_token;
         $model->closeState = $process->close_state;
         $model->isClosed = $process->is_closed;
+        $model->providerData = $process->provider_data;
 
         // assign items from origin process modell
         foreach ($process->items as $item) {
