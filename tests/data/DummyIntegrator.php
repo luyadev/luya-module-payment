@@ -64,4 +64,9 @@ class DummyIntegrator implements IntegratorInterface
     {
         return true;
     }
+
+    public function saveProviderData(PayModel $model, array $data)
+    {
+        return true;
+    }
 }

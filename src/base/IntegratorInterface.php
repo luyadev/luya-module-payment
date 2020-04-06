@@ -58,5 +58,12 @@ interface IntegratorInterface
      */
     public function addTrace(PayModel $model, $event, $message = null);
 
+    /**
+     * Undocumented function
+     *
+     * @param PayModel $model
+     * @param array $data
+     * @return boolean
+     */
     public function saveProviderData(PayModel $model, array $data);
 }

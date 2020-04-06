@@ -59,7 +59,7 @@ class PayModel extends Model
             [['orderId', 'currency', 'successLink', 'abortLink', 'errorLink', 'totalAmount'], 'required'],
             [['totalAmount', 'isClosed', 'id', 'closeState'], 'integer'],
             [['authToken', 'randomKey'], 'string'],
-            [['providerData', 'each', 'rule' => ['safe']]]
+            [['providerData'], 'each', 'rule' => ['safe']],
         ];
     }
 
