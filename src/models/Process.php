@@ -7,6 +7,7 @@ use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\aws\DetailViewActiveWindow;
 use luya\behaviors\JsonBehavior;
 use luya\payment\PaymentException;
+use yii\helpers\VarDumper;
 
 /**
  * Process.
@@ -195,13 +196,35 @@ class Process extends NgRestModel
         return $fields;
     }
 
+    public function getFormatedAmount()
+    {
+        return Yii::$app->formatter->asCurrency($this->amount / 100, $this->currency);
+    }
+
+    public function ngRestExtraAttributeTypes()
+    {
+        return [
+            'formatedAmount' => 'text',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function ngRestScopes()
     {
         return [
-            ['list', ['order_id', 'create_timestamp', 'amount', 'currency', 'close_state', 'is_closed']],
+            ['list', ['order_id', 'create_timestamp', 'formatedAmount', 'close_state']],
+        ];
+    }
+
+    public function ngRestFilters()
+    {
+        return [
+            'Successful' => self::ngRestFind()->andWhere(['close_state' => self::STATE_SUCCESS]),
+            'Pending' => self::ngRestFind()->andWhere(['close_state' => self::STATE_PENDING]),
+            'Error' => self::ngRestFind()->andWhere(['close_state' => self::STATE_ERROR]),
+            'Abort' => self::ngRestFind()->andWhere(['close_state' => self::STATE_ABORT]),
         ];
     }
 
@@ -211,7 +234,32 @@ class Process extends NgRestModel
     public function ngRestActiveWindows()
     {
         return [
-            ['class' => DetailViewActiveWindow::class],
+            [
+                'class' => DetailViewActiveWindow::class, 
+                'attributes' => [
+                    [
+                        'attribute' => 'amount',
+                        'value' => function($model) {
+                            return $model->getFormatedAmount();
+                        }
+                    ],
+                    'currency',
+                    'order_id', 
+                    'success_link',
+                    'error_link',
+                    'abort_link',
+                    'close_state',
+                    'is_closed:boolean',
+                    'create_timestamp:datetime',
+                    [
+                        'attribute' => 'provider_data',
+                        'value' => function($model) {
+                            return VarDumper::dumpAsString($model->provider_data);
+                        },
+                        'contentOptions' => ['encode' => false, 'encoding' => false]
+                    ],
+                ]
+            ],
         ];
     }
 

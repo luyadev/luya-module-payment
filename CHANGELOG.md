@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 2.0
+
++ [#18](https://github.com/luyadev/luya-module-payment/pull/18) New migration for saving payment provider specific informations like IDs.
+
 ## 1.1.3 (28. February 2020)
 
 + Changed german translation

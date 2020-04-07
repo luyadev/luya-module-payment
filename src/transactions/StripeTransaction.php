@@ -82,7 +82,9 @@ class StripeTransaction extends Transaction
                 // catch fors method id body param call
                 $paymentMethodId = Yii::$app->request->getBodyParam('payment_method_id');
                 if ($paymentMethodId) {
-                    return $this->getContext()->asJson($this->getProvider()->callGeneratePaymentMethodResponse($paymentMethodId, $this->getModel()->getTotalAmount(), $this->getModel()->getCurrency()));
+                    $response = $this->getProvider()->callGeneratePaymentMethodResponse($paymentMethodId, $this->getModel()->getTotalAmount(), $this->getModel()->getCurrency());
+                    $this->getIntegrator()->saveProviderData($this->getModel(), $response);
+                    return $this->getContext()->asJson($response);
                 }
 
                 // catch second intent call
