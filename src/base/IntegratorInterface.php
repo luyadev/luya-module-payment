@@ -16,9 +16,18 @@ use luya\web\Controller;
 interface IntegratorInterface
 {
     /**
-     * Create new Payment process entry based on PayModel
+     * Create new Payment process entry based on PayModel.
+     * 
+     * The PayModel will be returned and recieved the update values from the integrator.
+     * 
+     * Following attributes must be updated/added by this process:
+     * 
+     * + $model->setId();
+     * + $model->setAuthToken($api->auth_token);
+     * + $model->setRandomKey($api->random_key);
      *
      * @param PayModel $model
+     * @return PayModel|boolean If successfull the PayModel will be returned with updated values, otherwise false.
      */
     public function createModel(PayModel $model);
 
@@ -59,11 +68,14 @@ interface IntegratorInterface
     public function addTrace(PayModel $model, $event, $message = null);
 
     /**
-     * Undocumented function
+     * Save additonal arrayabe data from the payment provider.
+     * 
+     * Used to store informations like payment process ID from the payment provider itself (like stripe transaction id).
      *
      * @param PayModel $model
      * @param array $data
      * @return boolean
+     * @since 2.0.0
      */
     public function saveProviderData(PayModel $model, array $data);
 }

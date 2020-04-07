@@ -33,26 +33,49 @@ class PayModel extends Model
     public $closeState;
     public $providerData = [];
 
+    /**
+     * Whether pay model is closed or not
+     *
+     * @return boolean
+     */
     public function isClosed()
     {
         return $this->isClosed;
     }
     
+    /**
+     * Is closed and successfull.
+     *
+     * @return boolean
+     */
     public function isClosedSuccess()
     {
         return $this->isClosed() && $this->closeState == Pay::STATE_SUCCESS;
     }
 
+    /**
+     * Is closed and error.
+     *
+     * @return boolean
+     */
     public function isClosedError()
     {
         return $this->isClosed() && $this->closeState == Pay::STATE_ERROR;
     }
 
+    /**
+     * Is closed and aborted.
+     *
+     * @return boolean
+     */
     public function isClosedAbort()
     {
         return $this->isClosed() && $this->closeState == Pay::STATE_ABORT;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function rules()
     {
         return [
@@ -129,6 +152,13 @@ class PayModel extends Model
         return $items;
     }
 
+    /**
+     * Setter model for the ID
+     *
+     * > Is used by the integrators
+     * 
+     * @param integer $id
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -143,6 +173,13 @@ class PayModel extends Model
         return $this->authToken;
     }
 
+    /**
+     * Setter method for auth token.
+     * 
+     * > Is used by the integrators
+     *
+     * @param string $token
+     */
     public function setAuthToken($token)
     {
         $this->authToken = $token;
@@ -153,6 +190,13 @@ class PayModel extends Model
         return $this->randomKey;
     }
 
+    /**
+     * Setter method for the random key
+     * 
+     * > Is used by the integrators
+     *
+     * @param string $key
+     */
     public function setRandomKey($key)
     {
         $this->randomKey = $key;

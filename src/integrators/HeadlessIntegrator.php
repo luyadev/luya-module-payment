@@ -48,6 +48,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $this->_client;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function createModel(PayModel $model)
     {
         $api = new ApiPaymentProcess();

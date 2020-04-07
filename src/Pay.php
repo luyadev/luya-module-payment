@@ -162,7 +162,7 @@ class Pay
         $model->totalAmount = $amount;
 
         if (!$model->validate()) {
-            throw new PaymentException("unable to validate the pay model.");
+            throw new PaymentException("Validation of PayModel failed, invalid Pay attributes.");
         }
 
         $integrator = Module::getInstance()->getIntegrator();
@@ -185,11 +185,21 @@ class Pay
         return $this->getCreateModel()->getId();
     }
 
+    /**
+     * Get the random key
+     *
+     * @return string
+     */
     public function getRandomKey()
     {
         return $this->getCreateModel()->getRandomKey();
     }
 
+    /**
+     * Get the luya payment auth token.
+     *
+     * @return string
+     */
     public function getAuthToken()
     {
         return $this->getCreateModel()->getAuthToken();
@@ -222,6 +232,12 @@ class Pay
         return $model;
     }
 
+    /**
+     * Whether the given payment id was successfull or not.
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public static function isSuccess($id)
     {
         $model = self::findById($id);

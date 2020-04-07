@@ -16,6 +16,9 @@ use luya\payment\models\ProcessTrace;
  */
 class DatabaseIntegrator implements IntegratorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function createModel(PayModel $model)
     {
         $process = new Process();
