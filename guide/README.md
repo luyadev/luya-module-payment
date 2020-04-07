@@ -4,4 +4,4 @@ Table of contents
 
 + [Setup & Integration](setup.md)
 + [Payment Transaction Providers](providers.md)
-+ [Change Integrator](integrators.md)
++ [Integrators (Headless or Database)](integrators.md)

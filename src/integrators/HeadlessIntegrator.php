@@ -124,6 +124,8 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
     public function saveProviderData(PayModel $model, array $data)
     {
         return ApiPaymentProcess::put()
+            ->setEndpoint('{endpointName}/{id}')
+            ->setTokens(['id' => $model->id])
             ->setArgs(['provider_data' => $data])
             ->response($this->getClient())
             ->isSuccess();
