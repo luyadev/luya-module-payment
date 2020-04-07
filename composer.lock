@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c232fb84d5cb0a06bfc924ffee226f5e",
+    "content-hash": "8bdc05d7869ff6cbbbfdb436087dfa94",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -660,16 +660,16 @@
         },
         {
             "name": "luyadev/luya-core",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-core.git",
-                "reference": "b112e518772bc67317c943a15e54532472299a06"
+                "reference": "68fcaf0e19a7750be7be1f216ef5dc87cbcebf7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/b112e518772bc67317c943a15e54532472299a06",
-                "reference": "b112e518772bc67317c943a15e54532472299a06",
+                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/68fcaf0e19a7750be7be1f216ef5dc87cbcebf7b",
+                "reference": "68fcaf0e19a7750be7be1f216ef5dc87cbcebf7b",
                 "shasum": ""
             },
             "require": {
@@ -714,7 +714,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2020-04-07T06:00:22+00:00"
+            "time": "2020-04-07T07:01:56+00:00"
         },
         {
             "name": "luyadev/luya-headless",

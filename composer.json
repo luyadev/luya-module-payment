@@ -16,7 +16,7 @@
         "issues" : "https://github.com/luyadev/luya-module-payment/issues"
     },
     "require" : {
-        "luyadev/luya-core" : "^1.2",
+        "luyadev/luya-core" : "^1.2.1",
         "luyadev/luya-module-admin" : ">=2.0",
         "luyadev/luya-headless" : "*",
         "stripe/stripe-php": "^6.19",
