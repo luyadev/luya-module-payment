@@ -5,8 +5,9 @@ namespace luya\payment\models;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\aws\DetailViewActiveWindow;
-use luya\payment\PaymentProcess;
+use luya\behaviors\JsonBehavior;
 use luya\payment\PaymentException;
+use yii\helpers\VarDumper;
 
 /**
  * Process.
@@ -32,6 +33,7 @@ use luya\payment\PaymentException;
  * @property integer $state_fail
  * @property integer $state_abort
  * @property integer $state_notify
+ * @property array $provider_data An optional json array which can store data about payment process. Data can merged at any step of the process.
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -62,6 +64,16 @@ class Process extends NgRestModel
     public static function ngRestApiEndpoint()
     {
         return 'api-payment-process';
+    }
+    
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => JsonBehavior::class, 
+                'attributes' => ['provider_data'],
+            ],
+        ];
     }
 
     /**
@@ -151,6 +163,7 @@ class Process extends NgRestModel
             [['hash'], 'unique'],
             [['random_key'], 'unique'],
             [['items'], 'safe'],
+            [['provider_data'], 'each', 'rule' => ['safe']],
         ];
     }
 
@@ -172,6 +185,7 @@ class Process extends NgRestModel
             'close_state' => ['selectArray', 'emptyListValue' => false, 'data' => [self::STATE_PENDING => 'Pending', self::STATE_SUCCESS => 'Success', self::STATE_ABORT => 'Aborted', self::STATE_ERROR => 'Error']],
             'is_closed' => ['toggleStatus', 'interactive' => false],
             'create_timestamp' => 'datetime',
+            'provider_data' => 'raw',
         ];
     }
 
@@ -182,13 +196,35 @@ class Process extends NgRestModel
         return $fields;
     }
 
+    public function getFormatedAmount()
+    {
+        return Yii::$app->formatter->asCurrency($this->amount / 100, $this->currency);
+    }
+
+    public function ngRestExtraAttributeTypes()
+    {
+        return [
+            'formatedAmount' => 'text',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function ngRestScopes()
     {
         return [
-            ['list', ['order_id', 'create_timestamp', 'amount', 'currency', 'close_state', 'is_closed']],
+            ['list', ['order_id', 'create_timestamp', 'formatedAmount', 'close_state']],
+        ];
+    }
+
+    public function ngRestFilters()
+    {
+        return [
+            'Successful' => self::ngRestFind()->andWhere(['close_state' => self::STATE_SUCCESS]),
+            'Pending' => self::ngRestFind()->andWhere(['close_state' => self::STATE_PENDING]),
+            'Error' => self::ngRestFind()->andWhere(['close_state' => self::STATE_ERROR]),
+            'Abort' => self::ngRestFind()->andWhere(['close_state' => self::STATE_ABORT]),
         ];
     }
 
@@ -198,7 +234,32 @@ class Process extends NgRestModel
     public function ngRestActiveWindows()
     {
         return [
-            ['class' => DetailViewActiveWindow::class],
+            [
+                'class' => DetailViewActiveWindow::class, 
+                'attributes' => [
+                    [
+                        'attribute' => 'amount',
+                        'value' => function($model) {
+                            return $model->getFormatedAmount();
+                        }
+                    ],
+                    'currency',
+                    'order_id', 
+                    'success_link',
+                    'error_link',
+                    'abort_link',
+                    'close_state',
+                    'is_closed:boolean',
+                    'create_timestamp:datetime',
+                    [
+                        'attribute' => 'provider_data',
+                        'value' => function($model) {
+                            return VarDumper::dumpAsString($model->provider_data);
+                        },
+                        'contentOptions' => ['encode' => false, 'encoding' => false]
+                    ],
+                ]
+            ],
         ];
     }
 

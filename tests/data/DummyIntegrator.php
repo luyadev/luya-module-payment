@@ -7,22 +7,24 @@ use luya\payment\base\PayModel;
 
 class DummyIntegrator implements IntegratorInterface
 {
+    public $createModelResponse = true;
+    
     /**
-     * Create new Payment process entry based on PayModel
-     *
-     * @param PayModel $model
+     * {@inheritDoc}
      */
     public function createModel(PayModel $model)
     {
-        return true;
+        if ($this->createModelResponse) {
+            $model->setId(1);
+            $model->setRandomKey('123');
+            $model->setAuthToken('123');
+            return $model;
+        }
+        return $this->createModelResponse;
     }
 
     /**
-     * Find a payment process entry based on the key and token returns the PayModel
-     *
-     * @param string $key The random key
-     * @param string $token The random token
-     * @return PayModel
+     * {@inheritDoc}
      */
     public function findByKey($key, $token)
     {
@@ -30,10 +32,7 @@ class DummyIntegrator implements IntegratorInterface
     }
 
     /**
-     * Find a payment process based on the ID and returns the PayModel.
-     *
-     * @param integer $id The ID of the process
-     * @return PayModel
+     * {@inheritDoc}
      */
     public function findById($id)
     {
@@ -41,11 +40,7 @@ class DummyIntegrator implements IntegratorInterface
     }
 
     /**
-     * Close a PayModel based on the state.
-     *
-     * @param PayModel $model
-     * @param integer $state An Integer value to close the model
-     * @return boolean
+     * {@inheritDoc}
      */
     public function closeModel(PayModel $model, $state)
     {
@@ -53,14 +48,17 @@ class DummyIntegrator implements IntegratorInterface
     }
 
     /**
-     * Add A trace information for a current PayModel process.
-     *
-     * @param PayModel $model
-     * @param string $event
-     * @param string $message
-     * @return boolean
+     * {@inheritDoc}
      */
     public function addTrace(PayModel $model, $event, $message = null)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function saveProviderData(PayModel $model, array $data)
     {
         return true;
     }

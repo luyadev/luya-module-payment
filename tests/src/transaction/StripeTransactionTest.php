@@ -18,6 +18,7 @@ class StripeTransactionTest extends BasePaymentTestCase
             'publishableKey' => 'foobar',
             'secretKey' => 'barfoo',
             'layout' => false,
+            'integrator' => new DummyIntegrator(),
         ]);
         $stripe->setModel($this->generatePayModel());
 
@@ -32,6 +33,7 @@ class StripeTransactionTest extends BasePaymentTestCase
             'publishableKey' => 'foobar',
             'secretKey' => 'barfoo',
             'layout' => false,
+            'integrator' => new DummyIntegrator(),
         ]);
         $stripe->setModel($this->generatePayModel());
         $controller = new Controller('id', $this->app);
@@ -49,6 +51,7 @@ class StripeTransactionTest extends BasePaymentTestCase
             'publishableKey' => 'foobar',
             'secretKey' => 'barfoo',
             'layout' => false,
+            'integrator' => new DummyIntegrator(),
         ]);
         $integrator = new DummyIntegrator();
         $stripe->setIntegrator($integrator);

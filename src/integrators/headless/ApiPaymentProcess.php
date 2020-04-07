@@ -25,6 +25,7 @@ class ApiPaymentProcess extends ActiveEndpoint
     public $is_closed;
     public $auth_token;
     public $random_key;
+    public $provider_data = [];
 
     public function getEndpointName()
     {
@@ -36,6 +37,14 @@ class ApiPaymentProcess extends ActiveEndpoint
         return parent::find()->setExpand(['items']);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param [type] $key
+     * @param [type] $token
+     * @param Client $client
+     * @return ApiPaymentProcess
+     */
     public static function findByKey($key, $token, Client $client)
     {
         return self::find()->setEndpoint('{endpointName}/find-by-key')->setArgs(['key' => $key, 'token' => $token])->one($client);

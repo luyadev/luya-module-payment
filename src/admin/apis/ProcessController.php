@@ -2,6 +2,7 @@
 
 namespace luya\payment\admin\apis;
 
+use luya\admin\components\Auth;
 use luya\payment\models\Process;
 use yii\web\ForbiddenHttpException;
 
@@ -19,6 +20,13 @@ class ProcessController extends \luya\admin\ngrest\base\Api
      * @var string The path to the model which is the provider for the rules and fields.
      */
     public $modelClass = 'luya\payment\models\Process';
+
+    public function actionPermissions()
+    {
+        return [
+            'find-by-key' => Auth::CAN_VIEW,
+        ];
+    }
 
     public function withRelations()
     {

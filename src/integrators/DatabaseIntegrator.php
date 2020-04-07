@@ -16,6 +16,9 @@ use luya\payment\models\ProcessTrace;
  */
 class DatabaseIntegrator implements IntegratorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function createModel(PayModel $model)
     {
         $process = new Process();
@@ -27,6 +30,7 @@ class DatabaseIntegrator implements IntegratorInterface
         $process->abort_link = $model->abortLink;
         $process->close_state = Process::STATE_PENDING;
         $process->is_closed = $model->isClosed;
+        $process->provider_data = $model->providerData;
         $items = [];
         foreach ($model->items as $item) {
             $items[] = [
@@ -49,6 +53,9 @@ class DatabaseIntegrator implements IntegratorInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findByKey($key, $token)
     {
         $model = Process::find()->where(['random_key' => $key])->with(['items'])->one();
@@ -64,6 +71,9 @@ class DatabaseIntegrator implements IntegratorInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function addTrace(PayModel $model, $event, $message = null)
     {
         $trace = new ProcessTrace();
@@ -73,6 +83,9 @@ class DatabaseIntegrator implements IntegratorInterface
         return $trace->save();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findById($id)
     {
         $process = Process::find()->where(['id' => $id])->with(['items'])->one();
@@ -84,6 +97,9 @@ class DatabaseIntegrator implements IntegratorInterface
         return self::createPayModel($process);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function closeModel(PayModel $model, $state)
     {
         $process = Process::find()->where(['id' => $model->getId(), 'is_closed' => 0])->one();
@@ -97,6 +113,18 @@ class DatabaseIntegrator implements IntegratorInterface
         $process->close_timestamp = time();
         
         return $process->update(true, ['is_closed', 'close_state', 'close_timestamp']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function saveProviderData(PayModel $model, array $data)
+    {
+        $process = Process::find()->where(['id' => $model->getId()])->one();
+
+        $process->provider_data = $data;
+
+        return $process->update(true, ['provider_data']);
     }
 
     /* internal methods */
@@ -122,6 +150,7 @@ class DatabaseIntegrator implements IntegratorInterface
         $model->authToken = $process->auth_token;
         $model->closeState = $process->close_state;
         $model->isClosed = $process->is_closed;
+        $model->providerData = $process->provider_data;
 
         // assign items from origin process modell
         foreach ($process->items as $item) {

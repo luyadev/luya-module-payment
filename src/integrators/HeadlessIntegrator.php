@@ -22,6 +22,7 @@ use luya\payment\integrators\headless\ApiPaymentProcessTrace;
 class HeadlessIntegrator extends BaseObject implements IntegratorInterface
 {
     public $accessToken;
+    
     public $serverUrl;
 
     private $_client;
@@ -48,6 +49,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $this->_client;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function createModel(PayModel $model)
     {
         $api = new ApiPaymentProcess();
@@ -59,6 +63,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $api->abort_link = $model->abortLink;
         $api->close_state = Pay::STATE_PENDING;
         $api->is_closed = $model->isClosed;
+        $api->provider_data = $model->providerData;
         $api->loadItems($model->items);
         if ($api->save($this->getClient())) {
             $model->setId($api->id);
@@ -70,6 +75,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findByKey($key, $token)
     {
         $api = ApiPaymentProcess::findByKey($key, $token, $this->getClient());
@@ -83,6 +91,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $model;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findById($id)
     {
         $api = ApiPaymentProcess::viewOne($id, $this->getClient());
@@ -94,6 +105,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return self::createPayModel($api);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function closeModel(PayModel $model, $state)
     {
         $api = ApiPaymentProcess::viewOne($model->getId(), $this->getClient());
@@ -111,6 +125,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function addTrace(PayModel $model, $event, $message = null)
     {
         $trace = new ApiPaymentProcessTrace();
@@ -118,6 +135,19 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $trace->event = $event;
         $trace->message = $message;
         return $trace->save($this->getClient());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function saveProviderData(PayModel $model, array $data)
+    {
+        return ApiPaymentProcess::put()
+            ->setEndpoint('{endpointName}/{id}')
+            ->setTokens(['id' => $model->id])
+            ->setArgs(['provider_data' => $data])
+            ->response($this->getClient())
+            ->isSuccess();
     }
 
     // internal
@@ -133,6 +163,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         $model->errorLink = $process->error_link;
         $model->successLink = $process->success_link;
         $model->abortLink = $process->abort_link;
+        $model->providerData = $process->provider_data;
 
         // assign items from origin process model
         foreach ($process->items as $item) {
