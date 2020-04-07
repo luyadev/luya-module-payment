@@ -14,6 +14,12 @@ class DummyIntegrator implements IntegratorInterface
      */
     public function createModel(PayModel $model)
     {
+        if ($this->createModelResponse) {
+            $model->setId(1);
+            $model->setRandomKey('123');
+            $model->setAuthToken('123');
+            return $model;
+        }
         return $this->createModelResponse;
     }
 

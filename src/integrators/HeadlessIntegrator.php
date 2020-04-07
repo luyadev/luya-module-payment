@@ -22,6 +22,7 @@ use luya\payment\integrators\headless\ApiPaymentProcessTrace;
 class HeadlessIntegrator extends BaseObject implements IntegratorInterface
 {
     public $accessToken;
+    
     public $serverUrl;
 
     private $_client;
@@ -74,6 +75,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findByKey($key, $token)
     {
         $api = ApiPaymentProcess::findByKey($key, $token, $this->getClient());
@@ -87,6 +91,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $model;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findById($id)
     {
         $api = ApiPaymentProcess::viewOne($id, $this->getClient());
@@ -98,6 +105,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return self::createPayModel($api);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function closeModel(PayModel $model, $state)
     {
         $api = ApiPaymentProcess::viewOne($model->getId(), $this->getClient());
@@ -115,6 +125,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function addTrace(PayModel $model, $event, $message = null)
     {
         $trace = new ApiPaymentProcessTrace();
@@ -124,6 +137,9 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         return $trace->save($this->getClient());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function saveProviderData(PayModel $model, array $data)
     {
         return ApiPaymentProcess::put()
