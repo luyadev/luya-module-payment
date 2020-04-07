@@ -170,7 +170,7 @@ class Pay
             return $this->_model = $model;
         }
 
-        throw new PaymentException("Error while creating the pay model by the integratort.");
+        throw new PaymentException("Error while creating the pay model by the integrator ".get_class($integrator).".");
     }
 
     /**

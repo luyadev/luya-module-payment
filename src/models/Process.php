@@ -70,7 +70,9 @@ class Process extends NgRestModel
         return [
             [
                 'class' => JsonBehavior::class, 
-                'attributes' => ['provider_data']
+                'attributes' => ['provider_data'],
+                'decodeAfterFind' => true,
+                'encodeBeforeValidate' => false,
             ],
         ];
     }
