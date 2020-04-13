@@ -1,6 +1,10 @@
 # Upgrade
 
-## RC4 to 1.0
+## from 1.x to 2.0
+
++ Run the migrate command, as new migrations are available and required!
+
+## from rc4 to 1.0
 
 + The transaction config is not stored in the payment process anymore, it must be registered in the module instead `'transaction' => []`.
 + Run the migrate command `./luya migrate` and import command afterwards `./luya import`.
