@@ -58,7 +58,7 @@ class StoreCheckoutController extends \luya\web\Controller
 {
     public function actionIndex()
     {
-        $orderId = 'order-'.uniqid();
+        $orderId = OrderHelper::generateOrderId($id);
         
         // define the pay object
         $pay = new Pay();
@@ -70,7 +70,7 @@ class StoreCheckoutController extends \luya\web\Controller
 
         $pay->addItem('Product A', 2, 200); // buying Product A for 2x each 200 cents which is a total amount of 400 cents (the charged value).
         $pay->addTax('VAT 8%', 16);
-        $pay->totalAmount(416);
+        $pay->setTotalAmount(416);
 
         // prepare the order and store the process->getId()
         // ....
