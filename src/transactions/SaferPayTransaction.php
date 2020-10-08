@@ -92,6 +92,13 @@ class SaferPayTransaction extends Transaction
             'notifyUrl' => $this->getModel()->getTransactionGatewayNotifyLink(),
         ]);
         
+        // the response status is 200 but the content is not a valid URL
+        // therefore trhow an exception with the content. Example value could be:
+        // `ERROR: Missing or wrong ACCOUNTID attribute`
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new PaymentException("Invalid URL: " . $url);
+        }
+        
         return $this->getContext()->redirect($url);
     }
     
