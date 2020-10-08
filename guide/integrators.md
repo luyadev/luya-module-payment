@@ -4,7 +4,7 @@ The integrator allows you the way the payment frontend is talking to the payment
 
 > If nothing is defined in payment frontend module configuration, the database integrator is used by default.
 
-## Database Integrator
+## Database Integrator
 
 ```php
 'payment' => [
@@ -21,7 +21,7 @@ The integrator allows you the way the payment frontend is talking to the payment
 ```
 
 
-## Headless Integrator
+## Headless Integrator
 
 Headless Integration with an already existing luya\headless\Client component:
 
