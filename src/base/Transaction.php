@@ -2,6 +2,7 @@
 
 namespace luya\payment\base;
 
+use Curl\Curl;
 use luya\payment\PaymentProcess;
 use yii\web\Controller;
 use yii\base\BaseObject;
@@ -19,27 +20,37 @@ use luya\payment\PaymentException;
 abstract class Transaction extends BaseObject
 {
     /**
-     * Creates the transaction and mostly redirects to the provider afterwards
+     * Creates the transaction and mostly redirects to the provider afterwards.
      */
     abstract public function create();
     
     /**
-     * Return from create into the back
+     * The method which is triggered when coming "back from the provider". In generall this is also success.
+     * 
+     * Commonly call `$this->redirectApplicationSuccess()` now.
      */
     abstract public function back();
     
     /**
-     * Some providers provide a notify link
+     * Some providers provide a notify link. The notify method will be called from the payment provider in the 
+     * background. In generall we want to ensure the payment is closed here.
+     * 
+     * close the paymentsuccessful `$this->closePaymentAsSuccessful()` and try to call the webstore url (maybe 
+     * this triggers an email) `$this-curlApplicationLink($this->getModel()->getApplicationSuccessLink())`.
      */
     abstract public function notify();
     
     /**
-     * An error/failure happend
+     * Redirect back to the application failure/error page
+     * 
+     * `$this->redirectTransactionFail()`
      */
     abstract public function fail();
     
     /**
      * All providers provide an abort/stop link to back into the onlinestore and choose
+     * 
+     * `$this-redirectTransactionAbort()`
      */
     abstract public function abort();
 
@@ -176,11 +187,7 @@ abstract class Transaction extends BaseObject
     {
         $url = $this->getModel()->getApplicationSuccessLink();
         
-        $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_SUCCESS);
-
-        if (!$closable) {
-            throw new PaymentException("Unable to close the model, maybe its already closed.");
-        }
+        $this->closePaymentAsSuccessful();
 
         return $this->getContext()->redirect($url);
     }
@@ -193,11 +200,7 @@ abstract class Transaction extends BaseObject
     public function redirectApplicationAbort()
     {
         $url = $this->getModel()->getApplicationAbortLink();
-        $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ABORT);
-
-        if (!$closable) {
-            throw new PaymentException("Unable to close the model, maybe its already closed.");
-        }
+        $this->closePaymentAsAborted();
 
         return $this->getContext()->redirect($url);
     }
@@ -210,12 +213,41 @@ abstract class Transaction extends BaseObject
     public function redirectApplicationError()
     {
         $url = $this->getModel()->getApplicationErrorLink();
+        $this->closePaymentAsErrored();
+
+        return $this->getContext()->redirect($url);
+    }
+
+    protected function closePaymentAsSuccessful()
+    {
+        $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_SUCCESS);
+
+        if (!$closable) {
+            throw new PaymentException("Unable to close the model as successful, maybe its already closed.");
+        }
+    }
+
+    protected function closePaymentAsAborted()
+    {
+        $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ABORT);
+
+        if (!$closable) {
+            throw new PaymentException("Unable to close the model as aborted, maybe its already closed.");
+        }
+    }
+
+    protected function closePaymentAsErrored()
+    {
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ERROR);
 
         if (!$closable) {
-            throw new PaymentException("Unable to close the model, maybe its already closed.");
+            throw new PaymentException("Unable to close the model as errored, maybe its already closed.");
         }
+    }
 
-        return $this->getContext()->redirect($url);
+    protected function curlApplicationLink($link)
+    {
+        $curl = new Curl();
+        $curl->get($link);
     }
 }
