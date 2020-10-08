@@ -2,6 +2,7 @@
 
 namespace luya\payment\tests\transaction;
 
+use luya\payment\PaymentException;
 use luya\payment\tests\BasePaymentTestCase;
 use luya\payment\transactions\SaferPayTransaction;
 
@@ -14,8 +15,8 @@ class SaferPayTransactionTest extends BasePaymentTestCase
         ]);
         $saferPay->setModel($this->generatePayModel());
         $saferPay->setContext($this->generateContextController());
-        $r = $saferPay->create();
 
-        $this->assertInstanceOf('yii\web\Response', $r);
+        $this->expectException(PaymentException::class);
+        $r = $saferPay->create();
     }
 }
