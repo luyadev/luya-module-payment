@@ -67,6 +67,24 @@ abstract class Transaction extends BaseObject
      */
     public $title;
 
+    /**
+     * @var string The error message which is thrown an logged when an eror happens while closing the model.
+     * @since 2.1
+     */
+    public $errorCloseSuccess = "Unable to close the model as successful, maybe its already closed.";
+
+    /**
+     * @var string The error message which is thrown an logged when an eror happens while closing the model.
+     * @since 2.1
+     */
+    public $errorCloseAbort = "Unable to close the model as aborted, maybe its already closed.";
+
+    /**
+     * @var string The error message which is thrown an logged when an eror happens while closing the model.
+     * @since 2.1
+     */
+    public $errorCloseError = "Unable to close the model as errored, maybe its already closed.";
+
     private $_model;
     
     /**
@@ -220,11 +238,6 @@ abstract class Transaction extends BaseObject
 
         return $this->getContext()->redirect($url);
     }
-
-    protected $errorCloseSuccess = "Unable to close the model as successful, maybe its already closed.";
-    protected $errorCloseAbort = "Unable to close the model as aborted, maybe its already closed.";
-    protected $errorCloseError = "Unable to close the model as errored, maybe its already closed.";
-
 
     /**
      * Close the current payment model as successful
