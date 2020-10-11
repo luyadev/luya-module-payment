@@ -3,7 +3,6 @@
 namespace luya\payment\base;
 
 use Curl\Curl;
-use luya\payment\PaymentProcess;
 use yii\web\Controller;
 use yii\base\BaseObject;
 use luya\payment\Pay;
@@ -218,6 +217,11 @@ abstract class Transaction extends BaseObject
         return $this->getContext()->redirect($url);
     }
 
+    /**
+     * Close the current payment model as successful
+     *
+     * @since 2.1
+     */
     protected function closePaymentAsSuccessful()
     {
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_SUCCESS);
@@ -227,6 +231,11 @@ abstract class Transaction extends BaseObject
         }
     }
 
+    /**
+     * Close the current payment model as aborted
+     *
+     * @since 2.1
+     */
     protected function closePaymentAsAborted()
     {
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ABORT);
@@ -236,6 +245,11 @@ abstract class Transaction extends BaseObject
         }
     }
 
+    /**
+     * Close the current payment model as errored
+     *
+     * @since 2.1
+     */
     protected function closePaymentAsErrored()
     {
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ERROR);
@@ -245,6 +259,12 @@ abstract class Transaction extends BaseObject
         }
     }
 
+    /**
+     * CURL a given url in order to ensure estore "success" page is called.
+     *
+     * @param string $link
+     * @since 2.1
+     */
     protected function curlApplicationLink($link)
     {
         $curl = new Curl();
