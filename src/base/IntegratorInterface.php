@@ -17,11 +17,11 @@ interface IntegratorInterface
 {
     /**
      * Create new Payment process entry based on PayModel.
-     * 
+     *
      * The PayModel will be returned and recieved the update values from the integrator.
-     * 
+     *
      * Following attributes must be updated/added by this process:
-     * 
+     *
      * + $model->setId();
      * + $model->setAuthToken($api->auth_token);
      * + $model->setRandomKey($api->random_key);
@@ -69,7 +69,7 @@ interface IntegratorInterface
 
     /**
      * Save additonal arrayabe data from the payment provider.
-     * 
+     *
      * Used to store informations like payment process ID from the payment provider itself (like stripe transaction id).
      *
      * @param PayModel $model

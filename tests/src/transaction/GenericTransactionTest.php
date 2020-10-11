@@ -15,15 +15,14 @@ class GenericTransactionTest extends BasePaymentTestCase
      */
     private function getTransaction()
     {
-        return new class extends Transaction
-        {
+        return new class extends Transaction {
             public function create()
             {
             }
 
             public function back()
             {
-                $this->closePaymentAsSuccessful();   
+                $this->closePaymentAsSuccessful();
             }
 
             public function notify()
@@ -32,7 +31,7 @@ class GenericTransactionTest extends BasePaymentTestCase
 
             public function fail()
             {
-                $this->closePaymentAsErrored();   
+                $this->closePaymentAsErrored();
             }
 
             public function abort()

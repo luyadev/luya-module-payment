@@ -16,7 +16,7 @@ use luya\payment\PaymentException;
  * @property PayModel $model
  * @property Controller $context
  * @property IntegratorInterface $integrator
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -29,30 +29,30 @@ abstract class Transaction extends BaseObject
     
     /**
      * The method which is triggered when coming "back from the provider". In generall this is also success.
-     * 
+     *
      * Commonly call `$this->redirectApplicationSuccess()` now.
      */
     abstract public function back();
     
     /**
-     * Some providers provide a notify link. The notify method will be called from the payment provider in the 
+     * Some providers provide a notify link. The notify method will be called from the payment provider in the
      * background. In generall we want to ensure the payment is closed here.
-     * 
-     * close the paymentsuccessful `$this->closePaymentAsSuccessful()` and try to call the webstore url (maybe 
+     *
+     * close the paymentsuccessful `$this->closePaymentAsSuccessful()` and try to call the webstore url (maybe
      * this triggers an email) `$this-curlApplicationLink($this->getModel()->getApplicationSuccessLink())`.
      */
     abstract public function notify();
     
     /**
      * Redirect back to the application failure/error page
-     * 
+     *
      * `$this->redirectTransactionFail()`
      */
     abstract public function fail();
     
     /**
      * All providers provide an abort/stop link to back into the onlinestore and choose
-     * 
+     *
      * `$this-redirectTransactionAbort()`
      */
     abstract public function abort();

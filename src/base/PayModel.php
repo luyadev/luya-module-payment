@@ -155,7 +155,7 @@ class PayModel extends Model
      * Setter model for the ID
      *
      * > Is used by the integrators
-     * 
+     *
      * @param integer $id
      */
     public function setId($id)
@@ -174,7 +174,7 @@ class PayModel extends Model
 
     /**
      * Setter method for auth token.
-     * 
+     *
      * > Is used by the integrators
      *
      * @param string $token
@@ -191,7 +191,7 @@ class PayModel extends Model
 
     /**
      * Setter method for the random key
-     * 
+     *
      * > Is used by the integrators
      *
      * @param string $key

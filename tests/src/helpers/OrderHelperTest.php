@@ -13,7 +13,7 @@ class OrderHelperTest extends BasePaymentTestCase
         $this->assertContains('00004', OrderHelper::generateOrderId(4));
         $this->assertContains('00010', OrderHelper::generateOrderId(10));
 
-        $this->assertContains('00004', OrderHelper::generateOrderId(4,5));
+        $this->assertContains('00004', OrderHelper::generateOrderId(4, 5));
 
         for ($i=1;$i<=100;$i++) {
             $string = OrderHelper::generateOrderId(1, 5, 10);

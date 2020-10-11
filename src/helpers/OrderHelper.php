@@ -30,6 +30,6 @@ class OrderHelper
     {
         $string = Yii::$app->security->generateRandomString($randomString) . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
 
-        return str_replace(['-', '_'], rand(0,9), $string);
+        return str_replace(['-', '_'], rand(0, 9), $string);
     }
 }

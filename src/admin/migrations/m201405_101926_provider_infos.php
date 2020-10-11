@@ -12,7 +12,7 @@ class m201405_101926_provider_infos extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('payment_process', 'provider_data', $this->text());;
+        $this->addColumn('payment_process', 'provider_data', $this->text());
     }
 
     /**
@@ -20,6 +20,6 @@ class m201405_101926_provider_infos extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn('payment_process', 'provider_data');;
+        $this->dropColumn('payment_process', 'provider_data');
     }
 }

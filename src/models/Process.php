@@ -70,7 +70,7 @@ class Process extends NgRestModel
     {
         return [
             [
-                'class' => JsonBehavior::class, 
+                'class' => JsonBehavior::class,
                 'attributes' => ['provider_data'],
             ],
         ];
@@ -235,16 +235,16 @@ class Process extends NgRestModel
     {
         return [
             [
-                'class' => DetailViewActiveWindow::class, 
+                'class' => DetailViewActiveWindow::class,
                 'attributes' => [
                     [
                         'attribute' => 'amount',
-                        'value' => function($model) {
+                        'value' => function ($model) {
                             return $model->getFormatedAmount();
                         }
                     ],
                     'currency',
-                    'order_id', 
+                    'order_id',
                     'success_link',
                     'error_link',
                     'abort_link',
@@ -253,7 +253,7 @@ class Process extends NgRestModel
                     'create_timestamp:datetime',
                     [
                         'attribute' => 'provider_data',
-                        'value' => function($model) {
+                        'value' => function ($model) {
                             return VarDumper::dumpAsString($model->provider_data);
                         },
                         'contentOptions' => ['encode' => false, 'encoding' => false]
