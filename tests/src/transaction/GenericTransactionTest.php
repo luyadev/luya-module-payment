@@ -10,9 +10,12 @@ use yii\web\Response;
 
 class GenericTransactionTest extends BasePaymentTestCase
 {
-    public function testGenericMethods()
+    /**
+     * @return Transaction
+     */
+    private function getTransaction()
     {
-        $transaction = new class extends Transaction
+        return new class extends Transaction
         {
             public function create()
             {
@@ -41,8 +44,21 @@ class GenericTransactionTest extends BasePaymentTestCase
             {
                 return $this->curlApplicationLink('https://luya.io');
             }
+
+            public function errorCurl()
+            {
+                return $this->curlApplicationLink('https://thsdomainanditssubelveldoesnotexsts.comm');
+            }
+
+            public function errorStatusCurl()
+            {
+                return $this->curlApplicationLink('https://luya.io/admin/does/not/exists/at/all');
+            }
         };
-        
+    }
+    public function testGenericMethods()
+    {
+        $transaction = $this->getTransaction();
         $integrator = new DummyIntegrator();
         $transaction->setIntegrator($integrator);
         $transaction->setModel($this->generatePayModel());
@@ -56,6 +72,8 @@ class GenericTransactionTest extends BasePaymentTestCase
         $this->assertEmpty($transaction->abort());
 
         $this->assertTrue($transaction->successCurl());
+        $this->assertFalse($transaction->errorCurl());
+        $this->assertFalse($transaction->errorStatusCurl());
 
         $this->assertInstanceOf(Response::class, $transaction->redirectApplicationSuccess());
         $this->assertInstanceOf(Response::class, $transaction->redirectApplicationAbort());
@@ -64,15 +82,44 @@ class GenericTransactionTest extends BasePaymentTestCase
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionFail());
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionNotify());
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionBack());
+    }
 
+    public function testBackException()
+    {
+        $transaction = $this->getTransaction();
+        $integrator = new DummyIntegrator();
         $integrator->closeModelResponse = false;
         $transaction->setIntegrator($integrator);
+        $transaction->setModel($this->generatePayModel());
+        $transaction->setContext($this->generateContextController());
 
         $this->expectException(PaymentException::class);
-        $transaction->create();
         $transaction->back();
-        $transaction->notify();
+    }
+
+    public function testFailException()
+    {
+        $transaction = $this->getTransaction();
+        $integrator = new DummyIntegrator();
+        $integrator->closeModelResponse = false;
+        $transaction->setIntegrator($integrator);
+        $transaction->setModel($this->generatePayModel());
+        $transaction->setContext($this->generateContextController());
+
+        $this->expectException(PaymentException::class);
         $transaction->fail();
+    }
+
+    public function testAbortException()
+    {
+        $transaction = $this->getTransaction();
+        $integrator = new DummyIntegrator();
+        $integrator->closeModelResponse = false;
+        $transaction->setIntegrator($integrator);
+        $transaction->setModel($this->generatePayModel());
+        $transaction->setContext($this->generateContextController());
+
+        $this->expectException(PaymentException::class);
         $transaction->abort();
     }
 }
