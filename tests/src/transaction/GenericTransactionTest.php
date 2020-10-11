@@ -3,6 +3,7 @@
 namespace luya\payment\tests\transaction;
 
 use luya\payment\base\Transaction;
+use luya\payment\PaymentException;
 use luya\payment\tests\BasePaymentTestCase;
 use luya\payment\tests\data\DummyIntegrator;
 use yii\web\Response;
@@ -56,5 +57,13 @@ class GenericTransactionTest extends BasePaymentTestCase
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionFail());
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionNotify());
         $this->assertInstanceOf(Response::class, $transaction->redirectTransactionBack());
+
+        $integrator->closeModelResponse = false;
+        $transaction->setIntegrator($integrator);
+
+        $this->expectException(PaymentException::class);
+        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationSuccess());
+        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationAbort());
+        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationError());
     }
 }

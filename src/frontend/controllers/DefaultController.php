@@ -2,8 +2,6 @@
 
 namespace luya\payment\frontend\controllers;
 
-use luya\payment\PaymentProcess;
-use luya\payment\Pay;
 use luya\payment\base\PayModel;
 use yii\filters\HttpCache;
 
@@ -88,8 +86,6 @@ class DefaultController extends \luya\web\Controller
         if ($state !== false) {
             return $state;
         }
-
-        
         
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);

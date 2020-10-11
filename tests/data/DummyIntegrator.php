@@ -8,6 +8,8 @@ use luya\payment\base\PayModel;
 class DummyIntegrator implements IntegratorInterface
 {
     public $createModelResponse = true;
+
+    public $closeModelResponse = true;
     
     /**
      * {@inheritDoc}
@@ -44,7 +46,7 @@ class DummyIntegrator implements IntegratorInterface
      */
     public function closeModel(PayModel $model, $state)
     {
-        return true;
+        return $this->closeModelResponse;
     }
 
     /**

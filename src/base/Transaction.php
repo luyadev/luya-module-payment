@@ -13,6 +13,10 @@ use luya\payment\PaymentException;
  *
  * Each transaction must implement the Transaction Abstraction class.
  *
+ * @property PayModel $model
+ * @property Controller $context
+ * @property IntegratorInterface $integrator
+ * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -217,6 +221,11 @@ abstract class Transaction extends BaseObject
         return $this->getContext()->redirect($url);
     }
 
+    protected $errorCloseSuccess = "Unable to close the model as successful, maybe its already closed.";
+    protected $errorCloseAbort = "Unable to close the model as aborted, maybe its already closed.";
+    protected $errorCloseError = "Unable to close the model as errored, maybe its already closed.";
+
+
     /**
      * Close the current payment model as successful
      *
@@ -227,7 +236,8 @@ abstract class Transaction extends BaseObject
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_SUCCESS);
 
         if (!$closable) {
-            throw new PaymentException("Unable to close the model as successful, maybe its already closed.");
+            $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $this->errorCloseSuccess);
+            throw new PaymentException($this->errorCloseSuccess);
         }
     }
 
@@ -241,7 +251,8 @@ abstract class Transaction extends BaseObject
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ABORT);
 
         if (!$closable) {
-            throw new PaymentException("Unable to close the model as aborted, maybe its already closed.");
+            $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $this->errorCloseAbort);
+            throw new PaymentException($this->errorCloseAbort);
         }
     }
 
@@ -255,7 +266,8 @@ abstract class Transaction extends BaseObject
         $closable = $this->getIntegrator()->closeModel($this->getModel(), Pay::STATE_ERROR);
 
         if (!$closable) {
-            throw new PaymentException("Unable to close the model as errored, maybe its already closed.");
+            $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $this->errorCloseError);
+            throw new PaymentException($this->errorCloseError);
         }
     }
 
@@ -263,11 +275,14 @@ abstract class Transaction extends BaseObject
      * CURL a given url in order to ensure estore "success" page is called.
      *
      * @param string $link
+     * @return boolean Whether success status code is returned or not.
      * @since 2.1
      */
     protected function curlApplicationLink($link)
     {
         $curl = new Curl();
         $curl->get($link);
+
+        return $curl->isSuccess();
     }
 }

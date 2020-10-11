@@ -3,10 +3,6 @@
 namespace luya\payment\frontend\controllers;
 
 use Yii;
-use luya\helpers\Url;
-use luya\payment\PaymentProcess;
-use luya\payment\transactions\SaferPayTransaction;
-use luya\payment\transactions\PayPalTransaction;
 use luya\payment\Pay;
 use yii\filters\HttpCache;
 use luya\payment\PaymentException;
