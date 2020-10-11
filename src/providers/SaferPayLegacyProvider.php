@@ -14,7 +14,7 @@ use luya\payment\transactions\SaferPayTransaction;
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
-class SaferPayProvider extends Provider implements ProviderInterface
+class SaferPayLegacyProvider extends Provider implements ProviderInterface
 {
     public $mode;
 
