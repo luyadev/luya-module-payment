@@ -36,6 +36,11 @@ class GenericTransactionTest extends BasePaymentTestCase
             {
                 $this->closePaymentAsAborted();
             }
+
+            public function successCurl()
+            {
+                return $this->curlApplicationLink('https://luya.io');
+            }
         };
         
         $integrator = new DummyIntegrator();
@@ -50,6 +55,8 @@ class GenericTransactionTest extends BasePaymentTestCase
         $this->assertEmpty($transaction->fail());
         $this->assertEmpty($transaction->abort());
 
+        $this->assertTrue($transaction->successCurl());
+
         $this->assertInstanceOf(Response::class, $transaction->redirectApplicationSuccess());
         $this->assertInstanceOf(Response::class, $transaction->redirectApplicationAbort());
         $this->assertInstanceOf(Response::class, $transaction->redirectApplicationError());
@@ -62,8 +69,10 @@ class GenericTransactionTest extends BasePaymentTestCase
         $transaction->setIntegrator($integrator);
 
         $this->expectException(PaymentException::class);
-        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationSuccess());
-        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationAbort());
-        $this->assertInstanceOf(Response::class, $transaction->redirectApplicationError());
+        $transaction->create();
+        $transaction->back();
+        $transaction->notify();
+        $transaction->fail();
+        $transaction->abort();
     }
 }

@@ -283,6 +283,18 @@ abstract class Transaction extends BaseObject
         $curl = new Curl();
         $curl->get($link);
 
-        return $curl->isSuccess();
+        $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $link . ' | Response Status Code: ' . $curl->getHttpStatus());
+
+        if ($curl->curl_error) {
+            $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $link . ' | CURL Response: ' . $curl->curl_error_message);
+        }
+
+        $success = $curl->isSuccess();
+
+        if (!$success) {
+            $this->getIntegrator()->addTrace($this->getModel(), __METHOD__, $link . ' | Request Response: ' . $curl->error_message);
+        }
+
+        return $success;
     }
 }
