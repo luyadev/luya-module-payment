@@ -2,10 +2,9 @@
 
 namespace luya\payment\base;
 
-use luya\helpers\url;
+use luya\helpers\Url;
 use yii\base\Model;
 use luya\payment\PaymentException;
-use luya\helpers\ArrayHelper;
 use luya\payment\Pay;
 
 /**

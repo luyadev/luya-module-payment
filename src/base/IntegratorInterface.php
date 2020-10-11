@@ -61,7 +61,7 @@ interface IntegratorInterface
      * Add A trace information for a current PayModel process.
      *
      * @param PayModel $model
-     * @param string $event
+     * @param string $event The event is commonly the method which is running the trace f.e. `create`, `back`, `fail`, `abort`, `notify`.
      * @param string $message
      * @return boolean
      */

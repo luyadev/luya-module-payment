@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 2.1
+
++ [#21](https://github.com/luyadev/luya-module-payment/pull/21) New methods to close a payment process within a transaction.
++ [#20](https://github.com/luyadev/luya-module-payment/pull/20) Catch SaferPay interface error message.
+
 ## 2.0 (13. April 2020)
 
 > This release contains new migrations and requires to run the migrate command after updating. Check the [UPGRADE document](UPGRADE.md) to read more about breaking changes.
