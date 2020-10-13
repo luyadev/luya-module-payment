@@ -27,4 +27,9 @@ class OrderHelperTest extends BasePaymentTestCase
         $this->assertContains('0000004', OrderHelper::generateOrderId(4, 7));
         $this->assertContains('0000010', OrderHelper::generateOrderId(10, 7));
     }
+
+    public function testPrefix()
+    {
+        $this->assertSame('FOO_0004', OrderHelper::generateOrderId(4, 4, 0, 'FOO_'));
+    }
 }
