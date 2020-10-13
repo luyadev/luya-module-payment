@@ -9,6 +9,7 @@ use luya\payment\models\ProcessTrace;
 use luya\payment\models\ProcessItem;
 use luya\payment\base\PayModel;
 use luya\payment\frontend\controllers\DefaultController;
+use luya\payment\tests\data\DummyIntegrator;
 
 class BasePaymentTestCase extends WebApplicationTestCase
 {
@@ -59,6 +60,9 @@ class BasePaymentTestCase extends WebApplicationTestCase
         ]);
     }
 
+    /**
+     * @return PayModel
+     */
     protected function generatePayModel()
     {
         $model = new PayModel();
@@ -75,6 +79,9 @@ class BasePaymentTestCase extends WebApplicationTestCase
         return $model;
     }
 
+    /**
+     * @return DefaultController
+     */
     protected function generateContextController()
     {
         $ctrl = new DefaultController('default', $this->app);
@@ -88,5 +95,13 @@ class BasePaymentTestCase extends WebApplicationTestCase
 
         $this->fixtureProcessModel->cleanup();
         $this->fixtureProcessTraceModel->cleanup();
+    }
+
+    /**
+     * @return DummyIntegrator
+     */
+    public function generateIntegrator()
+    {
+        return new DummyIntegrator();
     }
 }

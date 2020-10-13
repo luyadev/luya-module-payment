@@ -42,5 +42,7 @@ class DatabaseIntegratorTest extends BasePaymentTestCase
         $this->assertSame(1, $integrator->closeModel($this->getPayModel(), 1));
 
         $this->assertSame(1, $integrator->saveProviderData($this->getPayModel(), ['foo' => 'bar']));
+
+        $this->assertSame(['foo' => 'bar'], $integrator->getProviderData($this->getPayModel()));
     }
 }

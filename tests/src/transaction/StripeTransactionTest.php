@@ -21,7 +21,7 @@ class StripeTransactionTest extends BasePaymentTestCase
             'integrator' => new DummyIntegrator(),
         ]);
         $stripe->setModel($this->generatePayModel());
-
+        $this->assertNotEmpty($stripe->getProvider());
         $r = $stripe->create();
 
         $this->assertNotNull($r);

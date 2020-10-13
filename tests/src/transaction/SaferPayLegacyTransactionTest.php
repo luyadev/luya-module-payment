@@ -15,7 +15,7 @@ class SaferPayLegacyTransactionTest extends BasePaymentTestCase
         ]);
         $saferPay->setModel($this->generatePayModel());
         $saferPay->setContext($this->generateContextController());
-
+        $this->assertNotEmpty($saferPay->getProvider());
         $this->expectException(PaymentException::class);
         $r = $saferPay->create();
     }
