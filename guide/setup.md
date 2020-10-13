@@ -72,10 +72,10 @@ class StoreCheckoutController extends \luya\web\Controller
         $pay->addTax('VAT 8%', 16);
         $pay->setTotalAmount(416);
 
-        // prepare the order and store the process->getId()
-        // ....
+        // !IMPORTANT
+        // Store the payment process along with your estore order object. Don't expose the payId! You can expose the orderId and retrieve 
+        // the payId along to ensure whether payment is successfull or not. (see actionSuccess()).
         $payId = $pay->getId();
-        // store this payId in your estore object, where you where also saving the orderId, customer data, customer basket, etc. 
 
         return $pay->dispatch($this);
     }
