@@ -127,6 +127,16 @@ class DatabaseIntegrator implements IntegratorInterface
         return $process->update(true, ['provider_data']);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getProviderData(PayModel $model): array
+    {
+        $process = Process::find()->where(['id' => $model->getId()])->one();
+
+        return $process->provider_data;
+    }
+
     /* internal methods */
 
     private function validateProcess(Process $process, $token)

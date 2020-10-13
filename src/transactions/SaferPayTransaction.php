@@ -2,26 +2,28 @@
 
 namespace luya\payment\transactions;
 
-use Yii;
 use luya\payment\base\Transaction;
-use luya\payment\providers\SaferPayProvider;
 use luya\payment\PaymentException;
+use luya\payment\providers\SaferPayProvider;
 use yii\base\InvalidConfigException;
 
 /**
- * Safer Pay Transaction.
- *
- * Test SaferPay Transaction:
- *
+ * Safer Pay API Transaction.
+ * 
+ * Example integration:
+ * 
  * ```php
- * 'class' => 'luya\payment\transactions\SaferPayTransaction',
- * 'accountId' => '401860-17795278',
- * 'spPassword' => '8e7Yn5yk',
- * 'mode' => 'sandbox',
+ * 'transaction' => [
+ *     'class' => 'luya\payment\transactions\SaferPayTransaction',
+ *     'terminalId' => '12345678',
+ *     'customerId' => '123456',
+ *     'username' => 'API_XXXXX_XXXXXXX',
+ *     'password' => 'JsonApiPwed..........',
+ *     'mode' => 'sandbox',
+ * ],
  * ```
- *
- * @author Basil Suter <basil@nadar.io>
- * @since 1.0.0
+ * @see https://saferpay.github.io/jsonapi/#ChapterPaymentPage
+ * @since 3.0
  */
 class SaferPayTransaction extends Transaction
 {
@@ -36,119 +38,92 @@ class SaferPayTransaction extends Transaction
     const MODE_SANDBOX = 'sandbox';
 
     /**
-     * @var string The accountId value from the safer pay backend.
-     */
-    public $accountId;
-   
-    /**
-     * @param string Test account spPassword (from the docs: Die Übergabe des Parameters spPassword ist nur beim Testkonto erforderlich. Für produktive Konten wird
-     * dieser Parameter nicht benötigt!)
-     */
-    public $spPassword;
-
-    /**
-     * @param string The mode which changes the urls for sandbox or live
+     * @var string The mode in which the api should be called `live` or `sandbox`. Default is live. Previous knonw as `sandboxMode`.
      */
     public $mode = self::MODE_LIVE;
-    
+
+    /**
+     * @var number A numeric value with 8 digits `12345678` 
+     */
+    public $terminalId;
+
+    /**
+     * @var number A numeric value `123456`
+     */
+    public $customerId;
+
+    /**
+     * @var string The API Key username, starts with `API_...`
+     */
+    public $username;
+
+    /**
+     * @var string The API Token (password), starts with `JsonApiPwed.....`
+     */
+    public $password;
+
     /**
      * {@inheritDoc}
      */
     public function init()
     {
         parent::init();
-        
-        if (empty($this->accountId)) {
-            throw new InvalidConfigException("accountId must be set in your saferpay transaction");
+
+        if (!$this->terminalId || !$this->customerId || !$this->username || !$this->password) {
+            throw new InvalidConfigException("SaferPay Transaction requires terminalId, customerId, username and password to be set.");
         }
     }
-    
+
     /**
-     * Get the safer pay provider object.
-     *
+     * Get Provider Object.
+     * 
      * @return SaferPayProvider
      */
     public function getProvider()
     {
         return new SaferPayProvider([
-            'mode' => $this->mode,
+            'transaction' => $this,
         ]);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function create()
     {
-        $url = $this->getProvider()->call('create', [
-            'accountId' => $this->accountId,
-            'amount' => $this->getModel()->getTotalAmount(),
-            'currency' => $this->getModel()->getCurrency(),
-            'orderId' => $this->getModel()->getOrderId(),
-            'description' => $this->getModel()->getOrderId(),
-            'successLink' => $this->getModel()->getTransactionGatewayBackLink(),
-            'failLink' => $this->getModel()->getTransactionGatewayFailLink(),
-            'backLink' => $this->getModel()->getTransactionGatewayAbortLink(),
-            'notifyUrl' => $this->getModel()->getTransactionGatewayNotifyLink(),
-        ]);
-        
-        // the response status is 200 but the content is not a valid URL
-        // therefore trhow an exception with the content. Example value could be:
-        // `ERROR: Missing or wrong ACCOUNTID attribute`
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new PaymentException("Invalid URL: " . $url);
+        $response = $this->getProvider()->initialize($this->getModel()->getOrderId() . uniqid(), $this->getModel(), $this->getModel()->getOrderId());
+
+        $this->getIntegrator()->saveProviderData($this->getModel(), ['initialize' => $response]);
+
+        if (isset($response['RedirectUrl'])) {
+            return $this->getContext()->redirect($response['RedirectUrl']);
         }
-        
-        return $this->getContext()->redirect($url);
+
+        throw new PaymentException("Invalid payment transaction response, missing redirect URL.");
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function back()
     {
-        $signature = Yii::$app->request->get('SIGNATURE', false);
-        $data = Yii::$app->request->get('DATA', false);
-        
-        $confirmResponse = $this->getProvider()->call('confirm', [
-            'data' => $data,
-            'signature' => $signature,
-        ]);
-        
-        $parts = explode(":", $confirmResponse);
-        
-        if (isset($parts[0]) && $parts[0] == 'OK' && $parts[1]) {
-            
-            // create $TOKEN and $ID variable
-            parse_str($parts[1]);
-            
-            $completeResponse = $this->getProvider()->call('complete', [
-                'id' => $ID,
-                'token' => $TOKEN,
-                'amount' => $this->getModel()->getTotalAmount(),
-                'action' => 'Settlement',
-                'accountId' => $this->accountId,
-                'spPassword' => $this->spPassword,
-            ]);
-            
-            $completeParts = explode(":", $completeResponse);
-            
-            if (isset($completeParts[0]) && $completeParts[0] == 'OK') {
-                return $this->redirectApplicationSuccess();
-            }
+        if ($this->assertAndCapture()) {
+            return $this->redirectApplicationSuccess();
         }
-        
+
         return $this->redirectTransactionFail();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function notify()
     {
-        return $this->redirectApplicationSuccess();
+        if ($this->assertAndCapture()) {
+            return $this->curlApplicationLink($this->getModel()->getApplicationSuccessLink());
+        }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -163,5 +138,41 @@ class SaferPayTransaction extends Transaction
     public function abort()
     {
         return $this->redirectApplicationAbort();
+    }
+
+    /**
+     * Assert and Capture the Payment
+     *
+     * @return boolean Either the assert and captured returnued true or not.
+     */
+    private function assertAndCapture()
+    {
+        $data = $this->getIntegrator()->getProviderData($this->getModel());
+
+        if (!isset($data['initialize']['Token'])) {
+            throw new PaymentException('Response token is missing for initalizing call (create).');
+        }
+
+        $assert = $this->getProvider()->assert($this->getModel()->getOrderId() . uniqid(), $data['initialize']['Token']);
+
+        $data['assert'] = $assert;
+
+        $this->getIntegrator()->saveProviderData($this->getModel(), $data);
+
+        if (!isset($assert['Transaction']['Id'])) {
+            throw new PaymentException('Assert response has missing transaction id.');
+        }
+
+        // capture
+        $capture = $this->getProvider()->capture($this->getModel()->getOrderId() . uniqid(), $assert['Transaction']['Id']);
+
+        $data['capture'] = $capture;
+
+        $this->getIntegrator()->saveProviderData($this->getModel(), $data);
+
+        if (!isset($capture['Status'])) {
+            throw new PaymentException("Caputre resposne has missing Status information.");
+        }
+        return $capture['Status'] == 'CAPTURED';
     }
 }

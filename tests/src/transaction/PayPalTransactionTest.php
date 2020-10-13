@@ -18,6 +18,7 @@ class PayPalTransactiontest extends BasePaymentTestCase
         $paypal->setModel($this->generatePayModel());
         $paypal->setContext($this->generateContextController());
 
+        $this->assertNotEmpty($paypal->getProvider());
         $this->expectExceptionMessage('PayPal Exception: Got Http response code 401 when accessing https://api.paypal.com/v1/oauth2/token');
         $paypal->create();
     }

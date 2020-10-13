@@ -23,13 +23,17 @@ class OrderHelper
      *
      * Assuming the id key is "5"
      *
-     * @param nummeric $id The nummeric id to generate.
+     * @param integer $id The nummeric id to generate.
+     * @param integer $zeroAmount The amount of zeros to prefix
+     * @param integer $randomString The length of the random strings
+     * @param string $prefix A prefix which should be added in front of the order number {@since 3.0}
      * @return string The generated order id e.g. `xjf300005`.
      */
-    public static function generateOrderId($id, $zeroAmount = 5, $randomString = 4)
+    public static function generateOrderId($id, $zeroAmount = 5, $randomString = 4, $prefix = null)
     {
-        $string = Yii::$app->security->generateRandomString($randomString) . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
+        $random = $randomString > 0  ? strtoupper(Yii::$app->security->generateRandomString($randomString)) : null;
+        $string = $random . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
 
-        return str_replace(['-', '_'], rand(0, 9), $string);
+        return $prefix . str_replace(['-', '_'], rand(0, 9), $string);
     }
 }

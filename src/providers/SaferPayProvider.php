@@ -3,94 +3,171 @@
 namespace luya\payment\providers;
 
 use Curl\Curl;
+use luya\helpers\Json;
+use luya\payment\base\PayModel;
 use luya\payment\base\Provider;
 use luya\payment\PaymentException;
-use luya\payment\base\ProviderInterface;
 use luya\payment\transactions\SaferPayTransaction;
+use Yii;
 
 /**
- * Safer Pay Provider
- *
- * @author Basil Suter <basil@nadar.io>
- * @since 1.0.0
+ * Safer Pay Provider.
+ * 
+ * @author Basil Suter <git@nadar.io>
+ * @since 3.0
  */
-class SaferPayProvider extends Provider implements ProviderInterface
+class SaferPayProvider extends Provider
 {
-    public $mode;
+    const PRODUCTION_URL = 'https://www.saferpay.com/api';
 
+    const TEST_URL = 'https://test.saferpay.com/api';
+
+    /**
+     * @var string The api specification version.
+     */
+    public $specVersion = "1.19";
+
+    /**
+     * @var SaferPayTransaction
+     */
+    public $transaction;
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'saferpay';
     }
 
-    public function getBaseUrl()
+    /**
+     * Initialize the Payment
+     *
+     * @param string $uniqueRequestId
+     * @param PayModel $payModel
+     * @param string $description
+     * @return array Returns the api response
+     */
+    public function initialize($uniqueRequestId, PayModel $payModel, $description)
     {
-        if ($this->mode === SaferPayTransaction::MODE_LIVE) {
-            return 'https://www.saferpay.com/';
+        return $this->generateCurl('/Payment/v1/PaymentPage/Initialize', [
+            "RequestHeader" => [
+                "SpecVersion" => $this->specVersion,
+                "CustomerId"  => $this->transaction->customerId,
+                "RequestId" => $uniqueRequestId,
+                "RetryIndicator"  => 0
+            ],
+            "TerminalId"  => $this->transaction->terminalId,
+            "Payment"  => [
+                "Amount" => [
+                    "Value"  => $payModel->getTotalAmount(),
+                    "CurrencyCode"  => strtoupper($payModel->getCurrency()),
+                ],
+                "OrderId"  => $payModel->getOrderId(),
+                "Description"  => $description,
+            ],
+            "ReturnUrls" => [
+                "Success" => $payModel->getTransactionGatewayBackLink(),
+                "Fail" => $payModel->getTransactionGatewayFailLink(),
+                "Abort" => $payModel->getTransactionGatewayAbortLink(),
+            ],
+            "Notification" => [
+                "NotifyUrl" => $payModel->getTransactionGatewayNotifyLink(),
+            ]
+        ]);
+    }
+
+    /**
+     * Assert the payment
+     *
+     * @param string $uniqueRequestId
+     * @param string $token
+     * @return array Returns the api response
+     */
+    public function assert($uniqueRequestId, $token)
+    {
+        return $this->generateCurl('/Payment/v1/PaymentPage/Assert', [
+            "RequestHeader" => [
+                "SpecVersion" => $this->specVersion,
+                "CustomerId" => $this->transaction->customerId,
+                "RequestId" => $uniqueRequestId,
+                "RetryIndicator" => 0,
+            ],
+            'Token' => $token,
+        ]);
+    }
+
+    /**
+     * Capture the payment
+     *
+     * @param string $uniqueRequestId
+     * @param string $transactionId
+     * @return array Returns the api response
+     */
+    public function capture($uniqueRequestId, $transactionId)
+    {
+        return $this->generateCurl('/Payment/v1/Transaction/Capture', [
+            "RequestHeader" => [
+                "SpecVersion" => $this->specVersion,
+                "CustomerId" => $this->transaction->customerId,
+                "RequestId" => $uniqueRequestId,
+                "RetryIndicator" => 0,
+            ],
+            "TransactionReference" => [
+                "TransactionId" => $transactionId,
+            ]
+        ]);
+    }
+
+    /**
+     * Generate the full api url
+     *
+     * @param string $url
+     * @return string
+     */
+    public function generateUrl($url)
+    {
+        if ($this->transaction->mode == SaferPayTransaction::MODE_LIVE) {
+            return self::PRODUCTION_URL . $url;
         }
 
-        return 'https://test.saferpay.com/';
+        return self::TEST_URL . $url;
     }
 
-    public function callCreate($accountId, $amount, $currency, $description, $orderId, $successLink, $failLink, $backLink, $notifyUrl)
+    /**
+     * Generate the auth code from username and password
+     *
+     * @return string
+     */
+    public function generateAuthCode()
     {
-        $curl = new Curl();
-        $curl->post($this->getBaseUrl() . 'hosting/CreatePayInit.asp', [
-            'ACCOUNTID' => $accountId,
-            'AMOUNT' => $amount,
-            'CURRENCY' => $currency,
-            'DESCRIPTION' => $description,
-            'ORDERID' => $orderId,
-            'SUCCESSLINK' => $successLink,
-            'FAILLINK' => $failLink,
-            'BACKLINK' => $backLink,
-            'NOTIFYURL' => $notifyUrl,
-            'AUTOCLOSE' => '0',
-        ]);
-        
-        if (!$curl->error) {
-            return $curl->response;
-        }
-        
-        throw new PaymentException($curl->error_message);
+        return base64_encode("{$this->transaction->username}:{$this->transaction->password}");
     }
-    
-    public function callConfirm($data, $signature)
+
+    /**
+     * Generate the curl request and return the api response as array
+     *
+     * @param string $url
+     * @param array $values
+     * @return array
+     * @throws PaymentException
+     */
+    public function generateCurl($url, array $values)
     {
         $curl = new Curl();
-        $curl->post($this->getBaseUrl() . 'hosting/VerifyPayConfirm.asp', [
-            'DATA' => $data,
-            'SIGNATURE' => $signature,
-        ]);
-        
-        if (!$curl->error) {
-            return $curl->response;
+        $curl->setOpt(CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: Basic '. $this->generateAuthCode()]);
+        $curl->post($this->generateUrl($url), $values, true);
+
+        Yii::debug("curl request for {$url}.", __METHOD__);
+
+        if ($curl->error) {
+            throw new PaymentException($curl->error_message);
         }
-        
-        throw new PaymentException("payconfirm error");
-    }
-    
-    public function callComplete($id, $token, $amount, $action, $accountId, $spPassword = null)
-    {
-        $data = [
-            'ID' => $id,
-            'TOKEN' => $token,
-            'AMOUNT' => $amount,
-            'ACTION' => $action,
-            'ACCOUNTID' => $accountId,
-        ];
-        
-        if (!empty($spPassword)) {
-            $data['spPassword'] = $spPassword;
+
+        if ($curl->curl_error) {
+            throw new PaymentException($curl->curl_error_message);
         }
-        
-        $curl = new Curl();
-        $curl->post($this->getBaseUrl() . 'hosting/PayCompleteV2.asp', $data);
-        
-        if (!$curl->error) {
-            return $curl->response;
-        }
-        
-        throw new PaymentException("payconfirm error");
+
+        return Json::decode($curl->response);
     }
 }

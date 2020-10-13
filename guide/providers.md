@@ -47,15 +47,19 @@ The [PayPal](https://paypal.com) transaction integration config:
 
 ## SaferPay Transaction
 
-The [SaferPay](https://saferpay.com) transaction integration config:
+The [SaferPay](https://saferpay.com) transaction API integration config:
 
 ```php
 'payment' => [
     'class' => 'luya\payment\frontend\Module',
-    'transaction' => [
+        'transaction' => [
         'class' => 'luya\payment\transactions\SaferPayTransaction',
-        'accountId' => '<ACCOUNT-ID>',
-    ]
+        'terminalId' => '12345678',
+        'customerId' => '123456',
+        'username' => 'API_XXXXX_XXXXXXX',
+        'password' => 'JsonApiPwed..........',
+        'mode' => 'sandbox',
+    ],
 ]
 ```
 
