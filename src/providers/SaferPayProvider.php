@@ -8,6 +8,7 @@ use luya\payment\base\PayModel;
 use luya\payment\base\Provider;
 use luya\payment\PaymentException;
 use luya\payment\transactions\SaferPayTransaction;
+use Yii;
 
 /**
  * @since 3.0
@@ -37,7 +38,7 @@ class SaferPayProvider extends Provider
      */
     public function initialize($uniqueRequestId, PayModel $payModel, $description)
     {
-        return $this->generateCurl('/Payment/v1/PaymentPage/Assert', [
+        return $this->generateCurl('/Payment/v1/PaymentPage/Initialize', [
             "RequestHeader" => [
                 "SpecVersion" => $this->specVersion,
                 "CustomerId"  => $this->transaction->customerId,
@@ -118,6 +119,8 @@ class SaferPayProvider extends Provider
         $curl = new Curl();
         $curl->setOpt(CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: Basic '. $this->generateAuthCode()]);
         $curl->post($this->generateUrl($url), $values, true);
+
+        Yii::debug("curl request for {$url}.", __METHOD__);
 
         if ($curl->error) {
             throw new PaymentException($curl->error_message);
