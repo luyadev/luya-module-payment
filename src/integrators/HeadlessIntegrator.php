@@ -150,6 +150,17 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
             ->isSuccess();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getProviderData(PayModel $model): array
+    {
+        return ApiPaymentProcess::view($model->id)
+            ->setFields(['id', 'provider_data'])
+            ->one($this->getClient())
+            ->provider_data;
+    }
+
     // internal
 
     private static function createPayModel(ApiPaymentProcess $process)

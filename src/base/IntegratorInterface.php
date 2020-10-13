@@ -78,4 +78,13 @@ interface IntegratorInterface
      * @since 2.0.0
      */
     public function saveProviderData(PayModel $model, array $data);
+
+    /**
+     * Returns all stored informations.
+     *
+     * @param PayModel $model
+     * @return array
+     * @since 3.0.0
+     */
+    public function getProviderData(PayModel $model) : array;
 }
