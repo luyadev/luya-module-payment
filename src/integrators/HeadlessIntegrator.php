@@ -155,10 +155,15 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
      */
     public function getProviderData(PayModel $model): array
     {
-        return ApiPaymentProcess::view($model->id)
+        $model = ApiPaymentProcess::view($model->id)
             ->setFields(['id', 'provider_data'])
-            ->one($this->getClient())
-            ->provider_data;
+            ->one($this->getClient());
+
+        if (!$model) {
+            throw new PaymentException("Unable to find the given payment model.");
+        }
+
+        return $model->provider_data;
     }
 
     // internal
