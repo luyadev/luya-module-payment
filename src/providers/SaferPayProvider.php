@@ -2,14 +2,16 @@
 
 namespace luya\payment\providers;
 
-use app\saferpay\SaferPayTransaction;
 use Curl\Curl;
 use luya\helpers\Json;
 use luya\payment\base\PayModel;
 use luya\payment\base\Provider;
 use luya\payment\PaymentException;
-use luya\payment\transactions\SaferPayTransaction as TransactionsSaferPayTransaction;
+use luya\payment\transactions\SaferPayTransaction;
 
+/**
+ * @since 3.0
+ */
 class SaferPayProvider extends Provider
 {
     const PRODUCTION_URL = 'https://www.saferpay.com/api';
@@ -92,7 +94,7 @@ class SaferPayProvider extends Provider
 
     public function generateUrl($url)
     {
-        if ($this->transaction->mode == TransactionsSaferPayTransaction::MODE_LIVE) {
+        if ($this->transaction->mode == SaferPayTransaction::MODE_LIVE) {
             return self::PRODUCTION_URL . $url;
         }
 

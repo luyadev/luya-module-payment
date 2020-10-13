@@ -8,10 +8,11 @@ use luya\payment\providers\SaferPayProvider;
 
 /**
  * @see https://saferpay.github.io/jsonapi/#ChapterPaymentPage
+ * @since 3.0
  */
 class SaferPayTransaction extends Transaction
 {
-        /**
+    /**
      * @var string Production mode
      */
     const MODE_LIVE = 'live';
@@ -26,12 +27,24 @@ class SaferPayTransaction extends Transaction
      */
     public $mode = self::MODE_LIVE;
 
+    /**
+     * @var number A numeric value with 8 digits `12345678` 
+     */
     public $terminalId;
 
+    /**
+     * @var number A numeric value `123456`
+     */
     public $customerId;
 
+    /**
+     * @var string The API Key username, starts with `API_...`
+     */
     public $username;
 
+    /**
+     * @var string The API Token (password), starts with `JsonApiPwed.....`
+     */
     public $password;
 
     /**
@@ -46,6 +59,9 @@ class SaferPayTransaction extends Transaction
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function create()
     {
         $response = $this->getProvider()->initialize($this->getModel()->getOrderId() . uniqid(), $this->getModel(), "foobar description");
@@ -59,6 +75,9 @@ class SaferPayTransaction extends Transaction
         throw new PaymentException("Invalid payment transaction response, missing redirect URL.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function back()
     {
         if ($this->assertAndCapture()) {
@@ -68,6 +87,9 @@ class SaferPayTransaction extends Transaction
         return $this->redirectTransactionFail();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function notify()
     {
         if ($this->assertAndCapture()) {
@@ -91,6 +113,11 @@ class SaferPayTransaction extends Transaction
         return $this->redirectApplicationAbort();
     }
 
+    /**
+     * Assert and Capture the Payment
+     *
+     * @return boolean Either the assert and captured returnued true or not.
+     */
     private function assertAndCapture()
     {
         $data = $this->getIntegrator()->getProviderData($this->getModel());
