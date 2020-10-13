@@ -5,8 +5,23 @@ namespace luya\payment\transactions;
 use luya\payment\base\Transaction;
 use luya\payment\PaymentException;
 use luya\payment\providers\SaferPayProvider;
+use yii\base\InvalidConfigException;
 
 /**
+ * Safer Pay API Transaction.
+ * 
+ * Example integration:
+ * 
+ * ```php
+ * 'transaction' => [
+ *     'class' => 'luya\payment\transactions\SaferPayTransaction',
+ *     'terminalId' => '12345678',
+ *     'customerId' => '123456',
+ *     'username' => 'API_XXXXX_XXXXXXX',
+ *     'password' => 'JsonApiPwed..........',
+ *     'mode' => 'sandbox',
+ * ],
+ * ```
  * @see https://saferpay.github.io/jsonapi/#ChapterPaymentPage
  * @since 3.0
  */
@@ -48,8 +63,20 @@ class SaferPayTransaction extends Transaction
     public $password;
 
     /**
-     * Undocumented function
-     *
+     * {@inheritDoc}
+     */
+    public function init()
+    {
+        parent::init();
+
+        if (!$this->terminalId || !$this->customerId || !$this->username || !$this->password) {
+            throw new InvalidConfigException("SaferPay Transaction requires terminalId, customerId, username and password to be set.");
+        }
+    }
+
+    /**
+     * Get Provider Object.
+     * 
      * @return SaferPayProvider
      */
     public function getProvider()

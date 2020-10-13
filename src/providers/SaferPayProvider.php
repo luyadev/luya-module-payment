@@ -11,6 +11,9 @@ use luya\payment\transactions\SaferPayTransaction;
 use Yii;
 
 /**
+ * Safer Pay Provider.
+ * 
+ * @author Basil Suter <git@nadar.io>
  * @since 3.0
  */
 class SaferPayProvider extends Provider
@@ -19,6 +22,9 @@ class SaferPayProvider extends Provider
 
     const TEST_URL = 'https://test.saferpay.com/api';
 
+    /**
+     * @var string The api specification version.
+     */
     public $specVersion = "1.19";
 
     /**
@@ -26,15 +32,21 @@ class SaferPayProvider extends Provider
      */
     public $transaction;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'saferpay';
     }
 
     /**
-     * Undocumented function
+     * Initialize the Payment
      *
-     * @return array
+     * @param string $uniqueRequestId
+     * @param PayModel $payModel
+     * @param string $description
+     * @return array Returns the api response
      */
     public function initialize($uniqueRequestId, PayModel $payModel, $description)
     {
@@ -65,6 +77,13 @@ class SaferPayProvider extends Provider
         ]);
     }
 
+    /**
+     * Assert the payment
+     *
+     * @param string $uniqueRequestId
+     * @param string $token
+     * @return array Returns the api response
+     */
     public function assert($uniqueRequestId, $token)
     {
         return $this->generateCurl('/Payment/v1/PaymentPage/Assert', [
@@ -78,6 +97,13 @@ class SaferPayProvider extends Provider
         ]);
     }
 
+    /**
+     * Capture the payment
+     *
+     * @param string $uniqueRequestId
+     * @param string $transactionId
+     * @return array Returns the api response
+     */
     public function capture($uniqueRequestId, $transactionId)
     {
         return $this->generateCurl('/Payment/v1/Transaction/Capture', [
@@ -93,6 +119,12 @@ class SaferPayProvider extends Provider
         ]);
     }
 
+    /**
+     * Generate the full api url
+     *
+     * @param string $url
+     * @return string
+     */
     public function generateUrl($url)
     {
         if ($this->transaction->mode == SaferPayTransaction::MODE_LIVE) {
@@ -102,17 +134,23 @@ class SaferPayProvider extends Provider
         return self::TEST_URL . $url;
     }
 
+    /**
+     * Generate the auth code from username and password
+     *
+     * @return string
+     */
     public function generateAuthCode()
     {
         return base64_encode("{$this->transaction->username}:{$this->transaction->password}");
     }
 
     /**
-     * Undocumented function
+     * Generate the curl request and return the api response as array
      *
-     * @param [type] $url
+     * @param string $url
      * @param array $values
      * @return array
+     * @throws PaymentException
      */
     public function generateCurl($url, array $values)
     {

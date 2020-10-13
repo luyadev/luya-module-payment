@@ -13,6 +13,7 @@ use luya\payment\transactions\SaferPayTransaction;
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
+ * @deprecated Deprectated since version 2.0 will be removed in version 4.0. The SaferPay HTTPS interface will shutdown on December 2020.
  */
 class SaferPayLegacyProvider extends Provider implements ProviderInterface
 {

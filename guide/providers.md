@@ -52,9 +52,14 @@ The [SaferPay](https://saferpay.com) transaction API integration config:
 ```php
 'payment' => [
     'class' => 'luya\payment\frontend\Module',
-    'transaction' => [
+        'transaction' => [
         'class' => 'luya\payment\transactions\SaferPayTransaction',
-    ]
+        'terminalId' => '12345678',
+        'customerId' => '123456',
+        'username' => 'API_XXXXX_XXXXXXX',
+        'password' => 'JsonApiPwed..........',
+        'mode' => 'sandbox',
+    ],
 ]
 ```
 

@@ -2,13 +2,18 @@
 
 ## 2.x to 3.0
 
-+ []() The SaferPay Transaction has been replaced with the new JSON API and therefore the old HTTPS interface SaferPay Transaction class has been renamed to `SaferPayLegacyTransaction` while the new `SaferPayTransaction` contains the new code to work with the JSON API. Therefore the class parameters which are required has been changed. The new configuration looks as followed:
++ [#22](https://github.com/luyadev/luya-module-payment/pull/22) The SaferPay Transaction has been replaced with the new JSON API and therefore the old HTTPS interface SaferPay Transaction class has been renamed to `SaferPayLegacyTransaction` while the new `SaferPayTransaction` contains the new code to work with the JSON API. Therefore the class parameters which are required has been changed. The new configuration looks as followed:
 
 ```php
 'payment' => [
     'class' => 'luya\payment\frontend\Module',
     'transaction' => [
         'class' => 'luya\payment\transactions\SaferPayTransaction',
+        'terminalId' => '12345678',
+        'customerId' => '123456',
+        'username' => 'API_XXXXX_XXXXXXX',
+        'password' => 'JsonApiPwed..........',
+        'mode' => 'prod',
     ]
 ]
 ```

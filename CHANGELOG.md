@@ -7,7 +7,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 > This release contains significant changes regarding SaferPay integration. Check the [UPGRADE document](UPGRADE.md) to read more about breaking changes.
 
-+ []() Remove SaferPay HTTPS Interface provider as its deprecated until end of 2020.
++ [#22](https://github.com/luyadev/luya-module-payment/pull/22) Remove SaferPay HTTPS Interface provider as its deprecated until end of 2020.
 
 ## 2.1 (11. October 2020)
 

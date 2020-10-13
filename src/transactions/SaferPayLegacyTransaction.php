@@ -26,7 +26,7 @@ use yii\base\InvalidConfigException;
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 3.0.0
- * @deprecated Should not be used, will be removed in next major release.
+ * @deprecated Deprectated since version 2.0 will be removed in version 4.0. The SaferPay HTTPS interface will shutdown on December 2020.
  */
 class SaferPayLegacyTransaction extends Transaction
 {
