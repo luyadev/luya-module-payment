@@ -91,7 +91,7 @@ class SaferPayTransaction extends Transaction
      */
     public function create()
     {
-        $response = $this->getProvider()->initialize($this->getModel()->getOrderId() . uniqid(), $this->getModel(), "foobar description");
+        $response = $this->getProvider()->initialize($this->getModel()->getOrderId() . uniqid(), $this->getModel(), $this->getModel()->getOrderId());
 
         $this->getIntegrator()->saveProviderData($this->getModel(), ['initialize' => $response]);
 
