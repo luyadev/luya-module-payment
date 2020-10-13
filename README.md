@@ -5,10 +5,9 @@
 # LUYA PAYMENT MODULE
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
-[![Build Status](https://travis-ci.org/luyadev/luya-module-payment.svg?branch=master)](https://travis-ci.org/luyadev/luya-module-payment)
+![Tests](https://github.com/luyadev/luya-module-payment/workflows/Tests/badge.svg)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/713bfdbebb5a8bce7155/test_coverage)](https://codeclimate.com/github/luyadev/luya-module-payment/test_coverage)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-module-payment/downloads)](https://packagist.org/packages/luyadev/luya-module-payment)
-[![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
 
 The LUYA Payment module is a very easy way to add payment systems to your Website. The payment providers can be changed trough configuration, without changing code in your application. No more copy paste of Payment code between projects as the LUYA Payment module unifies does tasks and simplifies the integration. The integrated admin modules provides tracking and debuging of payments.
 
