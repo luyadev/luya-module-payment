@@ -24,7 +24,7 @@
     },
     "require-dev" : {
         "unglue/client" : "^1.0",
-        "luyadev/luya-testsuite" : "^1.0"
+        "luyadev/luya-testsuite" : "^2.0"
     },
     "autoload" : {
         "psr-4" : {

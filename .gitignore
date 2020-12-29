@@ -3,3 +3,4 @@
 /.buildpath
 /vendor/
 /luya
+composer.lock

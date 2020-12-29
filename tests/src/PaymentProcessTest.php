@@ -113,10 +113,10 @@ class PaymentProcessTest extends BasePaymentTestCase
         $int = $this->app->getModule('payment')->getIntegrator();
         $model = $int->findByKey($key, $token);
 
-        $this->assertContains('payment-create', $model->getTransactionGatewayCreateLink());
-        $this->assertContains('payment-abort', $model->getTransactionGatewayAbortLink());
-        $this->assertContains('payment-back', $model->getTransactionGatewayBackLink());
-        $this->assertContains('payment-fail', $model->getTransactionGatewayFailLink());
-        $this->assertContains('payment-notify', $model->getTransactionGatewayNotifyLink());
+        $this->assertStringContainsString('payment-create', $model->getTransactionGatewayCreateLink());
+        $this->assertStringContainsString('payment-abort', $model->getTransactionGatewayAbortLink());
+        $this->assertStringContainsString('payment-back', $model->getTransactionGatewayBackLink());
+        $this->assertStringContainsString('payment-fail', $model->getTransactionGatewayFailLink());
+        $this->assertStringContainsString('payment-notify', $model->getTransactionGatewayNotifyLink());
     }
 }

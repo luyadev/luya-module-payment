@@ -10,10 +10,10 @@ class OrderHelperTest extends BasePaymentTestCase
 {
     public function testGenerateOrderId()
     {
-        $this->assertContains('00004', OrderHelper::generateOrderId(4));
-        $this->assertContains('00010', OrderHelper::generateOrderId(10));
+        $this->assertStringContainsString('00004', OrderHelper::generateOrderId(4));
+        $this->assertStringContainsString('00010', OrderHelper::generateOrderId(10));
 
-        $this->assertContains('00004', OrderHelper::generateOrderId(4, 5));
+        $this->assertStringContainsString('00004', OrderHelper::generateOrderId(4, 5));
 
         for ($i=1;$i<=100;$i++) {
             $string = OrderHelper::generateOrderId(1, 5, 10);
@@ -24,8 +24,8 @@ class OrderHelperTest extends BasePaymentTestCase
     
     public function testGenerateOrderIdZeros()
     {
-        $this->assertContains('0000004', OrderHelper::generateOrderId(4, 7));
-        $this->assertContains('0000010', OrderHelper::generateOrderId(10, 7));
+        $this->assertStringContainsString('0000004', OrderHelper::generateOrderId(4, 7));
+        $this->assertStringContainsString('0000010', OrderHelper::generateOrderId(10, 7));
     }
 
     public function testPrefix()
