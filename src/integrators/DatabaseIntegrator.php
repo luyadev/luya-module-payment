@@ -7,6 +7,7 @@ use luya\payment\base\IntegratorInterface;
 use luya\payment\base\PayModel;
 use luya\payment\models\Process;
 use luya\payment\models\ProcessTrace;
+use luya\payment\PaymentException;
 
 /**
  * Database integrator
@@ -133,6 +134,10 @@ class DatabaseIntegrator implements IntegratorInterface
     public function getProviderData(PayModel $model): array
     {
         $process = Process::find()->where(['id' => $model->getId()])->one();
+
+        if (!$process) {
+            throw new PaymentException("Unable to find the given payment model.");
+        }
 
         return $process->provider_data;
     }
