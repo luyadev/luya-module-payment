@@ -27,6 +27,8 @@ use yii\base\InvalidConfigException;
  */
 class SaferPayTransaction extends Transaction
 {
+    const STATUS_CAPTURED = 'CAPTURED';
+
     /**
      * @var string Production mode
      */
@@ -163,6 +165,11 @@ class SaferPayTransaction extends Transaction
             throw new PaymentException('Assert response has missing transaction id.');
         }
 
+        // if capture has been done already (for example by notify process):
+        if (isset($data['capture']) && isset($data['capture']['Status']) && $data['capture']['Status'] == self::STATUS_CAPTURED) {
+            return true;
+        }
+        
         // capture
         $capture = $this->getProvider()->capture($this->getModel()->getOrderId() . uniqid(), $assert['Transaction']['Id']);
 
@@ -173,6 +180,6 @@ class SaferPayTransaction extends Transaction
         if (!isset($capture['Status'])) {
             throw new PaymentException("Caputre resposne has missing Status information.");
         }
-        return $capture['Status'] == 'CAPTURED';
+        return $capture['Status'] == self::STATUS_CAPTURED;
     }
 }
