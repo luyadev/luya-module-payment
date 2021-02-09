@@ -158,10 +158,10 @@ class SaferPayProvider extends Provider
         $curl->setOpt(CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: Basic '. $this->generateAuthCode()]);
         $curl->post($this->generateUrl($url), $values, true);
 
-        Yii::debug("curl request for {$url}.", __METHOD__);
+        Yii::debug("curl request for {$url}." . var_export($curl, true), __METHOD__);
 
         if ($curl->error) {
-            throw new PaymentException($curl->error_message);
+            throw new PaymentException($curl->error_message . ' | ' . $curl->response);
         }
 
         if ($curl->curl_error) {
