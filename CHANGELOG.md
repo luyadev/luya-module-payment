@@ -5,7 +5,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 3.0.1 
 
-+ []() Fix issue where already captured safer pay process won't trigger any error.
++ [#25](https://github.com/luyadev/luya-module-payment/pull/25) Fix issue where already captured safer pay process throws a `402 Action Failed` exception.
 
 ## 3.0 (5. January 2021)
 
