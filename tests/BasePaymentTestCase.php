@@ -21,7 +21,7 @@ class BasePaymentTestCase extends WebApplicationTestCase
                 'modules' => [
                     'payment' => [
                         'class' => 'luya\payment\frontend\Module',
-                        'transaction' => ['class' => 'luya\payment\tests\data\DummyTransaction']
+                        'transaction' => ['class' => 'luya\payment\tests\data\DummyTransaction'],
                     ],
                     'paymentadmin' => [
                         'class' => 'luya\payment\admin\Module',
