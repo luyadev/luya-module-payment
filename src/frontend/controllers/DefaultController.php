@@ -183,6 +183,11 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionNotify($lpToken, $lpKey)
     {
+        // the notify tasks usually runs async, therefore we add a sleep
+        // this might reduce the chance that both the async task and the user
+        // runs the back action at the "same" time.
+        sleep(2);
+
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);

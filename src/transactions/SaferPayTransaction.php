@@ -152,7 +152,7 @@ class SaferPayTransaction extends Transaction
         $data = $this->getIntegrator()->getProviderData($this->getModel());
 
         if (!isset($data['initialize']['Token'])) {
-            throw new PaymentException('Response token is missing for initalizing call (create).');
+            throw new PaymentException('Response token is missing for initalizing assert call.');
         }
 
         $assert = $this->getProvider()->assert($this->getModel()->getOrderId() . uniqid(), $data['initialize']['Token']);
@@ -173,13 +173,19 @@ class SaferPayTransaction extends Transaction
         // capture
         $capture = $this->getProvider()->capture($this->getModel()->getOrderId() . uniqid(), $assert['Transaction']['Id']);
 
+        // check if is already captured
+        if (isset($capture['ErrorName']) && $capture['ErrorName'] == 'TRANSACTION_ALREADY_CAPTURED') {
+            return true;
+        }
+
         $data['capture'] = $capture;
 
         $this->getIntegrator()->saveProviderData($this->getModel(), $data);
 
         if (!isset($capture['Status'])) {
-            throw new PaymentException("Caputre resposne has missing Status information.");
+            throw new PaymentException("Caputre response has missing Status information.");
         }
+        
         return $capture['Status'] == self::STATUS_CAPTURED;
     }
 }
