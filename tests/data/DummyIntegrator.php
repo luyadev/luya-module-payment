@@ -30,7 +30,7 @@ class DummyIntegrator implements IntegratorInterface
      */
     public function findByKey($key, $token)
     {
-        return true;
+        return new PayModel();
     }
 
     /**

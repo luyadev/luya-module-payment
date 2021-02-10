@@ -36,7 +36,8 @@ class SaferPayProviderTest extends BasePaymentTestCase
     {
         $provider = new SaferPayProvider();
         $provider->transaction = $this->generateTransaction();
-        $this->expectException(PaymentException::class);
-        $provider->capture('requestid', 'transactionid');
+        $x = $provider->capture('requestid', 'transactionid');
+
+        $this->assertSame('AUTHENTICATION_FAILED', $x['ErrorName']);
     }
 }

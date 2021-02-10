@@ -106,7 +106,7 @@ class SaferPayProvider extends Provider
      */
     public function capture($uniqueRequestId, $transactionId)
     {
-        return $this->generateCurl('/Payment/v1/Transaction/Capture', [
+        $curl = $this->postCurl('/Payment/v1/Transaction/Capture', [
             "RequestHeader" => [
                 "SpecVersion" => $this->specVersion,
                 "CustomerId" => $this->transaction->customerId,
@@ -117,6 +117,8 @@ class SaferPayProvider extends Provider
                 "TransactionId" => $transactionId,
             ]
         ]);
+
+        return Json::decode($curl->response);
     }
 
     /**
@@ -154,20 +156,34 @@ class SaferPayProvider extends Provider
      */
     public function generateCurl($url, array $values)
     {
-        $curl = new Curl();
-        $curl->setOpt(CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: Basic '. $this->generateAuthCode()]);
-        $curl->post($this->generateUrl($url), $values, true);
-
-        Yii::debug("curl request for {$url}." . var_export($curl, true), __METHOD__);
+        $curl = $this->postCurl($url, $values);
 
         if ($curl->error) {
-            throw new PaymentException($curl->error_message . ' | ' . $curl->response);
+            Yii::debug(var_export($curl, true), __METHOD__);
+            throw new PaymentException($curl->error_message);
         }
 
         if ($curl->curl_error) {
+            Yii::debug(var_export($curl, true), __METHOD__);
             throw new PaymentException($curl->curl_error_message);
         }
 
         return Json::decode($curl->response);
+    }
+
+    /**
+     * @param string $url
+     * @param array $values
+     * @return Curl
+     */
+    private function postCurl($url, array $values)
+    {
+        $curl = new Curl();
+        $curl->setOpt(CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: Basic '. $this->generateAuthCode()]);
+        $curl->post($this->generateUrl($url), $values, true);
+
+        Yii::debug("curl request for {$url}.", __METHOD__);
+
+        return $curl;
     }
 }

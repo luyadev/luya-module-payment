@@ -163,6 +163,11 @@ class PayModel extends Model
         $this->id = $id;
     }
 
+    /**
+     * Auth Token
+     *
+     * @return string
+     */
     public function getAuthToken()
     {
         if (empty($this->authToken)) {
@@ -184,6 +189,11 @@ class PayModel extends Model
         $this->authToken = $token;
     }
 
+    /**
+     * Random Key
+     *
+     * @return string
+     */
     public function getRandomKey()
     {
         return $this->randomKey;
@@ -201,16 +211,31 @@ class PayModel extends Model
         $this->randomKey = $key;
     }
 
+    /**
+     * Total Amount
+     *
+     * @return string
+     */
     public function getTotalAmount()
     {
         return $this->totalAmount;
     }
 
+    /**
+     * Order Id
+     *
+     * @return mixed
+     */
     public function getOrderId()
     {
         return $this->orderId;
     }
 
+    /**
+     * ID
+     *
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
