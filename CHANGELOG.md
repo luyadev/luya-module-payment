@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 3.0.2 (27. May 2021)
+
++ []() Ensure the CSRF meta informations are registered, otherwise a javascript error is thrown.
+
 ## 3.0.1 (10. February 2021)
 
 + [#25](https://github.com/luyadev/luya-module-payment/pull/25) Fix issue where already captured safer pay process throws an `402 Action Failed` exception.

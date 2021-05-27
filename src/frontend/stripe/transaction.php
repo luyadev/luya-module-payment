@@ -16,6 +16,7 @@ $this->registerJsVar('confirmUrl', $url);
 $this->registerCss($this->render('@payment/stripe/dist/stripe.css'));
 $this->registerJsFile('https://js.stripe.com/v3/');
 $this->registerJs($this->render('@payment/stripe/dist/stripe.js', ['publishableKey' => $publishableKey]), View::POS_END);
+$this->registerCsrfMetaTags();
 
 ?>
 <div class="payment-wrapper" id="payment-wrapper">
