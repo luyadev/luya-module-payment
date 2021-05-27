@@ -5,7 +5,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 3.0.2 (27. May 2021)
 
-+ []() Ensure the CSRF meta informations are registered, otherwise a javascript error is thrown.
++ [#26](https://github.com/luyadev/luya-module-payment/pull/26) Ensure the CSRF meta informations are registered, otherwise a javascript error is thrown.
 
 ## 3.0.1 (10. February 2021)
 
