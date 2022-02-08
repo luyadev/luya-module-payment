@@ -18,7 +18,7 @@
     "require" : {
         "luyadev/luya-module-admin" : ">=2.0",
         "luyadev/luya-headless" : "*",
-        "stripe/stripe-php": "^6.19",
+        "stripe/stripe-php": "^7.1",
         "paypal/rest-api-sdk-php" : "^1.0"
     },
     "require-dev" : {
