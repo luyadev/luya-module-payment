@@ -49,6 +49,10 @@
     "config": {
         "platform": {
             "php": "8.0"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "luyadev/luya-composer": true
         }
     },
     "repositories": [
