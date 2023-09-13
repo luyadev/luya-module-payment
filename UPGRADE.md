@@ -1,5 +1,11 @@
 # Upgrade
 
+## 3.x to 4.0
+
++ Removed the `SaferPayLegacy` provider, no replacment.
++ Removed `PayPal` provider, no replacment.
++ Dropped support for PHP 7.x versions
+
 ## 2.x to 3.0
 
 + [#22](https://github.com/luyadev/luya-module-payment/pull/22) The SaferPay Transaction has been replaced with the new JSON API and therefore the old HTTPS interface SaferPay Transaction class has been renamed to `SaferPayLegacyTransaction` while the new `SaferPayTransaction` contains the new code to work with the JSON API. Therefore the class parameters which are required has been changed. The new configuration looks as followed:

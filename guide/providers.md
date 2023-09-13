@@ -26,25 +26,6 @@ The [Stripe](https://stripe.com) transaction integration config:
 
 [See all cards](https://stripe.com/docs/testing#regulatory-cards)
 
-## PayPal Transaction
-
-The [PayPal](https://paypal.com) transaction integration config:
-
-```php
-'payment' => [
-    'class' => 'luya\payment\frontend\Module',
-    'transaction' => [
-        'class' => 'luya\payment\transactions\PayPalTransaction',
-        'clientId' => '<CLIENT_ID>',
-        'clientSecret' => '<CLIENT_SECRET>',
-    ]
-]
-```
-
-+ `clientId`: The client id from the paypal website.
-+ `clientSecret`: The client secret from the paypal website.
-+ `mode`: The mode `live` or `sandbox` values are available.
-
 ## SaferPay Transaction
 
 The [SaferPay](https://saferpay.com) transaction API integration config:

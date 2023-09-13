@@ -64,14 +64,6 @@ class Module extends \luya\base\Module
     /**
      *
      * @var array A transaction object config array for the given provider:
-     * + paypal:
-     * ```php
-     * 'class' => payment\transactions\PayPalTransaction::className(),
-     * 'clientId' => 'ClientIdFromPayPalApplication',
-     * 'clientSecret' => 'ClientSecretFromPayPalApplication',
-     * 'mode' => 'live', // 'sandbox',
-     * 'productDescription' => 'MyOnlineStore Order',
-     * ```
      * + saferpay:
      * ```php
      * 'class' => payment\transactions\SaferPayTransaction::className(),
