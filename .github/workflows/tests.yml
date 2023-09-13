@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 env:
   DEFAULT_COMPOSER_FLAGS: "--prefer-dist --no-interaction"
-  PHPUNIT_EXCLUDE_GROUP: mssql,oci,wincache,xcache,zenddata,cubrid
   CC_TEST_REPORTER_ID: a9ab6de7fbc8f532a9f829091d3994223dfbef5542c42f5c6d5e3ec877eebc74
 jobs:
   phpunit:
@@ -14,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+        php: ['8.0', '8.1', '8.2']
 
     steps:
       ## checkout the repoistory 
@@ -36,12 +35,12 @@ jobs:
       ## run unit tests
       - name: PHP Unit tests for PHP 
         run: vendor/bin/phpunit --verbose --configuration actions.phpunit.xml
-        if: matrix.php == '8.1' || matrix.php == '8.0' || matrix.php == '7.4' || matrix.php == '7.3' || matrix.php == '7.2' || matrix.php == '7.0'
+        if: matrix.php == '8.2' || matrix.php == '8.1' || matrix.php == '8.0'
 
       ## unit test with coverage
       - name: PHP Unit tests for PHP 7.1
         run: vendor/bin/phpunit --verbose --coverage-clover=clover.xml --configuration actions.phpunit.xml
-        if: matrix.php == '7.1'
+        if: matrix.php == '8.0'
 
       ## coverage
       - name: Code coverage
@@ -49,5 +48,5 @@ jobs:
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter after-build -t clover
-        if: matrix.php == '7.1'
+        if: matrix.php == '8.0'
         continue-on-error: true # if is fork
