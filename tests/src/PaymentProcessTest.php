@@ -2,11 +2,8 @@
 
 namespace luya\payment\tests;
 
-use Yii;
-use luya\payment\tests\data\DummyTransaction;
 use luya\payment\models\Process;
 use luya\payment\Pay;
-use luya\payment\integrators\DatabaseIntegrator;
 
 class PaymentProcessTest extends BasePaymentTestCase
 {
@@ -16,7 +13,7 @@ class PaymentProcessTest extends BasePaymentTestCase
         $process = new Pay();
         $process->getId();
     }
-    
+
     public function testPaymentProcessObject()
     {
         $object = new Pay();
@@ -44,26 +41,26 @@ class PaymentProcessTest extends BasePaymentTestCase
         $this->assertInstanceOf('\luya\payment\base\TransactionInterface', $transaction);
         */
 
-        
-        
+
+
         $processId = $object->getId();
-        
+
         $this->assertNotFalse($processId);
-        
+
         $int = $this->app->getModule('payment')->getIntegrator();
         $model = $int->findByKey($object->getRandomKey(), $object->getAuthToken());
         $this->assertInstanceOf('\luya\payment\base\PayModel', $model);
-        
+
         $token = $model->getAuthToken();
-        
+
         $randomKey = $model->randomKey;
-        
+
         // find payment process by processId
 
         $object2 = Pay::findById($processId);
-        
+
         $this->assertInstanceOf('\luya\payment\base\PayModel', $object2);
-        
+
         $this->assertSame($processId, $object2->getId());
         // this mus throw an exception
         //$this->assertSame(null, $object2->getAuthToken()); // as the token can not be reassigned, it must be null
@@ -71,7 +68,7 @@ class PaymentProcessTest extends BasePaymentTestCase
         // find payment by token:
 
         $object3 = $int->findByKey($randomKey, $token);
-        
+
         $this->assertInstanceOf('\luya\payment\base\PayModel', $object3);
         $this->assertSame($processId, $object3->getId());
         $this->assertSame($token, $object3->getAuthTOken());
@@ -79,14 +76,14 @@ class PaymentProcessTest extends BasePaymentTestCase
         // there is not redirect trough the payment process and therefore the model is not set to success!
         $this->assertFalse(Pay::isSuccess($processId));
     }
-    
+
     public function testErrorAmountProcess()
     {
         $this->expectException('luya\payment\PaymentException');
         $object = new Pay();
         $object->getId();
     }
-    
+
     public function testUrlRules()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';

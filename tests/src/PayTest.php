@@ -18,7 +18,7 @@ class PayTest extends BasePaymentTestCase
         $pay->setErrorLink('error');
         $pay->setAbortLink('abort');
 
-        
+
         $pay->addItem('Product A', 2, 200); // total: 400
         $pay->addItem('Rabat B', 1, -100); // total: 300
         $pay->addItem('Free X', 1, 0); // 300
@@ -45,7 +45,7 @@ class PayTest extends BasePaymentTestCase
         $pay->setErrorLink('error');
         $pay->setAbortLink('abort');
 
-        
+
         $pay->addItem('Product A', 2, 200); // total: 400
         $pay->addItem('Rabat B', 1, -100); // total: 300
         $pay->addItem('Free X', 1, 0); // 300
@@ -67,14 +67,14 @@ class PayTest extends BasePaymentTestCase
         $pay->setErrorLink('error');
         $pay->setAbortLink('abort');
 
-        
+
         $pay->addItem('Product A', 2, 200); // total: 400
         $pay->addItem('Rabat B', 1, -100); // total: 300
         $pay->addItem('Free X', 1, 0); // 300
         $pay->addTax('VAT', 20); // total 320;
         $pay->addShipping('Shipping', 80); // total 400
         $pay->setTotalAmount(400);
-        
+
         $this->expectException(PaymentException::class);
         $pay->getId();
     }
@@ -96,7 +96,7 @@ class PayTest extends BasePaymentTestCase
         $pay->setErrorLink('error');
         $pay->setAbortLink('abort');
 
-        
+
         $pay->addItem('Product A', 2, 200); // total: 400
         $pay->addItem('Rabat B', 1, -100); // total: 300
         $pay->addItem('Free X', 1, 0); // 300

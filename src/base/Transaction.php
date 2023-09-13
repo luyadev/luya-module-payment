@@ -3,10 +3,10 @@
 namespace luya\payment\base;
 
 use Curl\Curl;
-use yii\web\Controller;
-use yii\base\BaseObject;
 use luya\payment\Pay;
 use luya\payment\PaymentException;
+use yii\base\BaseObject;
+use yii\web\Controller;
 
 /**
  * Transaction Abstraction.
@@ -26,14 +26,14 @@ abstract class Transaction extends BaseObject
      * Creates the transaction and mostly redirects to the provider afterwards.
      */
     abstract public function create();
-    
+
     /**
      * The method which is triggered when coming "back from the provider". In generall this is also success.
      *
      * Commonly call `$this->redirectApplicationSuccess()` now.
      */
     abstract public function back();
-    
+
     /**
      * Some providers provide a notify link. The notify method will be called from the payment provider in the
      * background. In generall we want to ensure the payment is closed here.
@@ -42,14 +42,14 @@ abstract class Transaction extends BaseObject
      * this triggers an email) `$this-curlApplicationLink($this->getModel()->getApplicationSuccessLink())`.
      */
     abstract public function notify();
-    
+
     /**
      * Redirect back to the application failure/error page
      *
      * `$this->redirectTransactionFail()`
      */
     abstract public function fail();
-    
+
     /**
      * All providers provide an abort/stop link to back into the onlinestore and choose
      *
@@ -86,7 +86,7 @@ abstract class Transaction extends BaseObject
     public $errorCloseError = "Unable to close the model as errored, maybe its already closed.";
 
     private $_model;
-    
+
     /**
      * Setter method for payment process.
      *
@@ -96,7 +96,7 @@ abstract class Transaction extends BaseObject
     {
         $this->_model = $model;
     }
-    
+
     /**
      * Getter method for model
      *
@@ -106,9 +106,9 @@ abstract class Transaction extends BaseObject
     {
         return $this->_model;
     }
-    
+
     private $_context = null;
-    
+
     /**
      * Setter method for controller context.
      *
@@ -118,7 +118,7 @@ abstract class Transaction extends BaseObject
     {
         $this->_context = $context;
     }
-    
+
     /**
      * Getter method for context.
      *
@@ -207,7 +207,7 @@ abstract class Transaction extends BaseObject
     public function redirectApplicationSuccess()
     {
         $url = $this->getModel()->getApplicationSuccessLink();
-        
+
         $this->closePaymentAsSuccessful();
 
         return $this->getContext()->redirect($url);

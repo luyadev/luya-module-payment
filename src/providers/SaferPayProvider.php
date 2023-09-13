@@ -12,15 +12,15 @@ use Yii;
 
 /**
  * Safer Pay Provider.
- * 
+ *
  * @author Basil Suter <git@nadar.io>
  * @since 3.0
  */
 class SaferPayProvider extends Provider
 {
-    const PRODUCTION_URL = 'https://www.saferpay.com/api';
+    public const PRODUCTION_URL = 'https://www.saferpay.com/api';
 
-    const TEST_URL = 'https://test.saferpay.com/api';
+    public const TEST_URL = 'https://test.saferpay.com/api';
 
     /**
      * @var string The api specification version.

@@ -15,7 +15,6 @@ Its even possible to define an `integrator` which allows you to add the module c
 
 Currently supported payment providers:
 
-+ [paypal.com](https://paypal.com)
 + [saferpay.com](https://www.saferpay.com)
 + [stripe.com](https://stripe.com)
 

@@ -4,3 +4,4 @@
 /vendor/
 /luya
 composer.lock
+.tmp

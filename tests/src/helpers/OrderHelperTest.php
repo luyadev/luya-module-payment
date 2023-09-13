@@ -3,8 +3,8 @@
 namespace luya\payment\tests\helpers;
 
 use luya\helpers\StringHelper;
-use luya\payment\tests\BasePaymentTestCase;
 use luya\payment\helpers\OrderHelper;
+use luya\payment\tests\BasePaymentTestCase;
 
 class OrderHelperTest extends BasePaymentTestCase
 {
@@ -15,13 +15,13 @@ class OrderHelperTest extends BasePaymentTestCase
 
         $this->assertStringContainsString('00004', OrderHelper::generateOrderId(4, 5));
 
-        for ($i=1;$i<=100;$i++) {
+        for ($i = 1;$i <= 100;$i++) {
             $string = OrderHelper::generateOrderId(1, 5, 10);
 
             $this->assertFalse(StringHelper::contains(['-', '_'], $string));
         }
     }
-    
+
     public function testGenerateOrderIdZeros()
     {
         $this->assertStringContainsString('0000004', OrderHelper::generateOrderId(4, 7));

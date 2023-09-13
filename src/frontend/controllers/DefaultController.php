@@ -3,7 +3,9 @@
 namespace luya\payment\frontend\controllers;
 
 use luya\payment\base\PayModel;
+use yii\base\InvalidCallException;
 use yii\filters\HttpCache;
+use yii\web\Response;
 
 /**
  * Default Payment Controller.
@@ -22,23 +24,21 @@ class DefaultController extends \luya\web\Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        
+
         $behaviors[] = [
             'class' => HttpCache::class,
             'cacheControlHeader' => 'no-store, no-cache',
-            'lastModified' => function ($action, $params) {
+            'lastModified' => function () {
                 return time();
             },
         ];
-        
+
         return $behaviors;
     }
 
     /**
-     * Undocumented function
-     *
      * @param PayModel|boolean $model
-     * @return void
+     * @return bool|Response
      */
     private function ensureModelState($model)
     {
@@ -80,21 +80,26 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
-        
+
+
         return $this->module->transaction->create();
     }
-    
+
     /**
      * The action which is opened when coming back from the payment page.
      *
@@ -106,20 +111,25 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->back();
     }
-    
+
     /**
      * Failed payment response.
      *
@@ -133,20 +143,25 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->fail();
     }
-    
+
     /**
      * Abort button pressed by the user.
      *
@@ -158,8 +173,13 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
-        
+
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
@@ -168,10 +188,10 @@ class DefaultController extends \luya\web\Controller
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->abort();
     }
-    
+
     /**
      * Notification from the Payment Provider.
      *
@@ -190,8 +210,13 @@ class DefaultController extends \luya\web\Controller
 
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
-        
+
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
@@ -200,7 +225,7 @@ class DefaultController extends \luya\web\Controller
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->notify();
     }
 }

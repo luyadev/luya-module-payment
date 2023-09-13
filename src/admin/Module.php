@@ -16,7 +16,7 @@ class Module extends \luya\admin\base\Module
         'api-payment-processitem' => 'luya\payment\admin\apis\ProcessItemController',
 
     ];
-    
+
     public function getMenu()
     {
         return (new \luya\admin\components\AdminMenuBuilder($this))

@@ -2,8 +2,8 @@
 
 namespace luya\payment\models;
 
-use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use Yii;
 
 /**
  * Process Item.

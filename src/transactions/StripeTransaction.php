@@ -3,14 +3,14 @@
 namespace luya\payment\transactions;
 
 use Exception;
-use Yii;
-use Stripe\Stripe;
-use luya\payment\PaymentException;
-use luya\payment\base\Transaction;
-use luya\payment\providers\StripeProvider;
 use luya\helpers\Html;
-use yii\base\InvalidConfigException;
+use luya\payment\base\Transaction;
 use luya\payment\frontend\Module;
+use luya\payment\PaymentException;
+use luya\payment\providers\StripeProvider;
+use Stripe\Stripe;
+use Yii;
+use yii\base\InvalidConfigException;
 
 /**
  * Stripe Transaction.

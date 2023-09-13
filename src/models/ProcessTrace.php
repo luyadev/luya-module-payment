@@ -2,10 +2,10 @@
 
 namespace luya\payment\models;
 
-use Yii;
+use luya\admin\aws\DetailViewActiveWindow;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\helpers\Json;
-use luya\admin\aws\DetailViewActiveWindow;
+use Yii;
 
 /**
  * Process Trace.
@@ -49,7 +49,7 @@ class ProcessTrace extends NgRestModel
     public function init()
     {
         parent::init();
-        
+
         $this->on(self::EVENT_BEFORE_VALIDATE, [$this, 'assignEnvValues']);
     }
 

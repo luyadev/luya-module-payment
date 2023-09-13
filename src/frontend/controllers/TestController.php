@@ -2,10 +2,10 @@
 
 namespace luya\payment\frontend\controllers;
 
-use Yii;
 use luya\payment\Pay;
-use yii\filters\HttpCache;
 use luya\payment\PaymentException;
+use Yii;
+use yii\filters\HttpCache;
 
 class TestController extends \luya\web\Controller
 {
@@ -15,7 +15,7 @@ class TestController extends \luya\web\Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        
+
         $behaviors[] = [
             'class' => HttpCache::class,
             'cacheControlHeader' => 'no-store, no-cache',
@@ -23,7 +23,7 @@ class TestController extends \luya\web\Controller
                 return time();
             },
         ];
-        
+
         return $behaviors;
     }
 
@@ -59,7 +59,7 @@ class TestController extends \luya\web\Controller
 
         return $process->dispatch($this);
     }
-    
+
     public function actionTestSuccess()
     {
         if (!Pay::isSuccess(Yii::$app->session->get('storeTransactionId', 0))) {
@@ -72,12 +72,12 @@ class TestController extends \luya\web\Controller
 
         return 'success!';
     }
-    
+
     public function actionTestError()
     {
         return 'Rendering: error action...';
     }
-    
+
     public function actionTestAbort()
     {
         return 'Rendering: abort action...';

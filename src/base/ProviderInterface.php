@@ -18,7 +18,6 @@ interface ProviderInterface
      * An unique identifier for this provider, examples:
      *
      * + strip
-     * + paypal
      * + saferpay
      *
      * @return void

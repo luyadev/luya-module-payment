@@ -2,11 +2,11 @@
 
 namespace luya\payment\models;
 
-use Yii;
-use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\aws\DetailViewActiveWindow;
+use luya\admin\ngrest\base\NgRestModel;
 use luya\behaviors\JsonBehavior;
 use luya\payment\PaymentException;
+use Yii;
 use yii\helpers\VarDumper;
 
 /**
@@ -40,13 +40,13 @@ use yii\helpers\VarDumper;
  */
 class Process extends NgRestModel
 {
-    const STATE_PENDING = 0;
+    public const STATE_PENDING = 0;
 
-    const STATE_SUCCESS = 1;
+    public const STATE_SUCCESS = 1;
 
-    const STATE_ERROR = 2;
+    public const STATE_ERROR = 2;
 
-    const STATE_ABORT = 3;
+    public const STATE_ABORT = 3;
 
     public $auth_token;
 
@@ -65,7 +65,7 @@ class Process extends NgRestModel
     {
         return 'api-payment-process';
     }
-    
+
     public function behaviors()
     {
         return [
@@ -274,7 +274,7 @@ class Process extends NgRestModel
     /**
      * Get related items
      *
-     * @return void
+     * @return ProcessItem[]
      */
     public function getItems()
     {
@@ -284,7 +284,7 @@ class Process extends NgRestModel
     /**
      * Get related trace events
      *
-     * @return void
+     * @return ProcessTrace[]
      */
     public function getTraces()
     {
@@ -323,26 +323,26 @@ class Process extends NgRestModel
         $inputKey = $this->order_id;
 
         $security = Yii::$app->security;
-        
+
         // random string
         $random = $security->generateRandomString(32);
-        
+
         // generate the auth token based from the random string and the inputKey
         $this->auth_token = $security->generatePasswordHash($random . $inputKey);
 
         // random salt string
         $this->salt = $security->generateRandomString(32);
-        
+
         // generate a hash to compare the auth token from the salt and auth token
         $this->hash = $security->generatePasswordHash($this->salt . $this->auth_token);
 
         // encode the token with base 64 in order to remove conflicting http url signs
         $this->auth_token = base64_encode($this->auth_token);
-        
+
         // generate a random key to add for for the transaction itself.
         $this->random_key = md5($security->generaterandomKey());
     }
-    
+
     /**
      * Validate the auth token against model hash
      *

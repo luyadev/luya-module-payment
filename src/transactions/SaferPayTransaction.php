@@ -9,9 +9,9 @@ use yii\base\InvalidConfigException;
 
 /**
  * Safer Pay API Transaction.
- * 
+ *
  * Example integration:
- * 
+ *
  * ```php
  * 'transaction' => [
  *     'class' => 'luya\payment\transactions\SaferPayTransaction',
@@ -27,17 +27,17 @@ use yii\base\InvalidConfigException;
  */
 class SaferPayTransaction extends Transaction
 {
-    const STATUS_CAPTURED = 'CAPTURED';
+    public const STATUS_CAPTURED = 'CAPTURED';
 
     /**
      * @var string Production mode
      */
-    const MODE_LIVE = 'live';
+    public const MODE_LIVE = 'live';
 
     /**
      * @var string Sandbox/Testing mode
      */
-    const MODE_SANDBOX = 'sandbox';
+    public const MODE_SANDBOX = 'sandbox';
 
     /**
      * @var string The mode in which the api should be called `live` or `sandbox`. Default is live. Previous knonw as `sandboxMode`.
@@ -45,7 +45,7 @@ class SaferPayTransaction extends Transaction
     public $mode = self::MODE_LIVE;
 
     /**
-     * @var number A numeric value with 8 digits `12345678` 
+     * @var number A numeric value with 8 digits `12345678`
      */
     public $terminalId;
 
@@ -78,7 +78,7 @@ class SaferPayTransaction extends Transaction
 
     /**
      * Get Provider Object.
-     * 
+     *
      * @return SaferPayProvider
      */
     public function getProvider()
@@ -133,7 +133,7 @@ class SaferPayTransaction extends Transaction
     {
         return $this->redirectApplicationError();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -169,7 +169,7 @@ class SaferPayTransaction extends Transaction
         if (isset($data['capture']) && isset($data['capture']['Status']) && $data['capture']['Status'] == self::STATUS_CAPTURED) {
             return true;
         }
-        
+
         // capture
         $capture = $this->getProvider()->capture($this->getModel()->getOrderId() . uniqid(), $assert['Transaction']['Id']);
 
@@ -185,7 +185,7 @@ class SaferPayTransaction extends Transaction
         if (!isset($capture['Status'])) {
             throw new PaymentException("Caputre response has missing Status information.");
         }
-        
+
         return $capture['Status'] == self::STATUS_CAPTURED;
     }
 }

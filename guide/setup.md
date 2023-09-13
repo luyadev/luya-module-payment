@@ -18,12 +18,6 @@ Configure the payment module in your config with the transaction payment provide
     'payment' => [
         'class' => 'luya\payment\frontend\Module',
         'transaction' => [
-            // Paypal Example
-            // 'class' => 'luya\payment\transactions\PayPalTransaction',
-            // 'clientId' => 'ClientIdFromPayPalApplication',
-            // 'clientSecret' => 'ClientSecretFromPayPalApplication',
-            // 'productDescription' => 'MyOnlineStore Order',
-        
             // SaferPay Example
             // 'terminalId' => '12345678',
             // 'customerId' => '123456',

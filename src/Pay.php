@@ -2,13 +2,11 @@
 
 namespace luya\payment;
 
-use Yii;
 use luya\helpers\Url;
-use luya\web\Controller;
-use luya\payment\frontend\Module;
+use luya\payment\base\PayItemModel;
 use luya\payment\base\PayModel;
-use luya\payment\models\ProcessItem;
-use luya\payment\base\PayItemModel;// Rename to PayArticle?
+use luya\payment\frontend\Module;
+use luya\web\Controller;// Rename to PayArticle?
 use yii\base\InvalidConfigException;
 
 /**
@@ -19,13 +17,13 @@ use yii\base\InvalidConfigException;
  */
 class Pay
 {
-    const STATE_PENDING = 0;
+    public const STATE_PENDING = 0;
 
-    const STATE_SUCCESS = 1;
-    
-    const STATE_ERROR = 2;
-    
-    const STATE_ABORT = 3;
+    public const STATE_SUCCESS = 1;
+
+    public const STATE_ERROR = 2;
+
+    public const STATE_ABORT = 3;
 
     private $_totalAmount;
 
@@ -53,7 +51,7 @@ class Pay
         if (strlen($currency) !== 3) {
             throw new InvalidConfigException("The currency must be a 3-letter ISO 4217 code.");
         }
-        
+
         $this->_currency = $currency;
     }
 
@@ -204,7 +202,7 @@ class Pay
     {
         return $this->getCreateModel()->getAuthToken();
     }
-    
+
     /**
      * Dispatch the current controller to the getTransactionGatewayCreat link.
      *
@@ -214,7 +212,7 @@ class Pay
     public function dispatch(Controller $controller)
     {
         $url = $this->getCreateModel()->getTransactionGatewayCreateLink();
-        
+
         return $controller->redirect($url);
     }
 
