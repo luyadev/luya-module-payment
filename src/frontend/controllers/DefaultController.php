@@ -3,6 +3,7 @@
 namespace luya\payment\frontend\controllers;
 
 use luya\payment\base\PayModel;
+use yii\base\InvalidCallException;
 use yii\filters\HttpCache;
 use yii\web\Response;
 
@@ -27,7 +28,7 @@ class DefaultController extends \luya\web\Controller
         $behaviors[] = [
             'class' => HttpCache::class,
             'cacheControlHeader' => 'no-store, no-cache',
-            'lastModified' => function ($action, $params) {
+            'lastModified' => function () {
                 return time();
             },
         ];
@@ -79,6 +80,11 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
@@ -105,6 +111,11 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
@@ -132,6 +143,11 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
@@ -157,6 +173,11 @@ class DefaultController extends \luya\web\Controller
     {
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
@@ -189,6 +210,11 @@ class DefaultController extends \luya\web\Controller
 
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
+
+        if (!$model) {
+            throw new InvalidCallException("unable to find the given model.");
+        }
+
         $integrator->addTrace($model, __METHOD__);
 
         $state = $this->ensureModelState($model);
