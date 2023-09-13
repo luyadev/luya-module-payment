@@ -2,19 +2,19 @@
 
 namespace luya\payment\transactions;
 
-use Yii;
 use luya\payment\base\Transaction;
-use luya\payment\providers\SaferPayLegacyProvider;
 use luya\payment\PaymentException;
+use luya\payment\providers\SaferPayLegacyProvider;
+use Yii;
 use yii\base\InvalidConfigException;
 
 /**
  * Safer Pay LEGACY Transaction.
  *
  * > This legacy implementation should not be used anymore as the SaferPay HTTP Service is discontinued.
- * 
- * > SaferPay: The deprecated interfaces HTTPS Interface (HI) and Saferpay Clients (Lib/SCAI) will be discontinued 
- * > at the end of 2020. Please switch your systems to the current interface JSON API in good time. Further 
+ *
+ * > SaferPay: The deprecated interfaces HTTPS Interface (HI) and Saferpay Clients (Lib/SCAI) will be discontinued
+ * > at the end of 2020. Please switch your systems to the current interface JSON API in good time. Further
  * > information on the replacement of deprecated interfaces.
  *
  * ```php
@@ -33,18 +33,18 @@ class SaferPayLegacyTransaction extends Transaction
     /**
      * @var string Production mode
      */
-    const MODE_LIVE = 'live';
+    public const MODE_LIVE = 'live';
 
     /**
      * @var string Sandbox/Testing mode
      */
-    const MODE_SANDBOX = 'sandbox';
+    public const MODE_SANDBOX = 'sandbox';
 
     /**
      * @var string The accountId value from the safer pay backend.
      */
     public $accountId;
-   
+
     /**
      * @param string Test account spPassword (from the docs: Die Übergabe des Parameters spPassword ist nur beim Testkonto erforderlich. Für produktive Konten wird
      * dieser Parameter nicht benötigt!)
@@ -55,19 +55,19 @@ class SaferPayLegacyTransaction extends Transaction
      * @param string The mode which changes the urls for sandbox or live
      */
     public $mode = self::MODE_LIVE;
-    
+
     /**
      * {@inheritDoc}
      */
     public function init()
     {
         parent::init();
-        
+
         if (empty($this->accountId)) {
             throw new InvalidConfigException("accountId must be set in your saferpay transaction");
         }
     }
-    
+
     /**
      * Get the safer pay provider object.
      *
@@ -79,7 +79,7 @@ class SaferPayLegacyTransaction extends Transaction
             'mode' => $this->mode,
         ]);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -96,17 +96,17 @@ class SaferPayLegacyTransaction extends Transaction
             'backLink' => $this->getModel()->getTransactionGatewayAbortLink(),
             'notifyUrl' => $this->getModel()->getTransactionGatewayNotifyLink(),
         ]);
-        
+
         // the response status is 200 but the content is not a valid URL
         // therefore trhow an exception with the content. Example value could be:
         // `ERROR: Missing or wrong ACCOUNTID attribute`
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new PaymentException("Invalid URL: " . $url);
         }
-        
+
         return $this->getContext()->redirect($url);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -114,19 +114,21 @@ class SaferPayLegacyTransaction extends Transaction
     {
         $signature = Yii::$app->request->get('SIGNATURE', false);
         $data = Yii::$app->request->get('DATA', false);
-        
+
         $confirmResponse = $this->getProvider()->call('confirm', [
             'data' => $data,
             'signature' => $signature,
         ]);
-        
+
         $parts = explode(":", $confirmResponse);
-        
+
         if (isset($parts[0]) && $parts[0] == 'OK' && $parts[1]) {
-            
+
             // create $TOKEN and $ID variable
+            /** @var string $ID */
+            /** @var string $TOKEN */
             parse_str($parts[1]);
-            
+
             $completeResponse = $this->getProvider()->call('complete', [
                 'id' => $ID,
                 'token' => $TOKEN,
@@ -135,17 +137,17 @@ class SaferPayLegacyTransaction extends Transaction
                 'accountId' => $this->accountId,
                 'spPassword' => $this->spPassword,
             ]);
-            
+
             $completeParts = explode(":", $completeResponse);
-            
+
             if (isset($completeParts[0]) && $completeParts[0] == 'OK') {
                 return $this->redirectApplicationSuccess();
             }
         }
-        
+
         return $this->redirectTransactionFail();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -153,7 +155,7 @@ class SaferPayLegacyTransaction extends Transaction
     {
         return $this->redirectApplicationSuccess();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -161,7 +163,7 @@ class SaferPayLegacyTransaction extends Transaction
     {
         return $this->redirectApplicationError();
     }
-    
+
     /**
      * {@inheritDoc}
      */

@@ -10,7 +10,7 @@ class DummyIntegrator implements IntegratorInterface
     public $createModelResponse = true;
 
     public $closeModelResponse = true;
-    
+
     /**
      * {@inheritDoc}
      */

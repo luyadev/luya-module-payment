@@ -1,6 +1,5 @@
 <?php
 
-
 namespace luya\payment\base;
 
 use yii\base\Model;
@@ -20,7 +19,7 @@ class PayItemModel extends Model
     public $amount;
     public $is_shipping;
     public $is_tax;
-    
+
     /**
      * @inheritdoc
      */

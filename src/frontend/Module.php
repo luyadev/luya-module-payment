@@ -2,9 +2,9 @@
 
 namespace luya\payment\frontend;
 
+use luya\payment\integrators\DatabaseIntegrator;
 use Yii;
 use yii\base\InvalidConfigException;
-use luya\payment\integrators\DatabaseIntegrator;
 
 /**
  * Payment Module.
@@ -43,14 +43,14 @@ class Module extends \luya\base\Module
     public function init()
     {
         parent::init();
-        
+
         if ($this->transaction === null) {
             throw new InvalidConfigException("The transaction property can not be null.");
         }
     }
-    
+
     private $_transaction;
-    
+
     /**
      * Get the transaction object
      *
@@ -60,7 +60,7 @@ class Module extends \luya\base\Module
     {
         return $this->_transaction;
     }
-    
+
     /**
      *
      * @var array A transaction object config array for the given provider:
@@ -109,7 +109,7 @@ class Module extends \luya\base\Module
         if ($this->_integrator === null) {
             $this->_integrator = ['class' => DatabaseIntegrator::class];
         }
-        
+
         // create the integrator object if not done previously.
         if (is_array($this->_integrator)) {
             $this->_integrator = Yii::createObject($this->_integrator);

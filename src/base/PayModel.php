@@ -3,9 +3,9 @@
 namespace luya\payment\base;
 
 use luya\helpers\Url;
-use yii\base\Model;
-use luya\payment\PaymentException;
 use luya\payment\Pay;
+use luya\payment\PaymentException;
+use yii\base\Model;
 
 /**
  * Pay Model.
@@ -41,7 +41,7 @@ class PayModel extends Model
     {
         return $this->isClosed;
     }
-    
+
     /**
      * Is closed and successfull.
      *
@@ -147,7 +147,7 @@ class PayModel extends Model
                 $items[] = $i;
             }
         }
-        
+
         return $items;
     }
 
@@ -272,7 +272,7 @@ class PayModel extends Model
     {
         return Url::toInternal(['/payment/default/create', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
-    
+
     /**
      * Get the Payment Gateway Back link.
      *
@@ -284,7 +284,7 @@ class PayModel extends Model
     {
         return Url::toInternal(['/payment/default/back', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
-    
+
     /**
      * Get the Payment Gateway Fail link.
      *
@@ -296,7 +296,7 @@ class PayModel extends Model
     {
         return Url::toInternal(['/payment/default/fail', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
-    
+
     /**
      * Get the Payment Gateway Abort link.
      *
@@ -308,7 +308,7 @@ class PayModel extends Model
     {
         return Url::toInternal(['/payment/default/abort', 'lpToken' => $this->getAuthToken(), 'lpKey' => $this->randomKey, 'time' => microtime(true)], true);
     }
-    
+
     /**
      * Get the Payment Gateway Notify link.
      *

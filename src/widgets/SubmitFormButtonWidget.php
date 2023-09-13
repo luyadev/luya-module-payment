@@ -3,8 +3,8 @@
 namespace luya\payment\widgets;
 
 use luya\base\Widget;
-use luya\helpers\Html;
 use luya\helpers\ArrayHelper;
+use luya\helpers\Html;
 use yii\base\InvalidConfigException;
 use yii\web\JsExpression;
 
@@ -29,7 +29,7 @@ class SubmitFormButtonWidget extends Widget
      * @var string The label which should be displayed on button.
      */
     public $label;
-    
+
     /**
      * @var string The label which should be visible when the button is pushed. for example `... sending`.
      */

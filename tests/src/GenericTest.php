@@ -2,9 +2,9 @@
 
 namespace luya\payment\tests;
 
-use Yii;
 use luya\testsuite\traits\MessageFileCompareTrait;
 use luya\testsuite\traits\MigrationFileCheckTrait;
+use Yii;
 
 class GenericTest extends BasePaymentTestCase
 {

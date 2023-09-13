@@ -4,7 +4,6 @@ namespace luya\payment\tests\integrators;
 
 use luya\headless\exceptions\RequestException;
 use luya\payment\base\PayModel;
-use luya\payment\integrators\DatabaseIntegrator;
 use luya\payment\integrators\HeadlessIntegrator;
 use luya\payment\PaymentException;
 use luya\payment\tests\BasePaymentTestCase;

@@ -2,14 +2,14 @@
 
 namespace luya\payment\integrators;
 
+use luya\headless\Client;
 use luya\payment\base\IntegratorInterface;
 use luya\payment\base\PayModel;
-use luya\headless\Client;
-use luya\payment\PaymentException;
 use luya\payment\integrators\headless\ApiPaymentProcess;
-use luya\payment\Pay;
-use yii\base\BaseObject;
 use luya\payment\integrators\headless\ApiPaymentProcessTrace;
+use luya\payment\Pay;
+use luya\payment\PaymentException;
+use yii\base\BaseObject;
 
 /**
  * Headless Payment:
@@ -22,7 +22,7 @@ use luya\payment\integrators\headless\ApiPaymentProcessTrace;
 class HeadlessIntegrator extends BaseObject implements IntegratorInterface
 {
     public $accessToken;
-    
+
     public $serverUrl;
 
     private $_client;
@@ -185,7 +185,7 @@ class HeadlessIntegrator extends BaseObject implements IntegratorInterface
         foreach ($process->items as $item) {
             $model->addItem($item['name'], $item['qty'], $item['amount'], $item['total_amount'], $item['is_tax'], $item['is_shipping']);
         }
-        
+
         $model->closeState = $process->close_state;
         $model->isClosed = $process->is_closed;
         if ($model->validate()) {

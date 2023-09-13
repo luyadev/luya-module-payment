@@ -15,7 +15,7 @@ class GenericTransactionTest extends BasePaymentTestCase
      */
     private function getTransaction()
     {
-        return new class extends Transaction {
+        return new class () extends Transaction {
             public function create()
             {
             }
@@ -63,7 +63,7 @@ class GenericTransactionTest extends BasePaymentTestCase
         $transaction->setModel($this->generatePayModel());
         $transaction->setContext($this->generateContextController());
 
-        
+
         $this->assertEmpty($transaction->create());
         $this->assertEmpty($transaction->back());
         $this->assertEmpty($transaction->notify());

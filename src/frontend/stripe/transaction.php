@@ -1,8 +1,8 @@
 <?php
 
 use luya\helpers\Html;
-use luya\web\View;
 use luya\payment\frontend\Module;
+use luya\web\View;
 
 $this->title = $title;
 $icons = [
@@ -36,7 +36,7 @@ $this->registerCsrfMetaTags();
                             <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'] / 100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -49,7 +49,7 @@ $this->registerCsrfMetaTags();
                             <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'] / 100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -63,7 +63,7 @@ $this->registerCsrfMetaTags();
                             <p class="payment-text"><?= $item['qty']; ?>x <?= Html::encode($item['name'], false); ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount']/100, $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency($item['total_amount'] / 100, $currency); ?></p>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -75,7 +75,7 @@ $this->registerCsrfMetaTags();
                             <p class="payment-text"><?= Module::t('stripe_items_total'); ?></p>
                         </div>
                         <div class="payment-item-price">
-                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency(($totalAmount/100), $currency); ?></p>
+                            <p class="payment-text"><?= Yii::$app->formatter->asCurrency(($totalAmount / 100), $currency); ?></p>
                         </div>
                     </div>
                 </div>

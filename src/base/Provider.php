@@ -3,8 +3,8 @@
 namespace luya\payment\base;
 
 use luya\helpers\ObjectHelper;
-use yii\helpers\Inflector;
 use yii\base\BaseObject;
+use yii\helpers\Inflector;
 
 /**
  * Payment Provider Abstraction.

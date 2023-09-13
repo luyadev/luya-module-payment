@@ -2,13 +2,12 @@
 
 namespace luya\payment\tests\transaction;
 
-use Yii;
 use luya\payment\tests\BasePaymentTestCase;
-use luya\payment\transactions\StripeTransaction;
-use yii\web\Controller;
-use yii\base\Response;
-use luya\payment\integrators\DatabaseIntegrator;
 use luya\payment\tests\data\DummyIntegrator;
+use luya\payment\transactions\StripeTransaction;
+use Yii;
+use yii\base\Response;
+use yii\web\Controller;
 
 class StripeTransactionTest extends BasePaymentTestCase
 {

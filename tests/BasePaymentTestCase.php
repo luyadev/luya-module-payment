@@ -2,14 +2,14 @@
 
 namespace luya\payment\tests;
 
-use luya\testsuite\cases\WebApplicationTestCase;
-use luya\testsuite\fixtures\ActiveRecordFixture;
-use luya\payment\models\Process;
-use luya\payment\models\ProcessTrace;
-use luya\payment\models\ProcessItem;
 use luya\payment\base\PayModel;
 use luya\payment\frontend\controllers\DefaultController;
+use luya\payment\models\Process;
+use luya\payment\models\ProcessItem;
+use luya\payment\models\ProcessTrace;
 use luya\payment\tests\data\DummyIntegrator;
+use luya\testsuite\cases\WebApplicationTestCase;
+use luya\testsuite\fixtures\ActiveRecordFixture;
 
 class BasePaymentTestCase extends WebApplicationTestCase
 {
@@ -39,9 +39,9 @@ class BasePaymentTestCase extends WebApplicationTestCase
     public $fixtureProcessModel;
 
     public $fixtureProcessItemModel;
-    
+
     public $fixtureProcessTraceModel;
-    
+
     public function afterSetup()
     {
         parent::afterSetup();

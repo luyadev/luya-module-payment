@@ -31,7 +31,7 @@ class OrderHelper
      */
     public static function generateOrderId($id, $zeroAmount = 5, $randomString = 4, $prefix = null)
     {
-        $random = $randomString > 0  ? strtoupper(Yii::$app->security->generateRandomString($randomString)) : null;
+        $random = $randomString > 0 ? strtoupper(Yii::$app->security->generateRandomString($randomString)) : null;
         $string = $random . str_pad($id, $zeroAmount, '0', STR_PAD_LEFT);
 
         return $prefix . str_replace(['-', '_'], rand(0, 9), $string);

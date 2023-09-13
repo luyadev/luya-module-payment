@@ -3,9 +3,9 @@
 namespace luya\payment\providers;
 
 use Exception;
-use Yii;
 use luya\payment\base\Provider;
 use Stripe\PaymentIntent;
+use Yii;
 
 /**
  * Strip Provider

@@ -2,10 +2,10 @@
 
 namespace luya\payment\transactions;
 
-use Yii;
 use luya\payment\base\Transaction;
 use luya\payment\PaymentException;
 use luya\payment\providers\PayPalProvider;
+use Yii;
 use yii\base\InvalidConfigException;
 
 /**
@@ -19,45 +19,45 @@ class PayPalTransaction extends Transaction
     /**
      * @var string Production mode
      */
-    const MODE_LIVE = 'live';
+    public const MODE_LIVE = 'live';
 
     /**
      * @var string Sandbox/Testing mode
      */
-    const MODE_SANDBOX = 'sandbox';
+    public const MODE_SANDBOX = 'sandbox';
 
     /**
      * @var string The client id
      */
     public $clientId;
-    
+
     /**
      * @var string the Client secret.
      */
     public $clientSecret;
-    
+
     /**
      * @var string The mode in which the api should be called `live` or `sandbox`. Default is live. Previous knonw as `sandboxMode`.
      */
     public $mode = self::MODE_LIVE;
-    
+
     /**
      * @var string The PayPal interface displays a name for the Amount of the ordering, this is the product text.
      */
     public $productDescription;
-    
+
     /**
      * {@inheritDoc}
      */
     public function init()
     {
         parent::init();
-        
+
         if ($this->clientId === null || $this->clientSecret === null) {
             throw new InvalidConfigException("the paypal clientId and clientSecret properite can not be null!");
         }
     }
-    
+
     /**
      * Get the PayPal Provider
      *
@@ -69,16 +69,16 @@ class PayPalTransaction extends Transaction
             'mode' => $this->mode,
         ]);
     }
-    
+
     private function getOrderDescription()
     {
         if (empty($this->productDescription)) {
             return $this->getModel()->getOrderId();
         }
-        
+
         return $this->productDescription;
     }
-    
+
     /**
      * As all amounts are provided in cents we have to calculate them to not cents
      *
@@ -88,7 +88,7 @@ class PayPalTransaction extends Transaction
     {
         return number_format($value / 100, 2, '.', '');
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -108,10 +108,10 @@ class PayPalTransaction extends Transaction
             'taxes' => $this->getModel()->getTaxItems(),
             'shipping' => $this->getModel()->getShippingItems(),
         ]);
-        
+
         return $this->getContext()->redirect($url);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -125,14 +125,14 @@ class PayPalTransaction extends Transaction
             'amount' => $this->getModel()->getTotalAmount(),
             'currency' => $this->getModel()->getCurrency(),
         ]);
-        
+
         if ($response) {
             return $this->redirectApplicationSuccess();
         }
-        
+
         return $this->redirectTransactionFail();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -140,7 +140,7 @@ class PayPalTransaction extends Transaction
     {
         throw new PaymentException('PayPal notify action is not implemented.');
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -148,7 +148,7 @@ class PayPalTransaction extends Transaction
     {
         return $this->redirectApplicationError();
     }
-    
+
     /**
      * {@inheritDoc}
      */

@@ -2,7 +2,6 @@
 
 namespace luya\payment\integrators;
 
-use Yii;
 use luya\payment\base\IntegratorInterface;
 use luya\payment\base\PayModel;
 use luya\payment\models\Process;
@@ -112,7 +111,7 @@ class DatabaseIntegrator implements IntegratorInterface
         $process->is_closed = 1;
         $process->close_state = $state;
         $process->close_timestamp = time();
-        
+
         return $process->update(true, ['is_closed', 'close_state', 'close_timestamp']);
     }
 
@@ -171,7 +170,7 @@ class DatabaseIntegrator implements IntegratorInterface
         foreach ($process->items as $item) {
             $model->addItem($item->name, $item->qty, $item->amount, $item->total_amount, $item->is_shipping, $item->is_tax);
         }
-        
+
         if ($model->validate()) {
             return $model;
         }

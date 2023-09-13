@@ -2,22 +2,22 @@
 
 namespace luya\payment\providers;
 
-use Yii;
 use luya\payment\base\Provider;
 use luya\payment\base\ProviderInterface;
 use luya\payment\PaymentException;
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Rest\ApiContext;
-use PayPal\Api\Payer;
+use luya\payment\transactions\PayPalTransaction;
 use PayPal\Api\Amount;
-use PayPal\Api\Transaction;
-use PayPal\Api\RedirectUrls;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
-use PayPal\Api\ItemList;
-use PayPal\Api\Item;
-use luya\payment\transactions\PayPalTransaction;
-use PayPal\Api\Details;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
+use Yii;
 
 /**
  * @author Basil Suter
@@ -29,7 +29,7 @@ class PayPalProvider extends Provider implements ProviderInterface
      * @var string string The mode of the api context `live` or `sandbox`.
      */
     public $mode;
-    
+
     public function getId()
     {
         return 'paypal';
@@ -47,17 +47,17 @@ class PayPalProvider extends Provider implements ProviderInterface
 
         return $config;
     }
-    
+
     public function callCreate($clientId, $clientSecret, $orderId, $amount, $currency, $description, $returnUrl, $cancelUrl, array $items, array $taxes, array $shipping)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
-        
+
         $apiContext = new ApiContext($oauthCredential);
         $apiContext->setConfig($this->getConfigArray());
-        
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
-        
+
         // $items
         /*
         $item = new Item();
@@ -100,57 +100,57 @@ class PayPalProvider extends Provider implements ProviderInterface
             $details->setSubtotal(PayPalTransaction::floatAmount($itemTotalAmount));
         }
 
-        
+
         $itemList = new ItemList();
         $itemList->setItems($products);
-        
+
         $amountObject = new Amount();
         $amountObject->setCurrency($currency);
         $amountObject->setTotal(PayPalTransaction::floatAmount($amount));
         if ($details) {
             $amountObject->setDetails($details);
         }
-        
+
         $transaction = new Transaction();
         $transaction->setItemList($itemList);
         $transaction->setAmount($amountObject);
         $transaction->setDescription($description);
         $transaction->setInvoiceNumber($orderId);
-        
+
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl($returnUrl)->setCancelUrl($cancelUrl);
-        
+
         $payment = new Payment();
         $payment->setIntent('sale');
         $payment->setPayer($payer);
         $payment->setRedirectUrls($redirectUrls);
-        $payment->setTransactions(array($transaction));
-        
+        $payment->setTransactions([$transaction]);
+
         try {
             $payment->create($apiContext);
         } catch (\Exception $e) {
             throw new PaymentException('PayPal Exception: '. $e->getMessage());
         }
-        
+
         $approvalUrl = $payment->getApprovalLink();
-        
+
         return $approvalUrl;
     }
-    
+
     public function callExecute($clientId, $clientSecret, $paymentId, $payerId, $amount, $currency)
     {
         $oauthCredential = new OAuthTokenCredential($clientId, $clientSecret);
-        
+
         $apiContext = new ApiContext($oauthCredential);
         $apiContext->setConfig($this->getConfigArray());
-        
+
         $payment = Payment::get($paymentId, $apiContext);
-        
+
         $execution = new PaymentExecution();
         $execution->setPayerId($payerId);
-        
+
         $result = $payment->execute($execution, $apiContext);
-        
+
         try {
             $payment = Payment::get($paymentId, $apiContext);
         } catch (\Exception $e) {
@@ -160,7 +160,7 @@ class PayPalProvider extends Provider implements ProviderInterface
         if ($payment->state == 'approved') {
             return true;
         }
-        
+
         return false;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace luya\payment\tests\providers;
 
-use luya\payment\tests\BasePaymentTestCase;
 use luya\payment\providers\StripeProvider;
+use luya\payment\tests\BasePaymentTestCase;
 use Stripe\PaymentIntent;
-use Stripe\StripeObject;
 
 class StripeProviderTest extends BasePaymentTestCase
 {
@@ -27,7 +26,7 @@ class StripeProviderTest extends BasePaymentTestCase
     {
         $provider = new StripeProvider();
         $response = $provider->callVerifySuccessIntent(0);
-        
+
         $this->assertFalse($response);
     }
 

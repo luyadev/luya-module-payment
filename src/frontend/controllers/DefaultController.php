@@ -22,7 +22,7 @@ class DefaultController extends \luya\web\Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        
+
         $behaviors[] = [
             'class' => HttpCache::class,
             'cacheControlHeader' => 'no-store, no-cache',
@@ -30,7 +30,7 @@ class DefaultController extends \luya\web\Controller
                 return time();
             },
         ];
-        
+
         return $behaviors;
     }
 
@@ -86,15 +86,15 @@ class DefaultController extends \luya\web\Controller
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
-        
+
+
         return $this->module->transaction->create();
     }
-    
+
     /**
      * The action which is opened when coming back from the payment page.
      *
@@ -112,14 +112,14 @@ class DefaultController extends \luya\web\Controller
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->back();
     }
-    
+
     /**
      * Failed payment response.
      *
@@ -139,14 +139,14 @@ class DefaultController extends \luya\web\Controller
         if ($state !== false) {
             return $state;
         }
-        
+
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->fail();
     }
-    
+
     /**
      * Abort button pressed by the user.
      *
@@ -159,7 +159,7 @@ class DefaultController extends \luya\web\Controller
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
-        
+
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
@@ -168,10 +168,10 @@ class DefaultController extends \luya\web\Controller
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->abort();
     }
-    
+
     /**
      * Notification from the Payment Provider.
      *
@@ -191,7 +191,7 @@ class DefaultController extends \luya\web\Controller
         $integrator = $this->module->getIntegrator();
         $model = $integrator->findByKey($lpKey, $lpToken);
         $integrator->addTrace($model, __METHOD__);
-        
+
         $state = $this->ensureModelState($model);
         if ($state !== false) {
             return $state;
@@ -200,7 +200,7 @@ class DefaultController extends \luya\web\Controller
         $this->module->transaction->setIntegrator($integrator);
         $this->module->transaction->setModel($model);
         $this->module->transaction->setContext($this);
-        
+
         return $this->module->transaction->notify();
     }
 }

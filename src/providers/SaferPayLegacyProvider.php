@@ -4,8 +4,8 @@ namespace luya\payment\providers;
 
 use Curl\Curl;
 use luya\payment\base\Provider;
-use luya\payment\PaymentException;
 use luya\payment\base\ProviderInterface;
+use luya\payment\PaymentException;
 use luya\payment\transactions\SaferPayTransaction;
 
 /**
@@ -48,14 +48,14 @@ class SaferPayLegacyProvider extends Provider implements ProviderInterface
             'NOTIFYURL' => $notifyUrl,
             'AUTOCLOSE' => '0',
         ]);
-        
+
         if (!$curl->error) {
             return $curl->response;
         }
-        
+
         throw new PaymentException($curl->error_message);
     }
-    
+
     public function callConfirm($data, $signature)
     {
         $curl = new Curl();
@@ -63,14 +63,14 @@ class SaferPayLegacyProvider extends Provider implements ProviderInterface
             'DATA' => $data,
             'SIGNATURE' => $signature,
         ]);
-        
+
         if (!$curl->error) {
             return $curl->response;
         }
-        
+
         throw new PaymentException("payconfirm error");
     }
-    
+
     public function callComplete($id, $token, $amount, $action, $accountId, $spPassword = null)
     {
         $data = [
@@ -80,18 +80,18 @@ class SaferPayLegacyProvider extends Provider implements ProviderInterface
             'ACTION' => $action,
             'ACCOUNTID' => $accountId,
         ];
-        
+
         if (!empty($spPassword)) {
             $data['spPassword'] = $spPassword;
         }
-        
+
         $curl = new Curl();
         $curl->post($this->getBaseUrl() . 'hosting/PayCompleteV2.asp', $data);
-        
+
         if (!$curl->error) {
             return $curl->response;
         }
-        
+
         throw new PaymentException("payconfirm error");
     }
 }

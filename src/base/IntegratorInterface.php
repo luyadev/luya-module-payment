@@ -2,8 +2,6 @@
 
 namespace luya\payment\base;
 
-use luya\web\Controller;
-
 /**
  * Integrator Interface.
  *
@@ -86,5 +84,5 @@ interface IntegratorInterface
      * @return array
      * @since 3.0.0
      */
-    public function getProviderData(PayModel $model) : array;
+    public function getProviderData(PayModel $model): array;
 }

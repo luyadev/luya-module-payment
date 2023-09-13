@@ -22,7 +22,7 @@ class m160303_090454_paymentprocess extends Migration
             'close_state' => $this->integer(11)->defaultValue(0),
             'is_closed' => $this->boolean()->defaultValue(false),
         ]);
-        
+
         $this->createTable('payment_process_trace', [
             'id' => $this->primaryKey(),
             'process_id' => $this->integer(11)->notNull(),
