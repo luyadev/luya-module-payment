@@ -69,6 +69,8 @@ class DatabaseIntegrator implements IntegratorInterface
             $model->setAuthToken($token);
             return $model;
         }
+
+        return false;
     }
 
     /**

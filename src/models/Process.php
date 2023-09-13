@@ -274,7 +274,7 @@ class Process extends NgRestModel
     /**
      * Get related items
      *
-     * @return void
+     * @return ProcessItem[]
      */
     public function getItems()
     {
@@ -284,7 +284,7 @@ class Process extends NgRestModel
     /**
      * Get related trace events
      *
-     * @return void
+     * @return ProcessTrace[]
      */
     public function getTraces()
     {

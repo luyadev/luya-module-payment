@@ -4,6 +4,7 @@ namespace luya\payment\frontend\controllers;
 
 use luya\payment\base\PayModel;
 use yii\filters\HttpCache;
+use yii\web\Response;
 
 /**
  * Default Payment Controller.
@@ -35,10 +36,8 @@ class DefaultController extends \luya\web\Controller
     }
 
     /**
-     * Undocumented function
-     *
      * @param PayModel|boolean $model
-     * @return void
+     * @return bool|Response
      */
     private function ensureModelState($model)
     {
