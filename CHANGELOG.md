@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 4.0.1 (31. Oktober 2023)
+
++ [#30](https://github.com/luyadev/luya-module-payment/pull/30) Added Bahasa translation
+
 ## 4.0.0 (13. Septmeber 2023)
 
 + [#28](https://github.com/luyadev/luya-module-payment/pull/28) Removed PayPal support from built in providers due to not upgraded composer SDK.
