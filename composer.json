@@ -27,7 +27,7 @@
     },
     "require": {
         "php": ">=8.0",
-        "luyadev/luya-module-admin": "^4.9.1",
+        "luyadev/luya-module-admin": ">=4.9.1",
         "luyadev/luya-headless": "^2.10.1",
         "stripe/stripe-php": "^7.1"
     },
